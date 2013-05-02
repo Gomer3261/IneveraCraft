@@ -1,0 +1,20 @@
+[
+{
+  "modid": "inevera",
+  "name": "Inevera Craft",
+  "description": "Use magical wards to affect the world around you!",
+  "version": "@VERSION@",
+  "url": "www.ggollmer.com",
+  "updateUrl": "",
+  "authorList": [
+    "Gomer3261"
+  ],
+  "credits": "By Gomer3261, based on the Demon Cycle book series by Peter V. Brett",
+  "logoFile": "",
+  "screenshots": [
+  ],
+  "parent":"",
+  "dependencies": [
+  ]
+}
+]
