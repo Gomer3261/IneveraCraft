@@ -1,7 +1,11 @@
 package com.ggollmer.inevera;
 
+import java.io.File;
+
 import net.minecraft.creativetab.CreativeTabs;
 
+import com.ggollmer.inevera.configuration.ConfigurationHandler;
+import com.ggollmer.inevera.core.handlers.LocalizationHandler;
 import com.ggollmer.inevera.core.helper.LogHelper;
 import com.ggollmer.inevera.creativetab.CreativeTabInevera;
 import com.ggollmer.inevera.item.IneveraItems;
@@ -51,7 +55,10 @@ public class Inevera
 		LogHelper.init();
 		
 		/* Load localizations into minecraft */
-		//LocalizationHandler.loadLanguages();
+		LocalizationHandler.loadLanguages();
+		
+		/* Load configuration settings */
+		ConfigurationHandler.init(new File(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + Reference.CHANNEL_NAME + File.separator + Reference.MOD_ID + ".cfg"));
 		
 		/* Instantiate IneveraCraft's blocks */
 		//IneveraBlocks.init();

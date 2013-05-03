@@ -36,6 +36,6 @@ public class CreativeTabInevera extends CreativeTabs
      */
     public int getTabIconItemIndex()
 	{
-        return ItemIds.DEMON_FLESH_DEFAULT;
+        return ItemIds.DEMON_FLESH;
     }
 }
