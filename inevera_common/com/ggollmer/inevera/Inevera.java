@@ -2,7 +2,9 @@ package com.ggollmer.inevera;
 
 import net.minecraft.creativetab.CreativeTabs;
 
+import com.ggollmer.inevera.core.helper.LogHelper;
 import com.ggollmer.inevera.creativetab.CreativeTabInevera;
+import com.ggollmer.inevera.item.IneveraItems;
 import com.ggollmer.inevera.lib.Reference;
 
 import cpw.mods.fml.common.Mod;
@@ -45,7 +47,17 @@ public class Inevera
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
 	{
+		/* Initialize our logger */
+		LogHelper.init();
 		
+		/* Load localizations into minecraft */
+		//LocalizationHandler.loadLanguages();
+		
+		/* Instantiate IneveraCraft's blocks */
+		//IneveraBlocks.init();
+		
+		/* Instantiate IneveraCraft's Items */
+		IneveraItems.init();
 	}
 	
 	/**

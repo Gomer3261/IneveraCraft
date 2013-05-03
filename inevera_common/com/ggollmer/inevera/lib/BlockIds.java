@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.ggollmer.inevera.lib;
 
 /**

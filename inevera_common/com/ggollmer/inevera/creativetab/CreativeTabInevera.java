@@ -1,5 +1,7 @@
 package com.ggollmer.inevera.creativetab;
 
+import com.ggollmer.inevera.lib.ItemIds;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
@@ -34,6 +36,6 @@ public class CreativeTabInevera extends CreativeTabs
      */
     public int getTabIconItemIndex()
 	{
-        return 2; //ItemIds.HORA;
+        return ItemIds.DEMON_FLESH_DEFAULT;
     }
 }
