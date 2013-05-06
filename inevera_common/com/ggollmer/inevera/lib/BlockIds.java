@@ -12,10 +12,12 @@ package com.ggollmer.inevera.lib;
 public class BlockIds
 {
 	/* Default Block Ids */
-	public static int LIQUEFYING_CAULDRON_DEFAULT = 3000;
-	public static int SULFURIC_LIQUEFIER_DEFAULT = 3001;
+	public static int MINOR_WARD_CORE_DEFAULT = 3000;
+	public static int MINOR_HORA_CELL_DEFAULT = 3005;
+	public static int ACID_VAT_DEFAULT = 3016;
 	
 	/* Block Ids After Shift */
-	public static int LIQUEFYING_CAULDRON;
-	public static int SULFURIC_LIQUEFIER;
+	public static int MINOR_WARD_CORE;
+	public static int MINOR_HORA_CELL;
+	public static int ACID_VAT;
 }

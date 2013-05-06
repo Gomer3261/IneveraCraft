@@ -12,6 +12,8 @@ package com.ggollmer.inevera.lib;
 public class BlockNames
 {
 	/* Default Block Names */
-	public static String LIQUEFYING_CAULDRON_NAME = "liquefyingCauldron";
-	public static String SULFURIC_LIQUEFIER_NAME = "sulfuricLiquefier";
+	public static String MINOR_WARD_CORE_NAME = "minorWardCore";
+	public static String MINOR_HORA_CELL_NAME = "minorHoraCell";
+	
+	public static String ACID_VAT_NAME = "liquefyingCauldron";
 }

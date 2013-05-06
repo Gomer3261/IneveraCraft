@@ -35,8 +35,10 @@ public class ConfigurationHandler
 			configuration.load();
 			
 			/* BlockId Configuration */
-			BlockIds.LIQUEFYING_CAULDRON = configuration.getBlock(BlockNames.LIQUEFYING_CAULDRON_NAME, BlockIds.LIQUEFYING_CAULDRON_DEFAULT).getInt(BlockIds.LIQUEFYING_CAULDRON_DEFAULT);
-			BlockIds.SULFURIC_LIQUEFIER = configuration.getBlock(BlockNames.SULFURIC_LIQUEFIER_NAME, BlockIds.SULFURIC_LIQUEFIER_DEFAULT).getInt(BlockIds.SULFURIC_LIQUEFIER_DEFAULT);
+			BlockIds.MINOR_WARD_CORE = configuration.getBlock(BlockNames.MINOR_WARD_CORE_NAME, BlockIds.MINOR_WARD_CORE_DEFAULT).getInt(BlockIds.MINOR_WARD_CORE_DEFAULT);
+			BlockIds.MINOR_HORA_CELL = configuration.getBlock(BlockNames.MINOR_HORA_CELL_NAME, BlockIds.MINOR_HORA_CELL_DEFAULT).getInt(BlockIds.MINOR_HORA_CELL_DEFAULT);
+			
+			BlockIds.ACID_VAT = configuration.getBlock(BlockNames.ACID_VAT_NAME, BlockIds.ACID_VAT_DEFAULT).getInt(BlockIds.ACID_VAT_DEFAULT);
 			
 			/* ItemId Configuration */
 			ItemIds.DEMON_FLESH = configuration.getItem(ItemNames.DEMON_FLESH_NAME, ItemIds.DEMON_FLESH_DEFAULT).getInt(ItemIds.DEMON_FLESH_DEFAULT);

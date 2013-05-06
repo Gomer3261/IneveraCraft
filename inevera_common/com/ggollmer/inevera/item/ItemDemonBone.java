@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package com.ggollmer.inevera.item;
 
 import com.ggollmer.inevera.Inevera;
@@ -6,18 +9,18 @@ import com.ggollmer.inevera.lib.ItemNames;
 /**
  * IneveraCraft
  *
- * ItemDemonFlesh
+ * ItemDemonBone.java
  *
  * @author gomer3261
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  *
  */
-public class ItemDemonFlesh extends DemonItemInevera
+public class ItemDemonBone extends DemonItemInevera
 {
-	public ItemDemonFlesh(int id)
+	public ItemDemonBone(int id)
 	{
 		super(id);
-		this.setUnlocalizedName(ItemNames.DEMON_FLESH_NAME);
+		this.setUnlocalizedName(ItemNames.DEMON_BONE_NAME);
 		this.setCreativeTab(Inevera.tabsInevera);
 		this.setMaxStackSize(64);
 	}

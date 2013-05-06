@@ -17,13 +17,12 @@ public class IneveraItems
 {
 	/* Inevera Item Instances */
 	public static Item demonFlesh;
+	public static Item demonBone;
 	
 	public static void init()
 	{
 		/* Item Instantiation */
-		demonFlesh = new ItemDemonFlesh(ItemIds.DEMON_FLESH_DEFAULT);
-		
-		/* Recipes */
-		// I want to split these into another class hopefully. Like IneveraRecipes.
+		demonFlesh = new ItemDemonFlesh(ItemIds.DEMON_FLESH);
+		demonBone = new ItemDemonBone(ItemIds.DEMON_BONE);
 	}
 }
