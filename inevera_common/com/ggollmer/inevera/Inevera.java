@@ -4,10 +4,12 @@ import java.io.File;
 
 import net.minecraft.creativetab.CreativeTabs;
 
+import com.ggollmer.inevera.block.IneveraBlocks;
 import com.ggollmer.inevera.configuration.ConfigurationHandler;
 import com.ggollmer.inevera.core.handlers.LocalizationHandler;
 import com.ggollmer.inevera.core.helper.LogHelper;
 import com.ggollmer.inevera.creativetab.CreativeTabInevera;
+import com.ggollmer.inevera.greatward.GreatwardManager;
 import com.ggollmer.inevera.item.IneveraItems;
 import com.ggollmer.inevera.lib.Reference;
 
@@ -61,10 +63,13 @@ public class Inevera
 		ConfigurationHandler.init(new File(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + Reference.CHANNEL_NAME + File.separator + Reference.MOD_ID + ".cfg"));
 		
 		/* Instantiate IneveraCraft's blocks */
-		//IneveraBlocks.init();
+		IneveraBlocks.init();
 		
 		/* Instantiate IneveraCraft's Items */
 		IneveraItems.init();
+		
+		/* Instantiate IneveraCraft's Greatward Manager */
+		GreatwardManager.init();
 	}
 	
 	/**

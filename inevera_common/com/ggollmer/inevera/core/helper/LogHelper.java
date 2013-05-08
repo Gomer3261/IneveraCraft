@@ -25,8 +25,16 @@ public class LogHelper
 		ineveraLogger.setParent(FMLLog.getLogger());
 	}
 	
-	public static void log(Level logLevel, String message) {
-
+	public static void log(Level logLevel, String message)
+	{
         ineveraLogger.log(logLevel, message);
     }
+	
+	public static void debugLog(String message)
+	{
+		if(Reference.DEBUG_MODE)
+		{
+			ineveraLogger.log(Level.INFO, message);
+		}
+	}
 }

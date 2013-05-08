@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.ggollmer.inevera.block;
 
 import com.ggollmer.inevera.lib.Reference;

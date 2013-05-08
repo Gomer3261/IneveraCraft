@@ -15,5 +15,7 @@ public class BlockNames
 	public static String MINOR_WARD_CORE_NAME = "minorWardCore";
 	public static String MINOR_HORA_CELL_NAME = "minorHoraCell";
 	
+	public static String GREATWARD_DUMMY_NAME = "greatwardDummy";
+	
 	public static String ACID_VAT_NAME = "liquefyingCauldron";
 }

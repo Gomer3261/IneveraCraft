@@ -1,0 +1,9 @@
+- - A o x o A - -
+- T T T x A A A -
+A T T T A A A A A
+x T T T A A A A A
+o x A A A A A A A
+x A A A A A A x o
+A A A A A A x x x
+- A A A A x o o -
+- - A A A x o - -

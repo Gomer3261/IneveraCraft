@@ -35,6 +35,7 @@ public class ConfigurationHandler
 			configuration.load();
 			
 			/* BlockId Configuration */
+			BlockIds.GREATWARD_DUMMY = configuration.getBlock(BlockNames.GREATWARD_DUMMY_NAME, BlockIds.GREATWARD_DUMMY_DEFAULT).getInt(BlockIds.GREATWARD_DUMMY_DEFAULT);
 			BlockIds.MINOR_WARD_CORE = configuration.getBlock(BlockNames.MINOR_WARD_CORE_NAME, BlockIds.MINOR_WARD_CORE_DEFAULT).getInt(BlockIds.MINOR_WARD_CORE_DEFAULT);
 			BlockIds.MINOR_HORA_CELL = configuration.getBlock(BlockNames.MINOR_HORA_CELL_NAME, BlockIds.MINOR_HORA_CELL_DEFAULT).getInt(BlockIds.MINOR_HORA_CELL_DEFAULT);
 			
