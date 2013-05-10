@@ -2,7 +2,9 @@ package com.ggollmer.inevera.block;
 
 import java.util.ArrayList;
 
+import com.ggollmer.inevera.core.helper.LogHelper;
 import com.ggollmer.inevera.lib.BlockNames;
+import com.ggollmer.inevera.tileentity.TileGreatwardCore;
 import com.ggollmer.inevera.tileentity.TileGreatwardDummy;
 
 import cpw.mods.fml.relauncher.Side;
@@ -60,7 +62,7 @@ public class BlockGreatwardDummy extends BlockInevera
 	{
 		return (TileEntity)new TileGreatwardDummy();
 	}
-	
+
 	@Override
 	public void breakBlock(World world, int x, int y, int z, int par5, int par6)
 	{
@@ -78,7 +80,13 @@ public class BlockGreatwardDummy extends BlockInevera
 	public void onNeighborBlockChange(World world, int x, int y, int z, int id)
 	{
 		TileGreatwardDummy dummy = (TileGreatwardDummy)world.getBlockTileEntity(x, y, z);
-		ForgeDirection gwDir = dummy.getCoreTile().getWardDirection();
+		TileGreatwardCore core = dummy.getCoreTile();
+		if(core == null)
+		{
+			LogHelper.debugLog("dummy has no core!");
+			return;
+		}
+		ForgeDirection gwDir = core.getWardDirection();
 		
 		if(world.getBlockId(x+gwDir.offsetX, y+gwDir.offsetY, z+gwDir.offsetZ) != 0)
 		{
@@ -114,6 +122,8 @@ public class BlockGreatwardDummy extends BlockInevera
 	public Icon getBlockTexture(IBlockAccess blockAccess, int x, int y, int z, int par5)
     {
 		TileGreatwardDummy dummy = (TileGreatwardDummy)blockAccess.getBlockTileEntity(x, y, z);
+		LogHelper.debugLog("Getting texture for dummy of id: " + dummy.getImitationId());
+		if(dummy.getCoreTile() == null)LogHelper.debugLog("For some reason the core is null...");
         return Block.blocksList[dummy.getImitationId()].getIcon(par5, blockAccess.getBlockMetadata(x, y, z));
     }
 	
@@ -149,6 +159,11 @@ public class BlockGreatwardDummy extends BlockInevera
 	public float getAmbientOcclusionLightValue(IBlockAccess blockAccess, int x, int y, int z)
 	{
 		TileGreatwardDummy dummy = (TileGreatwardDummy)blockAccess.getBlockTileEntity(x, y, z);
+		// Hack to get around lighting change before our tile is created.
+		if(dummy == null)
+		{
+			return 0.2F;
+		}
 		return Block.blocksList[dummy.getImitationId()].getAmbientOcclusionLightValue(blockAccess, x, y, z);
 	}
 	
@@ -176,7 +191,12 @@ public class BlockGreatwardDummy extends BlockInevera
 	public int getLightValue(IBlockAccess world, int x, int y, int z)
 	{
 		TileGreatwardDummy dummy = (TileGreatwardDummy)world.getBlockTileEntity(x, y, z);
-		return Block.blocksList[dummy.getImitationId()].getLightValue(world, x, y, z);
+		// Bit of a hack to get around light changes before our tile is created.
+		if(dummy == null)
+		{
+			return Block.lightValue[2];
+		}
+		return Block.lightValue[dummy.getImitationId()];
 	}
 	
 	@Override

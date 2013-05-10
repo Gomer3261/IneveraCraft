@@ -11,7 +11,7 @@ package com.ggollmer.inevera.lib;
  */
 public class Reference
 {
-	public static final boolean DEBUG_MODE = false;
+	public static final boolean DEBUG_MODE = true;
 	
 	public static final String MOD_ID = "inevera";
 	public static final String MOD_NAME = "IneveraCraft";

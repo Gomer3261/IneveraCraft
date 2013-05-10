@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.ggollmer.inevera.block;
 
 import com.ggollmer.inevera.Inevera;
@@ -40,5 +37,18 @@ public class BlockMinorGreatwardCore extends BlockInevera
 	{
 		return new TileGreatwardCoreMinor();
 	}
-
+	
+	@Override
+	public void breakBlock(World world, int x, int y, int z, int par5, int par6)
+	{
+		TileGreatwardCoreMinor tile = (TileGreatwardCoreMinor) world.getBlockTileEntity(x, y, z);
+		tile.invalidate();
+	}
+	
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, int id)
+	{
+		TileGreatwardCoreMinor tile = (TileGreatwardCoreMinor) world.getBlockTileEntity(x, y, z);
+		tile.onNeighborChange();
+	}
 }

@@ -5,7 +5,9 @@
 	<entry key="item.demonFlesh.name">Demon Flesh</entry>
 	<entry key="item.demonBone.name">Demon Bone</entry>
 	<entry key="item.basicWardingTools.name">Basic Warding Tools</entry>
-	<entry key="tile.liquefyingCauldron.name">Liquefying Cauldron</entry>
-	<entry key="tile.sulfuricLiquefier.name">Sulfuric Liquefier</entry>
+	<entry key="tile.acidVat.name">Acid Vat</entry>
+	<entry key="tile.greatwardDummy.name">Greatward Dummy Block</entry>
+	<entry key="tile.minorWardCore.name">Minor Greatward Core</entry>
+	<entry key="tile.minorHoraCell.name">Minor Hora Cell</entry>
 	<entry key="itemGroup.inevera">IneveraCraft</entry>
 </properties>

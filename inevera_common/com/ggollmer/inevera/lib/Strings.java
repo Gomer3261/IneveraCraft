@@ -14,6 +14,7 @@ public class Strings
 	/* NBT constants */
 	public static final String NBT_TE_CUSTOM_NAME = "CustomName";
     public static final String NBT_TE_DIRECTION_KEY = "teDirection";
+    public static final String NBT_TE_GW_DUMMYLIST_KEY = "teGwDummyList";
     public static final String NBT_COORDINATES_LIST_KEY = "chunkCoordinateList";
     public static final String NBT_COORDINATES_KEY = "chunkCoordinate";
     public static final String NBT_COORDINATES_KEY_X = "chunkCoordinateX";

@@ -16,32 +16,12 @@ public class TileGreatwardCoreMinor extends TileGreatwardCore
 {
 	public TileGreatwardCoreMinor()
 	{
-		
+		super();
 	}
 	
 	@Override
 	public void updateEntity()
 	{
 		
-	}
-
-	/* (non-Javadoc)
-	 * @see com.ggollmer.inevera.greatward.ITileGreatwardCore#invalidateGreatward()
-	 */
-	@Override
-	public void invalidateGreatward()
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see com.ggollmer.inevera.greatward.ITileGreatwardCore#getWardDirection()
-	 */
-	@Override
-	public ForgeDirection getWardDirection()
-	{
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

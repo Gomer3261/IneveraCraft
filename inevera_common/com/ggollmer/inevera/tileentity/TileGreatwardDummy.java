@@ -3,6 +3,7 @@ package com.ggollmer.inevera.tileentity;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 
+import com.ggollmer.inevera.core.helper.LogHelper;
 import com.ggollmer.inevera.lib.TileStrings;
 
 /**
@@ -17,8 +18,8 @@ import com.ggollmer.inevera.lib.TileStrings;
 public class TileGreatwardDummy extends TileInevera
 {
 	/* NBT data */
-	private int imitationId = 1;
-	private int imitationMetadata = 0;
+	private int imitationId;
+	private int imitationMetadata;
 	private int coreX;
 	private int coreY;
 	private int coreZ;
@@ -26,17 +27,26 @@ public class TileGreatwardDummy extends TileInevera
 	/* non NBT data */
 	private TileGreatwardCore core = null;
 	
+	public TileGreatwardDummy()
+	{
+		this(2, 0, null);
+	}
+	
+	public TileGreatwardDummy(int id, int metadata, TileGreatwardCore core)
+	{
+		imitationId = id;
+		imitationMetadata = metadata;
+		this.setCoreTile(core);
+	}
+	
 	public void setImitationBlock(int newId, int newMetadata)
 	{
-		if(Block.isNormalCube(newId))
+		if(TileGreatwardDummy.isBlockDummiable(newId, newMetadata))
 		{
-			Block newBlock = Block.blocksList[newId];
-			if(!newBlock.hasTileEntity(imitationMetadata) && (newBlock.getBlockHardness(null, 0, 0, 0) > 0.6))
-			{
-				imitationId = newId;
-				imitationMetadata = newMetadata;
-				worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, newMetadata, 3);
-			}
+			LogHelper.debugLog(String.format("id %d and meta %d set!", newId, newMetadata));
+			imitationId = newId;
+			imitationMetadata = newMetadata;
+			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, newMetadata, 2);
 		}
 	}
 	
@@ -52,8 +62,20 @@ public class TileGreatwardDummy extends TileInevera
 
 	public void setCoreTile(TileGreatwardCore newCore)
 	{
-		
 		core = newCore;
+		
+		if(core != null)
+		{
+			coreX = core.xCoord;
+			coreY = core.yCoord;
+			coreZ = core.zCoord;
+		}
+		else
+		{
+			coreX = 0;
+			coreY = 0;
+			coreZ = 0;
+		}
 	}
 	
 	public TileGreatwardCore getCoreTile()
@@ -102,4 +124,26 @@ public class TileGreatwardDummy extends TileInevera
         nbtTagCompound.setInteger(TileStrings.NBT_TE_GW_DUMMY_ID, imitationId);
 		nbtTagCompound.setInteger(TileStrings.NBT_TE_GW_DUMMY_META, imitationMetadata);
     }
+    
+    /**
+	 * Used to check if a block id/meta can be replicated by a dummy block.
+	 * @param Id the block to check.
+	 * @param Metadata The metadata of the id being checked.
+	 * @return True if the block can be replicated by a dummy.
+	 */
+	public static boolean isBlockDummiable(int id, int metadata)
+	{
+		if(!Block.isNormalCube(id))
+		{
+			return false;
+		}
+		
+		Block testBlock = Block.blocksList[id];
+		if(testBlock.hasTileEntity(metadata))
+		{
+			return false;
+		}
+		
+		return true;
+	}
 }

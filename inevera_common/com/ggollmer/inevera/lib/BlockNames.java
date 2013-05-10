@@ -17,5 +17,5 @@ public class BlockNames
 	
 	public static String GREATWARD_DUMMY_NAME = "greatwardDummy";
 	
-	public static String ACID_VAT_NAME = "liquefyingCauldron";
+	public static String ACID_VAT_NAME = "acidVat";
 }
