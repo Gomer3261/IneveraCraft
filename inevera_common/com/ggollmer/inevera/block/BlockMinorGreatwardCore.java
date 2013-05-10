@@ -49,6 +49,6 @@ public class BlockMinorGreatwardCore extends BlockInevera
 	public void onNeighborBlockChange(World world, int x, int y, int z, int id)
 	{
 		TileGreatwardCoreMinor tile = (TileGreatwardCoreMinor) world.getBlockTileEntity(x, y, z);
-		tile.onNeighborChange();
+		tile.onNeighborChange(world, x, y, z);
 	}
 }

@@ -8,12 +8,14 @@ import com.ggollmer.inevera.block.IneveraBlocks;
 import com.ggollmer.inevera.configuration.ConfigurationHandler;
 import com.ggollmer.inevera.core.handlers.LocalizationHandler;
 import com.ggollmer.inevera.core.helper.LogHelper;
+import com.ggollmer.inevera.core.proxy.CommonProxy;
 import com.ggollmer.inevera.creativetab.CreativeTabInevera;
 import com.ggollmer.inevera.greatward.GreatwardManager;
 import com.ggollmer.inevera.item.IneveraItems;
 import com.ggollmer.inevera.lib.Reference;
 
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.PostInit;
@@ -40,6 +42,9 @@ public class Inevera
 {
 	@Instance(Reference.MOD_ID)
 	public static Inevera instance;
+	
+	@SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS)
+    public static CommonProxy proxy;
 	
 	public static CreativeTabs tabsInevera = new CreativeTabInevera(CreativeTabs.getNextID(), Reference.MOD_ID);
 	
@@ -82,7 +87,8 @@ public class Inevera
 	@Init
 	public void init(FMLInitializationEvent event)
 	{
-		
+		// Initialize mod tile entities
+        proxy.registerTileEntities();
 	}
 	
 	/**

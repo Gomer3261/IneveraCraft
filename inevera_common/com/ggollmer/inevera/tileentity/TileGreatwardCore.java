@@ -3,6 +3,7 @@ package com.ggollmer.inevera.tileentity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ggollmer.inevera.block.BlockGreatwardDummy;
 import com.ggollmer.inevera.block.IneveraBlocks;
 import com.ggollmer.inevera.core.helper.LogHelper;
 import com.ggollmer.inevera.core.helper.NBTHelper;
@@ -38,6 +39,7 @@ public abstract class TileGreatwardCore extends TileInevera
 		validGreatward = false;
 		
 		revertDummyList();
+		LogHelper.debugLog("Greatward Invalidated!");
 	}
 	
 	public boolean isValidGreatward()
@@ -45,7 +47,7 @@ public abstract class TileGreatwardCore extends TileInevera
 		return validGreatward;
 	}
 	
-	public void onNeighborChange()
+	public void onNeighborChange(World world, int x, int y, int z)
 	{
 		if(validGreatward)
 		{
@@ -53,11 +55,11 @@ public abstract class TileGreatwardCore extends TileInevera
 		}
 		
 		// TODO: this is temporary code to make sure that the dummy actually works.
-		if(worldObj.getBlockId(xCoord, yCoord + 1, zCoord) != 0)
+		if(worldObj.getBlockId(x,y+1, z) != 0)
 		{
 			if(TileGreatwardDummy.isBlockDummiable(worldObj.getBlockId(xCoord,  yCoord+1, zCoord), worldObj.getBlockMetadata(xCoord, yCoord+1, zCoord)))
 			{
-				convertDummy(worldObj, xCoord, yCoord+1, zCoord);
+				convertDummy(world, x, y+1, z);
 				validGreatward = true;
 			}
 		}
@@ -68,15 +70,19 @@ public abstract class TileGreatwardCore extends TileInevera
 		int oldId = world.getBlockId(x, y, z);
 		int oldMetadata = world.getBlockMetadata(x, y, z);
 		
-		world.setBlock(x, y, z, IneveraBlocks.greatwardDummy.blockID);
+		BlockGreatwardDummy dummyBlock = (BlockGreatwardDummy) IneveraBlocks.greatwardDummy;
+		dummyBlock.setDummyValues(oldId, oldMetadata, this);
+		
+		world.setBlock(x, y, z, dummyBlock.blockID);
 		world.markBlockForUpdate(x, y, z);
 		
-		TileGreatwardDummy dummyTE = (TileGreatwardDummy)world.getBlockTileEntity(x, y, z);
+		/*TileGreatwardDummy dummyTE = (TileGreatwardDummy)world.getBlockTileEntity(x, y, z);
 		dummyTE.setImitationBlock(oldId, oldMetadata);
-		dummyTE.setCoreTile(this);
+		dummyTE.setCoreTile(this);*/
 		
 		dummyPosList.add(new ChunkCoordinates(x, y, z));
-		LogHelper.debugLog(String.format("Dummy block added: id: %d, meta: %d, pos: %d, %d, %d", oldId, oldMetadata, xCoord, yCoord, zCoord));
+		LogHelper.debugLog(String.format("Dummy block added: id: %d, meta: %d, pos: %d, %d, %d", oldId, oldMetadata, x, y, z));
+		world.markBlockForUpdate(x, y, z);
 	}
 	
 	public void revertDummy(World world, int x, int y, int z)
@@ -103,8 +109,6 @@ public abstract class TileGreatwardCore extends TileInevera
 			this.revertDummy(worldObj, dummyPos.posX, dummyPos.posY, dummyPos.posZ);
 		}
 		dummyPosList.clear();
-		
-		LogHelper.debugLog("Reverted Dummy List!");
 	}
 	
 	public ForgeDirection getWardDirection()

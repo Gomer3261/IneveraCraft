@@ -1,8 +1,5 @@
 package com.ggollmer.inevera.tileentity;
 
-import net.minecraftforge.common.ForgeDirection;
-
-
 /**
  * IneveraCraft
  *

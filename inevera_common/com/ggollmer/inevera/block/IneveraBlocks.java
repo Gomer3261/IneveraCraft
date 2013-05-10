@@ -6,6 +6,7 @@ import com.ggollmer.inevera.lib.BlockNames;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 
 /**
  * IneveraCraft
@@ -25,7 +26,7 @@ public class IneveraBlocks
 	public static void init()
 	{
 		minorGreatwardCore = new BlockMinorGreatwardCore(BlockIds.MINOR_WARD_CORE);
-		greatwardDummy = new BlockGreatwardDummy(BlockIds.GREATWARD_DUMMY);
+		greatwardDummy = new BlockGreatwardDummy(BlockIds.GREATWARD_DUMMY, Material.ground);
 		
 		GameRegistry.registerBlock(minorGreatwardCore, BlockNames.MINOR_WARD_CORE_NAME);
 		GameRegistry.registerBlock(greatwardDummy, BlockNames.GREATWARD_DUMMY_NAME);
