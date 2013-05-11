@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.ggollmer.inevera.core.helper.LogHelper;
-import com.ggollmer.inevera.lib.BlockNames;
 import com.ggollmer.inevera.tileentity.TileGreatwardCore;
 import com.ggollmer.inevera.tileentity.TileGreatwardDummy;
 
@@ -50,10 +49,15 @@ public class BlockGreatwardDummy extends BlockInevera
 	/**
 	 * @param id The id of the new block
 	 */
-	public BlockGreatwardDummy(int id, Material material)
+	public BlockGreatwardDummy(int id, Material material, String name)
 	{
+		// TODO: Make sound file replicate correctly.
+		// TODO: Helper method for checking which material the block is.
+		// TODO: Add special effects while breaking.
+		// TODO: Make greatward core tile created dummies base on material.
+		// TODO: Allow glass to be a ward component.
 		super(id, material);
-		this.setUnlocalizedName(BlockNames.GREATWARD_DUMMY_NAME);
+		this.setUnlocalizedName(name);
 		this.setCreativeTab(null);
 	}
 	

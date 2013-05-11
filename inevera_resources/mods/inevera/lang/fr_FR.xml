@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties version="1.0">
+	<comment>English (en_US) Localization File</comment>
+	<entry key="item.demonFlesh.name">Démon Peau</entry>
+	<entry key="item.demonBone.name">Démon Os</entry>
+	<entry key="item.basicWardingTools.name">Outils a Creation Rune Simple</entry>
+	<entry key="tile.acidVat.name">Cuve Acidique</entry>
+	<entry key="tile.greatwardDummyGround.name">Grande Rune Terre Faux Bloc</entry>
+	<entry key="tile.greatwardDummyWood.name">Grande Rune Bois Faux Bloc</entry>
+	<entry key="tile.greatwardDummyRock.name">Grande Rune Roche Faux Bloc</entry>
+	<entry key="tile.greatwardDummyIron.name">Grande Rune Fer Faux Bloc</entry>
+	<entry key="tile.greatwardDummyCloth.name">Grande Rune Tissu Faux Bloc</entry>
+	<entry key="tile.greatwardDummySand.name">Grande Rune Sable Faux Bloc</entry>
+	<entry key="tile.greatwardDummyGlass.name">Grande Rune Verre Faux Bloc</entry>
+	<entry key="tile.minorWardCore.name">Mineur Grande Rune Centre</entry>
+	<entry key="tile.minorHoraCell.name">Mineur Hora Batterie</entry>
+	<entry key="itemGroup.inevera">IneveraCraft</entry>
+</properties>

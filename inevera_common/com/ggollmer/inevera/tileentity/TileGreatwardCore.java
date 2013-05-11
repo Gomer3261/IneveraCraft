@@ -70,7 +70,7 @@ public abstract class TileGreatwardCore extends TileInevera
 		int oldId = world.getBlockId(x, y, z);
 		int oldMetadata = world.getBlockMetadata(x, y, z);
 		
-		BlockGreatwardDummy dummyBlock = (BlockGreatwardDummy) IneveraBlocks.greatwardDummy;
+		BlockGreatwardDummy dummyBlock = (BlockGreatwardDummy) IneveraBlocks.greatwardDummyGround;
 		dummyBlock.setDummyValues(oldId, oldMetadata, this);
 		
 		world.setBlock(x, y, z, dummyBlock.blockID);
@@ -87,7 +87,7 @@ public abstract class TileGreatwardCore extends TileInevera
 	
 	public void revertDummy(World world, int x, int y, int z)
 	{
-		if(world.getBlockId(x, y, z) != IneveraBlocks.greatwardDummy.blockID)
+		if(world.getBlockId(x, y, z) != IneveraBlocks.greatwardDummyGround.blockID)
 		{
 			return;
 		}
