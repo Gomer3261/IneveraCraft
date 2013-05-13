@@ -3,7 +3,9 @@ package com.ggollmer.inevera.block;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.ggollmer.inevera.client.particle.GreatwardDummyDamageFX;
 import com.ggollmer.inevera.core.helper.LogHelper;
+import com.ggollmer.inevera.lib.BlockNames;
 import com.ggollmer.inevera.tileentity.TileGreatwardCore;
 import com.ggollmer.inevera.tileentity.TileGreatwardDummy;
 
@@ -40,29 +42,37 @@ import net.minecraftforge.common.IPlantable;
  */
 public class BlockGreatwardDummy extends BlockInevera
 {
+	private Random rand;
+	
+	@SideOnly(Side.CLIENT)
+    private Icon[] iconFXArray;
+	
 	/* Variables that are changed before a new instance is created */
 	public int imitationId=2;
 	public int imitationMetadata=0;
 	public TileGreatwardCore core;
-	
 
 	/**
 	 * @param id The id of the new block
 	 */
 	public BlockGreatwardDummy(int id, Material material, String name)
 	{
-		// TODO: Make sound file replicate correctly.
-		// TODO: Add special effects while breaking.
 		super(id, material);
 		this.setUnlocalizedName(name);
 		this.setCreativeTab(null);
+		this.rand = new Random();
 	}
 	
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void registerIcons(IconRegister par1IconRegister)
+	public void registerIcons(IconRegister iconRegister)
 	{
-		this.blockIcon = null;
+		this.iconFXArray = new Icon[5];
+
+        for (int i = 0; i < this.iconFXArray.length; ++i)
+        {        	
+            this.iconFXArray[i] = iconRegister.registerIcon("inevera:" + BlockNames.GREATWARD_DUMMY_FX_NAME + i);
+        }
 	}
 
 	@Override
@@ -134,6 +144,7 @@ public class BlockGreatwardDummy extends BlockInevera
 		this.imitationId = newId;
 		this.imitationMetadata = newMetadata;
 		this.core = newCore;
+		setStepSound(Block.blocksList[imitationId].stepSound);
 	}
 	
 	private void updateImitationData(IBlockAccess world, int x, int y, int z)
@@ -143,7 +154,86 @@ public class BlockGreatwardDummy extends BlockInevera
 		{
 			imitationId = dummy.getImitationId();
 			imitationMetadata = dummy.getImitationMetadata();
+			setStepSound(Block.blocksList[imitationId].stepSound);
 		}
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+    public boolean addBlockHitEffects(World worldObj, MovingObjectPosition target, EffectRenderer effectRenderer)
+    {
+        boolean result = Block.blocksList[imitationId].addBlockHitEffects(worldObj, target, effectRenderer);
+        
+        float f = 0.1F;
+        double d0 = target.hitVec.xCoord + (this.rand.nextDouble() - 0.5D)*1.4D;
+        double d1 = target.hitVec.yCoord + (this.rand.nextDouble() - 0.5D)*1.4D;
+        double d2 = target.hitVec.zCoord + (this.rand.nextDouble() - 0.5D)*1.4D;
+
+        if (target.sideHit == 0)
+        {
+            d1 = target.hitVec.yCoord - (double)f;
+        }
+
+        if (target.sideHit == 1)
+        {
+            d1 = target.hitVec.yCoord + (double)f;
+        }
+
+        if (target.sideHit == 2)
+        {
+            d2 = target.hitVec.zCoord - (double)f;
+        }
+
+        if (target.sideHit == 3)
+        {
+            d2 = target.hitVec.zCoord + (double)f;
+        }
+
+        if (target.sideHit == 4)
+        {
+            d0 = target.hitVec.xCoord - (double)f;
+        }
+
+        if (target.sideHit == 5)
+        {
+            d0 = target.hitVec.xCoord + (double)f;
+        }
+
+        
+        effectRenderer.addEffect((new GreatwardDummyDamageFX(worldObj, d0, d1, d2, 0.0D, 0.0D, 0.0D, this, target.sideHit, worldObj.getBlockMetadata(target.blockX, target.blockY, target.blockZ), null)).func_70596_a(target.blockX, target.blockY, target.blockZ).multiplyVelocity(0.1F));
+        
+        return result;
+    }
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+    public boolean addBlockDestroyEffects(World world, int x, int y, int z, int meta, EffectRenderer effectRenderer)
+    {
+		boolean result = Block.blocksList[imitationId].addBlockDestroyEffects(world, x, y, z, meta, effectRenderer);
+		
+		byte b0 = 4;
+
+        for (int j1 = 0; j1 < b0; ++j1)
+        {
+            for (int k1 = 0; k1 < b0; ++k1)
+            {
+                for (int l1 = 0; l1 < b0; ++l1)
+                {
+                    double d0 = (double)x + ((double)j1 + 0.5D) / (double)b0;
+                    double d1 = (double)y + ((double)k1 + 0.5D) / (double)b0;
+                    double d2 = (double)z + ((double)l1 + 0.5D) / (double)b0;
+                    int i2 = this.rand.nextInt(6);
+                    effectRenderer.addEffect((new GreatwardDummyDamageFX(world, d0, d1, d2, d0 - (double)x - 0.5D, d1 - (double)y - 0.5D, d2 - (double)z - 0.5D, this, i2, meta, null)).func_70596_a(x, y, z).multiplyVelocity(2.0F).multipleParticleScaleBy(1.5F));
+                }
+            }
+        }
+        
+        return result;
+    }
+	
+	public Icon getEffectIcon(int par15, int par16)
+	{
+		return iconFXArray[rand.nextInt(5)];
 	}
 	
 	/* Mimicking the properties of the copied block! */
@@ -153,6 +243,12 @@ public class BlockGreatwardDummy extends BlockInevera
 	{
 		updateImitationData(world, x, y, z);
 		return Block.blocksList[imitationId].getBlockHardness(world, x, y, z);
+	}
+	
+	@Override
+	public Icon getIcon(int side, int metadata)
+	{
+		return Block.blocksList[imitationId].getIcon(side, metadata);
 	}
 	
 	@Override
@@ -489,14 +585,6 @@ public class BlockGreatwardDummy extends BlockInevera
 		updateImitationData(world, x, y, z);
 		return Block.blocksList[imitationId].isBlockFoliage(world, x, y, z);
 	}
-	
-	@SideOnly(Side.CLIENT)
-	@Override
-	public boolean addBlockDestroyEffects(World world, int x, int y, int z, int meta, EffectRenderer effectRenderer)
-    {
-		updateImitationData(world, x, y, z);
-		return Block.blocksList[imitationId].addBlockDestroyEffects(world, x, y, z, meta, effectRenderer);
-    }
 	
 	@Override
 	public boolean canSustainPlant(World world, int x, int y, int z, ForgeDirection direction, IPlantable plant)

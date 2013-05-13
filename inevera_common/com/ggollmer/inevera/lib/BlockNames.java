@@ -24,4 +24,7 @@ public class BlockNames
 	public static String GREATWARD_DUMMY_GLASS_NAME = "greatwardDummyGlass";
 	
 	public static String ACID_VAT_NAME = "acidVat";
+	
+	/* Effect Names */
+	public static String GREATWARD_DUMMY_FX_NAME = "greatwardDummyFX";
 }
