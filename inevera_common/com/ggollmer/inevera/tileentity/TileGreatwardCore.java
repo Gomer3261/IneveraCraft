@@ -7,6 +7,7 @@ import com.ggollmer.inevera.block.BlockGreatwardDummy;
 import com.ggollmer.inevera.block.IneveraBlocks;
 import com.ggollmer.inevera.core.helper.LogHelper;
 import com.ggollmer.inevera.core.helper.NBTHelper;
+import com.ggollmer.inevera.greatward.GreatwardDummyHelper;
 import com.ggollmer.inevera.lib.Strings;
 
 import net.minecraft.nbt.NBTTagCompound;
@@ -57,7 +58,7 @@ public abstract class TileGreatwardCore extends TileInevera
 		// TODO: this is temporary code to make sure that the dummy actually works.
 		if(worldObj.getBlockId(x,y+1, z) != 0)
 		{
-			if(TileGreatwardDummy.isBlockDummiable(worldObj.getBlockId(xCoord,  yCoord+1, zCoord), worldObj.getBlockMetadata(xCoord, yCoord+1, zCoord)))
+			if(GreatwardDummyHelper.isBlockDummiable(worldObj.getBlockId(xCoord,  yCoord+1, zCoord), worldObj.getBlockMetadata(xCoord, yCoord+1, zCoord)))
 			{
 				convertDummy(world, x, y+1, z);
 				validGreatward = true;
@@ -70,15 +71,11 @@ public abstract class TileGreatwardCore extends TileInevera
 		int oldId = world.getBlockId(x, y, z);
 		int oldMetadata = world.getBlockMetadata(x, y, z);
 		
-		BlockGreatwardDummy dummyBlock = (BlockGreatwardDummy) IneveraBlocks.greatwardDummyGround;
+		BlockGreatwardDummy dummyBlock = GreatwardDummyHelper.getProperDummy(oldId);
 		dummyBlock.setDummyValues(oldId, oldMetadata, this);
 		
 		world.setBlock(x, y, z, dummyBlock.blockID);
 		world.markBlockForUpdate(x, y, z);
-		
-		/*TileGreatwardDummy dummyTE = (TileGreatwardDummy)world.getBlockTileEntity(x, y, z);
-		dummyTE.setImitationBlock(oldId, oldMetadata);
-		dummyTE.setCoreTile(this);*/
 		
 		dummyPosList.add(new ChunkCoordinates(x, y, z));
 		LogHelper.debugLog(String.format("Dummy block added: id: %d, meta: %d, pos: %d, %d, %d", oldId, oldMetadata, x, y, z));

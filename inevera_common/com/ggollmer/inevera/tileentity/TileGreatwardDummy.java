@@ -1,9 +1,9 @@
 package com.ggollmer.inevera.tileentity;
 
-import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 
 import com.ggollmer.inevera.core.helper.LogHelper;
+import com.ggollmer.inevera.greatward.GreatwardDummyHelper;
 import com.ggollmer.inevera.lib.TileStrings;
 
 /**
@@ -41,7 +41,7 @@ public class TileGreatwardDummy extends TileInevera
 	
 	public void setImitationBlock(int newId, int newMetadata)
 	{
-		if(TileGreatwardDummy.isBlockDummiable(newId, newMetadata))
+		if(GreatwardDummyHelper.isBlockDummiable(newId, newMetadata))
 		{
 			LogHelper.debugLog(String.format("id %d and meta %d set!", newId, newMetadata));
 			imitationId = newId;
@@ -124,26 +124,4 @@ public class TileGreatwardDummy extends TileInevera
         nbtTagCompound.setInteger(TileStrings.NBT_TE_GW_DUMMY_ID, imitationId);
 		nbtTagCompound.setInteger(TileStrings.NBT_TE_GW_DUMMY_META, imitationMetadata);
     }
-    
-    /**
-	 * Used to check if a block id/meta can be replicated by a dummy block.
-	 * @param Id the block to check.
-	 * @param Metadata The metadata of the id being checked.
-	 * @return True if the block can be replicated by a dummy.
-	 */
-	public static boolean isBlockDummiable(int id, int metadata)
-	{
-		if(!Block.isNormalCube(id))
-		{
-			return false;
-		}
-		
-		Block testBlock = Block.blocksList[id];
-		if(testBlock.hasTileEntity(metadata))
-		{
-			return false;
-		}
-		
-		return true;
-	}
 }

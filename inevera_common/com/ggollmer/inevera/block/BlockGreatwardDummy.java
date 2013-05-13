@@ -52,10 +52,7 @@ public class BlockGreatwardDummy extends BlockInevera
 	public BlockGreatwardDummy(int id, Material material, String name)
 	{
 		// TODO: Make sound file replicate correctly.
-		// TODO: Helper method for checking which material the block is.
 		// TODO: Add special effects while breaking.
-		// TODO: Make greatward core tile created dummies base on material.
-		// TODO: Allow glass to be a ward component.
 		super(id, material);
 		this.setUnlocalizedName(name);
 		this.setCreativeTab(null);
@@ -71,6 +68,8 @@ public class BlockGreatwardDummy extends BlockInevera
 	@Override
 	public TileEntity createNewTileEntity(World world)
 	{
+		LogHelper.debugLog(this.getUnlocalizedName() + "Created");
+		
 		return (TileEntity)new TileGreatwardDummy(imitationId, imitationMetadata, core);
 	}
 
