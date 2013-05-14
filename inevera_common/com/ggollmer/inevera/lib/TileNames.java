@@ -11,6 +11,6 @@ package com.ggollmer.inevera.lib;
  */
 public class TileNames
 {
-	public static final String TE_GREATWARD_DUMMY_NAME = "teGreatwardDummy";
+	public static final String TE_GREATWARD_PIECE_NAME = "teGreatwardPiece";
 	public static final String TE_GREATWARD_CORE_MINOR_NAME = "teGreatwardCoreMinor";
 }

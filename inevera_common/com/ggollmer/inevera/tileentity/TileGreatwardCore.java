@@ -3,11 +3,10 @@ package com.ggollmer.inevera.tileentity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ggollmer.inevera.block.BlockGreatwardDummy;
 import com.ggollmer.inevera.block.IneveraBlocks;
 import com.ggollmer.inevera.core.helper.LogHelper;
 import com.ggollmer.inevera.core.helper.NBTHelper;
-import com.ggollmer.inevera.greatward.GreatwardDummyHelper;
+import com.ggollmer.inevera.greatward.GreatwardPieceHelper;
 import com.ggollmer.inevera.lib.Strings;
 
 import net.minecraft.nbt.NBTTagCompound;
@@ -27,12 +26,12 @@ import net.minecraftforge.common.ForgeDirection;
 public abstract class TileGreatwardCore extends TileInevera
 {
 	protected boolean validGreatward = false;
-	protected List<ChunkCoordinates> dummyPosList;
+	protected List<ChunkCoordinates> piecePosList;
 	
 	public TileGreatwardCore()
 	{
 		super();
-		dummyPosList = new ArrayList<ChunkCoordinates>();
+		piecePosList = new ArrayList<ChunkCoordinates>();
 	}
 	
 	public void invalidateGreatward()
@@ -58,7 +57,7 @@ public abstract class TileGreatwardCore extends TileInevera
 		// TODO: this is temporary code to make sure that the dummy actually works.
 		if(worldObj.getBlockId(x,y+1, z) != 0)
 		{
-			if(GreatwardDummyHelper.isBlockDummiable(worldObj.getBlockId(xCoord,  yCoord+1, zCoord), worldObj.getBlockMetadata(xCoord, yCoord+1, zCoord)))
+			if(GreatwardPieceHelper.isValidGreatwardPiece(worldObj.getBlockId(xCoord,  yCoord+1, zCoord)))
 			{
 				convertDummy(world, x, y+1, z);
 				validGreatward = true;
@@ -68,44 +67,30 @@ public abstract class TileGreatwardCore extends TileInevera
 	
 	public void convertDummy(World world, int x, int y, int z)
 	{
-		int oldId = world.getBlockId(x, y, z);
-		int oldMetadata = world.getBlockMetadata(x, y, z);
+		TileGreatwardPiece pieceTE = (TileGreatwardPiece) world.getBlockTileEntity(x, y, z);
+		pieceTE.setCoreTile(this);
 		
-		BlockGreatwardDummy dummyBlock = GreatwardDummyHelper.getProperDummy(oldId);
-		dummyBlock.setDummyValues(oldId, oldMetadata, this);
-		
-		world.setBlock(x, y, z, dummyBlock.blockID);
-		world.markBlockForUpdate(x, y, z);
-		
-		dummyPosList.add(new ChunkCoordinates(x, y, z));
-		LogHelper.debugLog(String.format("Dummy block added: id: %d, meta: %d, pos: %d, %d, %d", oldId, oldMetadata, x, y, z));
-		world.markBlockForUpdate(x, y, z);
+		piecePosList.add(new ChunkCoordinates(x, y, z));
 	}
 	
 	public void revertDummy(World world, int x, int y, int z)
 	{
-		if(world.getBlockId(x, y, z) != IneveraBlocks.greatwardDummyGround.blockID)
+		if(world.getBlockId(x, y, z) != IneveraBlocks.greatwardPiece.blockID)
 		{
 			return;
 		}
 		
-		TileGreatwardDummy dummyTE = (TileGreatwardDummy) world.getBlockTileEntity(x, y, z);
-		
-		int newId = dummyTE.getImitationId();
-		int newMetadata = dummyTE.getImitationMetadata();
-		
-		world.setBlock(x, y, z, newId);
-		world.setBlockMetadataWithNotify(x, y, z, newMetadata, 0);
-		world.markBlockForUpdate(x, y, z);
+		TileGreatwardPiece pieceTE = (TileGreatwardPiece) world.getBlockTileEntity(x, y, z);
+		pieceTE.setCoreTile(null);
 	}
 	
 	public void revertDummyList()
 	{
-		for(ChunkCoordinates dummyPos: dummyPosList)
+		for(ChunkCoordinates dummyPos: piecePosList)
 		{
 			this.revertDummy(worldObj, dummyPos.posX, dummyPos.posY, dummyPos.posZ);
 		}
-		dummyPosList.clear();
+		piecePosList.clear();
 	}
 	
 	public ForgeDirection getWardDirection()
@@ -114,12 +99,19 @@ public abstract class TileGreatwardCore extends TileInevera
 	}
 	
 	@Override
+	public void invalidate()
+	{
+		invalidateGreatward();
+		super.invalidate();
+	}
+	
+	@Override
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
 
         super.readFromNBT(nbtTagCompound);
 
         if (nbtTagCompound.hasKey(Strings.NBT_TE_GW_DUMMYLIST_KEY)) {
-            dummyPosList = NBTHelper.getChunkCoordinatesListFromNBTTagList(nbtTagCompound.getTagList(Strings.NBT_TE_GW_DUMMYLIST_KEY));
+            piecePosList = NBTHelper.getChunkCoordinatesListFromNBTTagList(nbtTagCompound.getTagList(Strings.NBT_TE_GW_DUMMYLIST_KEY));
         }
     }
 
@@ -128,6 +120,6 @@ public abstract class TileGreatwardCore extends TileInevera
 
         super.writeToNBT(nbtTagCompound);
 
-        nbtTagCompound.setTag(Strings.NBT_TE_GW_DUMMYLIST_KEY, NBTHelper.createChunkCoordinatesNBTTagList(dummyPosList));
+        nbtTagCompound.setTag(Strings.NBT_TE_GW_DUMMYLIST_KEY, NBTHelper.createChunkCoordinatesNBTTagList(piecePosList));
     }
 }

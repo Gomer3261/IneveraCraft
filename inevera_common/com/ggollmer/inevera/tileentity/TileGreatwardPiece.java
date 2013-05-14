@@ -2,8 +2,6 @@ package com.ggollmer.inevera.tileentity;
 
 import net.minecraft.nbt.NBTTagCompound;
 
-import com.ggollmer.inevera.core.helper.LogHelper;
-import com.ggollmer.inevera.greatward.GreatwardDummyHelper;
 import com.ggollmer.inevera.lib.TileStrings;
 
 /**
@@ -15,11 +13,9 @@ import com.ggollmer.inevera.lib.TileStrings;
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  *
  */
-public class TileGreatwardDummy extends TileInevera
+public class TileGreatwardPiece extends TileInevera
 {
 	/* NBT data */
-	private int imitationId;
-	private int imitationMetadata;
 	private int coreX;
 	private int coreY;
 	private int coreZ;
@@ -27,37 +23,14 @@ public class TileGreatwardDummy extends TileInevera
 	/* non NBT data */
 	private TileGreatwardCore core = null;
 	
-	public TileGreatwardDummy()
+	public TileGreatwardPiece()
 	{
-		this(2, 0, null);
+		this(null);
 	}
 	
-	public TileGreatwardDummy(int id, int metadata, TileGreatwardCore core)
+	public TileGreatwardPiece(TileGreatwardCore core)
 	{
-		imitationId = id;
-		imitationMetadata = metadata;
 		this.setCoreTile(core);
-	}
-	
-	public void setImitationBlock(int newId, int newMetadata)
-	{
-		if(GreatwardDummyHelper.isBlockDummiable(newId, newMetadata))
-		{
-			LogHelper.debugLog(String.format("id %d and meta %d set!", newId, newMetadata));
-			imitationId = newId;
-			imitationMetadata = newMetadata;
-			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, newMetadata, 2);
-		}
-	}
-	
-	public int getImitationId()
-	{
-		return imitationId;
-	}
-	
-	public int getImitationMetadata()
-	{
-		return imitationMetadata;
 	}
 
 	public void setCoreTile(TileGreatwardCore newCore)
@@ -103,14 +76,6 @@ public class TileGreatwardDummy extends TileInevera
         if (nbtTagCompound.hasKey(TileStrings.NBT_TE_GW_DUMMY_CORE_Z)) {
             coreZ = nbtTagCompound.getInteger(TileStrings.NBT_TE_GW_DUMMY_CORE_Z);
         }
-        
-        if (nbtTagCompound.hasKey(TileStrings.NBT_TE_GW_DUMMY_ID)) {
-            imitationId = nbtTagCompound.getInteger(TileStrings.NBT_TE_GW_DUMMY_ID);
-        }
-        
-        if (nbtTagCompound.hasKey(TileStrings.NBT_TE_GW_DUMMY_META)) {
-        	imitationMetadata = nbtTagCompound.getInteger(TileStrings.NBT_TE_GW_DUMMY_META);
-        }
     }
 
     @Override
@@ -121,7 +86,5 @@ public class TileGreatwardDummy extends TileInevera
         nbtTagCompound.setInteger(TileStrings.NBT_TE_GW_DUMMY_CORE_X, coreX);
         nbtTagCompound.setInteger(TileStrings.NBT_TE_GW_DUMMY_CORE_Y, coreY);
         nbtTagCompound.setInteger(TileStrings.NBT_TE_GW_DUMMY_CORE_Z, coreZ);
-        nbtTagCompound.setInteger(TileStrings.NBT_TE_GW_DUMMY_ID, imitationId);
-		nbtTagCompound.setInteger(TileStrings.NBT_TE_GW_DUMMY_META, imitationMetadata);
     }
 }

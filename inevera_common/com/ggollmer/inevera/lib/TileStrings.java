@@ -15,6 +15,4 @@ public class TileStrings
 	public static final String NBT_TE_GW_DUMMY_CORE_X = "teGwDummyCoreX";
 	public static final String NBT_TE_GW_DUMMY_CORE_Y = "teGwDummyCoreY";
 	public static final String NBT_TE_GW_DUMMY_CORE_Z = "teGwDummyCoreZ";
-	public static final String NBT_TE_GW_DUMMY_ID = "teGwDummyId";
-	public static final String NBT_TE_GW_DUMMY_META = "teGwDummyMeta";
 }

@@ -6,13 +6,7 @@
 	<entry key="item.demonBone.name">Demon Bone</entry>
 	<entry key="item.basicWardingTools.name">Basic Warding Tools</entry>
 	<entry key="tile.acidVat.name">Acid Vat</entry>
-	<entry key="tile.greatwardDummyGround.name">Greatward Ground Dummy Block</entry>
-	<entry key="tile.greatwardDummyWood.name">Greatward Wood Dummy Block</entry>
-	<entry key="tile.greatwardDummyRock.name">Greatward Rock Dummy Block</entry>
-	<entry key="tile.greatwardDummyIron.name">Greatward Iron Dummy Block</entry>
-	<entry key="tile.greatwardDummyCloth.name">Greatward Cloth Dummy Block</entry>
-	<entry key="tile.greatwardDummySand.name">Greatward Sand Dummy Block</entry>
-	<entry key="tile.greatwardDummyGlass.name">Greatward Glass Dummy Block</entry>
+	<entry key="tile.greatwardPiece.name">Greatward Piece</entry>
 	<entry key="tile.minorWardCore.name">Minor Greatward Core</entry>
 	<entry key="tile.minorHoraCell.name">Minor Hora Cell</entry>
 	<entry key="itemGroup.inevera">IneveraCraft</entry>
