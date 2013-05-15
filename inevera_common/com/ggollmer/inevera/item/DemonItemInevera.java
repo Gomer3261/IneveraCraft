@@ -2,6 +2,8 @@ package com.ggollmer.inevera.item;
 
 import java.util.Random;
 
+import com.ggollmer.inevera.Inevera;
+
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -22,10 +24,12 @@ public class DemonItemInevera extends ItemInevera
 	/**
 	 * @param id
 	 */
-	public DemonItemInevera(int id)
+	public DemonItemInevera(int id, String name)
 	{
 		super(id);
 		rand = new Random();
+		this.setUnlocalizedName(name);
+		this.setCreativeTab(Inevera.tabsInevera);
 	}
 	
 	@Override

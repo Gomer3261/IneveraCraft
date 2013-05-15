@@ -1,53 +1,94 @@
 package com.ggollmer.inevera.block;
 
+import java.util.List;
 import java.util.Random;
 
 import com.ggollmer.inevera.Inevera;
 import com.ggollmer.inevera.client.particle.GreatwardDummyDamageFX;
 import com.ggollmer.inevera.lib.BlockNames;
+import com.ggollmer.inevera.lib.Reference;
 import com.ggollmer.inevera.tileentity.TileGreatwardPiece;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
-public class BlockGreatwardPiece extends BlockInevera
+public class BlockGreatwardPiece extends BlockContainer
 {
 
 	private Random rand;
+	private String[] subNames;
 	private Icon[] iconFXArray;
+	private Icon[] iconArray;
 
 	/**
 	 * @param id The id of the new block
 	 */
-	public BlockGreatwardPiece(int id, Material material, String name)
+	public BlockGreatwardPiece(int id, Material material, String name, String[] subNames)
 	{
 		super(id, material);
 		this.setUnlocalizedName(name);
 		this.setCreativeTab(Inevera.tabsInevera);
 		this.rand = new Random();
+		this.subNames = subNames;
 	}
 	
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerIcons(IconRegister iconRegister)
 	{
-		super.registerIcons(iconRegister);
+		this.iconArray = new Icon[subNames.length];
+		
+		for(int i=0; i < subNames.length; ++i)
+		{
+			this.iconArray[i] = iconRegister.registerIcon(Reference.MOD_ID.toLowerCase() + ":" + this.getUnlocalizedName2() + "_" + subNames[i]);
+		}
 		
 		this.iconFXArray = new Icon[5];
 
-        for (int i = 0; i < this.iconFXArray.length; ++i)
+        for (int i = 0; i < this.iconFXArray.length; i++)
         {        	
-            this.iconFXArray[i] = iconRegister.registerIcon("inevera:" + BlockNames.GREATWARD_COMPONENT_FX_NAME + i);
+            this.iconFXArray[i] = iconRegister.registerIcon(Reference.MOD_ID.toLowerCase() + ":" + BlockNames.GREATWARD_COMPONENT_FX_NAME + "_" + i);
         }
+	}
+	
+	@Override
+	public Icon getIcon(int side, int metadata)
+	{
+		return iconArray[metadata];
+	}
+	
+	public Icon getEffectIcon(int par15, int par16)
+	{
+		return iconFXArray[rand.nextInt(5)];
+	}
+	
+	@Override
+	public int damageDropped(int metadata)
+	{
+		return metadata;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void getSubBlocks(int id, CreativeTabs tab, List subItems)
+	{
+		for(int i=0; i<subNames.length; i++)
+		{
+			subItems.add(new ItemStack(id, 1, i));
+		}
 	}
 
 	@Override
@@ -155,10 +196,4 @@ public class BlockGreatwardPiece extends BlockInevera
         
         return true;
     }
-	
-	public Icon getEffectIcon(int par15, int par16)
-	{
-		return iconFXArray[rand.nextInt(5)];
-	}
-
 }

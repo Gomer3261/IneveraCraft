@@ -13,7 +13,7 @@ public class GreatwardPieceHelper
 	{
 		validGreatwardPieces = new ArrayList<Integer>();
 		
-		validGreatwardPieces.add(IneveraBlocks.greatwardPiece.blockID);
+		validGreatwardPieces.add(IneveraBlocks.greatwardWoodPiece.blockID);
 	}
 	
 	public static boolean isValidGreatwardPiece(int id)

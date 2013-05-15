@@ -1,9 +1,5 @@
-/**
- * 
- */
 package com.ggollmer.inevera.item;
 
-import com.ggollmer.inevera.Inevera;
 import com.ggollmer.inevera.lib.ItemNames;
 
 /**
@@ -19,9 +15,7 @@ public class ItemDemonBone extends DemonItemInevera
 {
 	public ItemDemonBone(int id)
 	{
-		super(id);
-		this.setUnlocalizedName(ItemNames.DEMON_BONE_NAME);
-		this.setCreativeTab(Inevera.tabsInevera);
+		super(id, ItemNames.DEMON_BONE_NAME);
 		this.setMaxStackSize(64);
 	}
 

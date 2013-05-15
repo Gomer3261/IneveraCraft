@@ -75,7 +75,7 @@ public abstract class TileGreatwardCore extends TileInevera
 	
 	public void revertDummy(World world, int x, int y, int z)
 	{
-		if(world.getBlockId(x, y, z) != IneveraBlocks.greatwardPiece.blockID)
+		if(world.getBlockId(x, y, z) != IneveraBlocks.greatwardWoodPiece.blockID)
 		{
 			return;
 		}

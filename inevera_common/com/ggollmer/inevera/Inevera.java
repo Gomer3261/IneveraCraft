@@ -13,6 +13,7 @@ import com.ggollmer.inevera.creativetab.CreativeTabInevera;
 import com.ggollmer.inevera.greatward.GreatwardManager;
 import com.ggollmer.inevera.greatward.GreatwardPieceHelper;
 import com.ggollmer.inevera.item.IneveraItems;
+import com.ggollmer.inevera.item.crafting.IneveraRecipes;
 import com.ggollmer.inevera.lib.Reference;
 
 import cpw.mods.fml.common.Mod;
@@ -91,8 +92,11 @@ public class Inevera
 	@Init
 	public void init(FMLInitializationEvent event)
 	{
-		// Initialize mod tile entities
+		/* Instantiate IneveraCraft's Tile Entities */
         proxy.registerTileEntities();
+        
+        /* Instantiate IneveraCraft's Recipes */
+        IneveraRecipes.init();
 	}
 	
 	/**

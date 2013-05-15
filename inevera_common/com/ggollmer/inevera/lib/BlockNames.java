@@ -15,9 +15,12 @@ public class BlockNames
 	public static String MINOR_WARD_CORE_NAME = "minorWardCore";
 	public static String MINOR_HORA_CELL_NAME = "minorHoraCell";
 	
-	public static String GREATWARD_PIECE_NAME = "greatwardPiece";
+	public static String GREATWARD_WOOD_PIECE_NAME = "greatwardWoodPiece";
 	
 	public static String ACID_VAT_NAME = "acidVat";
+	
+	/* Block Sub Names */
+	public static String[] GREATWARD_WOOD_PIECE_SUBNAMES = {"oak", "spruce", "birch", "jungle"};
 	
 	/* Effect Names */
 	public static String GREATWARD_COMPONENT_FX_NAME = "greatwardComponentFX";

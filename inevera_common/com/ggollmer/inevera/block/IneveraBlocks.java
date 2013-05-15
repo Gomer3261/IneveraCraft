@@ -1,5 +1,6 @@
 package com.ggollmer.inevera.block;
 
+import com.ggollmer.inevera.item.ItemGreatwardWoodPiece;
 import com.ggollmer.inevera.lib.BlockIds;
 import com.ggollmer.inevera.lib.BlockNames;
 
@@ -20,18 +21,17 @@ import net.minecraft.block.material.Material;
 public class IneveraBlocks
 {
 	/* Block instances */
-	public static Block greatwardPiece;
+	public static Block greatwardWoodPiece;
 	
 	public static Block minorGreatwardCore;
 	
 	public static void init()
 	{
-		greatwardPiece = new BlockGreatwardPiece(BlockIds.GREATWARD_PIECE, Material.ground, BlockNames.GREATWARD_PIECE_NAME);
+		greatwardWoodPiece = new BlockGreatwardPiece(BlockIds.GREATWARD_WOOD_PIECE, Material.ground, BlockNames.GREATWARD_WOOD_PIECE_NAME, BlockNames.GREATWARD_WOOD_PIECE_SUBNAMES);
 		
 		minorGreatwardCore = new BlockMinorGreatwardCore(BlockIds.MINOR_WARD_CORE);
 		
-		GameRegistry.registerBlock(greatwardPiece, BlockNames.GREATWARD_PIECE_NAME);
-		
+		GameRegistry.registerBlock(greatwardWoodPiece, ItemGreatwardWoodPiece.class, BlockNames.GREATWARD_WOOD_PIECE_NAME);
 		GameRegistry.registerBlock(minorGreatwardCore, BlockNames.MINOR_WARD_CORE_NAME);
 	}
 }
