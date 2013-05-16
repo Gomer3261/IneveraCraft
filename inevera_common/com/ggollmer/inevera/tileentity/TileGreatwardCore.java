@@ -8,8 +8,15 @@ import com.ggollmer.inevera.core.helper.LogHelper;
 import com.ggollmer.inevera.core.helper.NBTHelper;
 import com.ggollmer.inevera.greatward.GreatwardPieceHelper;
 import com.ggollmer.inevera.lib.Strings;
+import com.ggollmer.inevera.network.PacketTypeHandler;
+import com.ggollmer.inevera.network.packet.PacketGreatwardCoreUpdate;
+
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -23,7 +30,7 @@ import net.minecraftforge.common.ForgeDirection;
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  *
  */
-public abstract class TileGreatwardCore extends TileInevera
+public abstract class TileGreatwardCore extends TileEntity
 {
 	protected boolean validGreatward;
 	protected List<ChunkCoordinates> piecePosList;
@@ -39,16 +46,32 @@ public abstract class TileGreatwardCore extends TileInevera
 	
 	public void invalidateGreatward()
 	{
+		boolean changed = validGreatward;
 		validGreatward = false;
 		wardDirection = null;
 		
 		revertDummyList();
+		
+		if(changed && FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
+		{
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		}
 		LogHelper.debugLog(String.format("Greatward Invalidated at: x%d, y%d, z%d", xCoord, yCoord, zCoord));
 	}
 	
 	public boolean isValidGreatward()
 	{
 		return validGreatward;
+	}
+	
+	public void setValidGreatward(boolean valid)
+	{
+		validGreatward = valid;
+	}
+	
+	public void setPiecesCoordList(List<ChunkCoordinates> pieces)
+	{
+		piecePosList = pieces;
 	}
 	
 	public void onNeighborChange(World world, int x, int y, int z)
@@ -63,6 +86,7 @@ public abstract class TileGreatwardCore extends TileInevera
 	
 	private void checkValidGreatward(World world, int x, int y, int z)
 	{
+		boolean changed = !validGreatward;
 		if(validGreatward)
 		{
 			return;
@@ -77,6 +101,11 @@ public abstract class TileGreatwardCore extends TileInevera
 				convertDummy(world, x+wardDirection.offsetX, y+wardDirection.offsetY, z+wardDirection.offsetZ);
 				validGreatward = true;
 			}
+		}
+		
+		if(changed == validGreatward && FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
+		{
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
 	}
 	
@@ -100,7 +129,7 @@ public abstract class TileGreatwardCore extends TileInevera
 	}
 	
 	private void revertDummyList()
-	{
+	{	
 		for(ChunkCoordinates dummyPos: piecePosList)
 		{
 			this.revertDummy(worldObj, dummyPos.posX, dummyPos.posY, dummyPos.posZ);
@@ -129,5 +158,11 @@ public abstract class TileGreatwardCore extends TileInevera
         super.writeToNBT(nbtTagCompound);
 
         nbtTagCompound.setTag(Strings.NBT_TE_GW_DUMMYLIST_KEY, NBTHelper.createChunkCoordinatesNBTTagList(piecePosList));
+    }
+    
+    @Override
+    public Packet getDescriptionPacket()
+    {
+    	return PacketTypeHandler.populatePacket(new PacketGreatwardCoreUpdate(xCoord, yCoord, zCoord, validGreatward, piecePosList));
     }
 }

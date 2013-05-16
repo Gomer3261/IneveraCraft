@@ -1,10 +1,13 @@
 package com.ggollmer.inevera.core.proxy;
 
+import java.util.List;
+
 import com.ggollmer.inevera.lib.TileNames;
 import com.ggollmer.inevera.tileentity.TileGreatwardCoreMinor;
 import com.ggollmer.inevera.tileentity.TileGreatwardPiece;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.common.network.IGuiHandler;
@@ -56,6 +59,10 @@ public class CommonProxy implements IGuiHandler
 	}
 
 	public void handleGreatwardPiecePacket(int x, int y, int z, int coreX, int coreY, int coreZ)
+	{
+	}
+
+	public void handleGreatwardCorePacket(int x, int y, int z, boolean valid, List<ChunkCoordinates> pieces)
 	{
 	}
 }

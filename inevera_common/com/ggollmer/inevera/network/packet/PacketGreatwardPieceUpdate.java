@@ -57,7 +57,7 @@ public class PacketGreatwardPieceUpdate extends PacketInevera
 	@Override
     public void execute(INetworkManager manager, Player player)
 	{
-        LogHelper.debugLog("PacketGreatwardUpdate - Execute");
+        LogHelper.debugLog("PacketGreatwardPieceUpdate - Execute");
         Inevera.proxy.handleGreatwardPiecePacket(x, y, z, coreX, coreY, coreZ);
     }
 }

@@ -1,8 +1,12 @@
 package com.ggollmer.inevera.core.proxy;
 
+import java.util.List;
+
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraftforge.common.ForgeDirection;
 
+import com.ggollmer.inevera.tileentity.TileGreatwardCore;
 import com.ggollmer.inevera.tileentity.TileGreatwardPiece;
 import com.ggollmer.inevera.tileentity.TileInevera;
 
@@ -61,6 +65,19 @@ public class ClientProxy extends CommonProxy
 		if (tileEntity != null) {
             if (tileEntity instanceof TileGreatwardPiece) {
             	((TileGreatwardPiece) tileEntity).setCorePosition(coreX, coreY, coreZ);
+            }
+		}
+	}
+	
+	@Override
+	public void handleGreatwardCorePacket(int x, int y, int z, boolean valid, List<ChunkCoordinates> pieces)
+	{
+		TileEntity tileEntity = FMLClientHandler.instance().getClient().theWorld.getBlockTileEntity(x, y, z);
+		
+		if (tileEntity != null) {
+            if (tileEntity instanceof TileGreatwardCore) {
+            	((TileGreatwardCore) tileEntity).setValidGreatward(valid);
+            	((TileGreatwardCore) tileEntity).setPiecesCoordList(pieces);
             }
 		}
 	}

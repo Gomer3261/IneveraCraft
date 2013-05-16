@@ -8,6 +8,9 @@ import com.ggollmer.inevera.lib.TileStrings;
 import com.ggollmer.inevera.network.PacketTypeHandler;
 import com.ggollmer.inevera.network.packet.PacketGreatwardPieceUpdate;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
+
 /**
  * IneveraCraft
  *
@@ -41,6 +44,10 @@ public class TileGreatwardPiece extends TileEntity
 	{
 		core = newCore;
 		
+		int oldX = coreX;
+		int oldY = coreY;
+		int oldZ = coreZ;
+		
 		if(core != null)
 		{
 			coreX = core.xCoord;
@@ -52,6 +59,11 @@ public class TileGreatwardPiece extends TileEntity
 			coreX = 0;
 			coreY = 0;
 			coreZ = 0;
+		}
+		
+		if((oldX != coreX || oldY != coreY || oldZ != coreZ) && FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
+		{
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
 	}
 	

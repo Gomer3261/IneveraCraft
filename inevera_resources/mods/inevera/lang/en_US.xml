@@ -5,10 +5,10 @@
 	<entry key="item.demonFlesh.name">Demon Flesh</entry>
 	<entry key="item.demonBone.name">Demon Bone</entry>
 	<entry key="item.basicWardingTools.name">Basic Warding Tools</entry>
-	<entry key="tile.greatwardWoodPiece.oak.name">Greatward Oak Piece</entry>
-	<entry key="tile.greatwardWoodPiece.birch.name">Greatward Birch Piece</entry>
-	<entry key="tile.greatwardWoodPiece.spruce.name">Greatward Spruce Piece</entry>
-	<entry key="tile.greatwardWoodPiece.jungle.name">Greatward Jungle Piece</entry>
+	<entry key="tile.greatwardWoodPiece.oak.name">Greatward Oak Block</entry>
+	<entry key="tile.greatwardWoodPiece.birch.name">Greatward Birch Block</entry>
+	<entry key="tile.greatwardWoodPiece.spruce.name">Greatward Spruce Block</entry>
+	<entry key="tile.greatwardWoodPiece.jungle.name">Greatward Jungle Block</entry>
 	<entry key="tile.acidVat.name">Acid Vat</entry>
 	<entry key="tile.minorWardCore.name">Minor Greatward Core</entry>
 	<entry key="tile.minorHoraCell.name">Minor Hora Cell</entry>
