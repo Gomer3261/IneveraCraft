@@ -1,8 +1,12 @@
 package com.ggollmer.inevera.tileentity;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.tileentity.TileEntity;
 
 import com.ggollmer.inevera.lib.TileStrings;
+import com.ggollmer.inevera.network.PacketTypeHandler;
+import com.ggollmer.inevera.network.packet.PacketGreatwardPieceUpdate;
 
 /**
  * IneveraCraft
@@ -13,7 +17,7 @@ import com.ggollmer.inevera.lib.TileStrings;
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  *
  */
-public class TileGreatwardPiece extends TileInevera
+public class TileGreatwardPiece extends TileEntity
 {
 	/* NBT data */
 	private int coreX;
@@ -51,11 +55,20 @@ public class TileGreatwardPiece extends TileInevera
 		}
 	}
 	
+	public void setCorePosition(int x, int y, int z)
+	{
+		coreX = x;
+		coreY = y;
+		coreZ = z;
+		
+		this.setCoreTile((TileGreatwardCore)worldObj.getBlockTileEntity(coreX, coreY, coreZ));
+	}
+	
 	public TileGreatwardCore getCoreTile()
 	{
 		if(core == null)
 		{
-			core = (TileGreatwardCore)worldObj.getBlockTileEntity(coreX, coreY, coreZ);
+			this.setCoreTile((TileGreatwardCore)worldObj.getBlockTileEntity(coreX, coreY, coreZ));
 		}
 		return core;
 	}
@@ -86,5 +99,11 @@ public class TileGreatwardPiece extends TileInevera
         nbtTagCompound.setInteger(TileStrings.NBT_TE_GW_DUMMY_CORE_X, coreX);
         nbtTagCompound.setInteger(TileStrings.NBT_TE_GW_DUMMY_CORE_Y, coreY);
         nbtTagCompound.setInteger(TileStrings.NBT_TE_GW_DUMMY_CORE_Z, coreZ);
+    }
+    
+    @Override
+    public Packet getDescriptionPacket()
+    {
+    	return PacketTypeHandler.populatePacket(new PacketGreatwardPieceUpdate(xCoord, yCoord, zCoord, coreX, coreY, coreZ));
     }
 }

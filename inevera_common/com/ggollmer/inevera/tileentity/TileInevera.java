@@ -1,8 +1,11 @@
 package com.ggollmer.inevera.tileentity;
 
 import com.ggollmer.inevera.lib.Strings;
+import com.ggollmer.inevera.network.packet.PacketTileUpdate;
+import com.ggollmer.inevera.network.PacketTypeHandler;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 
@@ -80,5 +83,11 @@ public class TileInevera extends TileEntity
         if (this.hasCustomName()) {
             nbtTagCompound.setString(Strings.NBT_TE_CUSTOM_NAME, customName);
         }
+    }
+    
+    @Override
+    public Packet getDescriptionPacket()
+    {
+        return PacketTypeHandler.populatePacket(new PacketTileUpdate(xCoord, yCoord, zCoord, orientation, customName));
     }
 }

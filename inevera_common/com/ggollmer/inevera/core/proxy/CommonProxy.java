@@ -6,6 +6,7 @@ import com.ggollmer.inevera.tileentity.TileGreatwardPiece;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -50,4 +51,11 @@ public class CommonProxy implements IGuiHandler
 		return null;
 	}
 
+	public void handleTileEntityPacket(int x, int y, int z, ForgeDirection orientation, String customName)
+	{
+	}
+
+	public void handleGreatwardPiecePacket(int x, int y, int z, int coreX, int coreY, int coreZ)
+	{
+	}
 }

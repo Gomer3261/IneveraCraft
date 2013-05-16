@@ -25,21 +25,25 @@ import net.minecraftforge.common.ForgeDirection;
  */
 public abstract class TileGreatwardCore extends TileInevera
 {
-	protected boolean validGreatward = false;
+	protected boolean validGreatward;
 	protected List<ChunkCoordinates> piecePosList;
+	protected ForgeDirection wardDirection;
 	
 	public TileGreatwardCore()
 	{
 		super();
+		validGreatward = false;
 		piecePosList = new ArrayList<ChunkCoordinates>();
+		wardDirection = null;
 	}
 	
 	public void invalidateGreatward()
 	{
 		validGreatward = false;
+		wardDirection = null;
 		
 		revertDummyList();
-		LogHelper.debugLog("Greatward Invalidated!");
+		LogHelper.debugLog(String.format("Greatward Invalidated at: x%d, y%d, z%d", xCoord, yCoord, zCoord));
 	}
 	
 	public boolean isValidGreatward()
@@ -48,6 +52,16 @@ public abstract class TileGreatwardCore extends TileInevera
 	}
 	
 	public void onNeighborChange(World world, int x, int y, int z)
+	{
+		checkValidGreatward(world, x, y, z);
+	}
+	
+	public void onBlockPlaced(World world, int x, int y, int z)
+	{
+		checkValidGreatward(world, x, y, z);
+	}
+	
+	private void checkValidGreatward(World world, int x, int y, int z)
 	{
 		if(validGreatward)
 		{
@@ -59,13 +73,14 @@ public abstract class TileGreatwardCore extends TileInevera
 		{
 			if(GreatwardPieceHelper.isValidGreatwardPiece(worldObj.getBlockId(xCoord,  yCoord+1, zCoord)))
 			{
-				convertDummy(world, x, y+1, z);
+				wardDirection = ForgeDirection.UP;
+				convertDummy(world, x+wardDirection.offsetX, y+wardDirection.offsetY, z+wardDirection.offsetZ);
 				validGreatward = true;
 			}
 		}
 	}
 	
-	public void convertDummy(World world, int x, int y, int z)
+	private void convertDummy(World world, int x, int y, int z)
 	{
 		TileGreatwardPiece pieceTE = (TileGreatwardPiece) world.getBlockTileEntity(x, y, z);
 		pieceTE.setCoreTile(this);
@@ -73,7 +88,7 @@ public abstract class TileGreatwardCore extends TileInevera
 		piecePosList.add(new ChunkCoordinates(x, y, z));
 	}
 	
-	public void revertDummy(World world, int x, int y, int z)
+	private void revertDummy(World world, int x, int y, int z)
 	{
 		if(world.getBlockId(x, y, z) != IneveraBlocks.greatwardWoodPiece.blockID)
 		{
@@ -84,7 +99,7 @@ public abstract class TileGreatwardCore extends TileInevera
 		pieceTE.setCoreTile(null);
 	}
 	
-	public void revertDummyList()
+	private void revertDummyList()
 	{
 		for(ChunkCoordinates dummyPos: piecePosList)
 		{
@@ -95,14 +110,7 @@ public abstract class TileGreatwardCore extends TileInevera
 	
 	public ForgeDirection getWardDirection()
 	{
-		return ForgeDirection.NORTH;
-	}
-	
-	@Override
-	public void invalidate()
-	{
-		invalidateGreatward();
-		super.invalidate();
+		return wardDirection;
 	}
 	
 	@Override

@@ -1,18 +1,14 @@
 package com.ggollmer.inevera.block;
 
 import java.util.List;
-import java.util.Random;
 
 import com.ggollmer.inevera.Inevera;
-import com.ggollmer.inevera.client.particle.GreatwardDummyDamageFX;
-import com.ggollmer.inevera.lib.BlockNames;
 import com.ggollmer.inevera.lib.Reference;
 import com.ggollmer.inevera.tileentity.TileGreatwardPiece;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -24,12 +20,9 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
-public class BlockGreatwardPiece extends BlockContainer
+public class BlockGreatwardPiece extends BlockGreatwardComponent
 {
-
-	private Random rand;
 	private String[] subNames;
-	private Icon[] iconFXArray;
 	private Icon[] iconArray;
 
 	/**
@@ -40,7 +33,6 @@ public class BlockGreatwardPiece extends BlockContainer
 		super(id, material);
 		this.setUnlocalizedName(name);
 		this.setCreativeTab(Inevera.tabsInevera);
-		this.rand = new Random();
 		this.subNames = subNames;
 	}
 	
@@ -55,23 +47,13 @@ public class BlockGreatwardPiece extends BlockContainer
 			this.iconArray[i] = iconRegister.registerIcon(Reference.MOD_ID.toLowerCase() + ":" + this.getUnlocalizedName2() + "_" + subNames[i]);
 		}
 		
-		this.iconFXArray = new Icon[5];
-
-        for (int i = 0; i < this.iconFXArray.length; i++)
-        {        	
-            this.iconFXArray[i] = iconRegister.registerIcon(Reference.MOD_ID.toLowerCase() + ":" + BlockNames.GREATWARD_COMPONENT_FX_NAME + "_" + i);
-        }
+		super.registerIcons(iconRegister);
 	}
 	
 	@Override
 	public Icon getIcon(int side, int metadata)
 	{
 		return iconArray[metadata];
-	}
-	
-	public Icon getEffectIcon(int par15, int par16)
-	{
-		return iconFXArray[rand.nextInt(5)];
 	}
 	
 	@Override
@@ -107,7 +89,7 @@ public class BlockGreatwardPiece extends BlockContainer
 			dummy.getCoreTile().invalidateGreatward();
 		}
 		
-		world.removeBlockTileEntity(x, y, z);
+		super.breakBlock(world, x, y, z, par5, par6);
 	}
 	
 	@Override
@@ -122,7 +104,7 @@ public class BlockGreatwardPiece extends BlockContainer
 				ForgeDirection gwDir = dummy.getCoreTile().getWardDirection();
 				if(world.getBlockId(x+gwDir.offsetX, y+gwDir.offsetY, z+gwDir.offsetZ) != 0)
 				{
-					dummy.invalidate();
+					dummy.getCoreTile().invalidateGreatward();
 				}
 			}
 		}
@@ -132,45 +114,10 @@ public class BlockGreatwardPiece extends BlockContainer
 	@SideOnly(Side.CLIENT)
     public boolean addBlockHitEffects(World worldObj, MovingObjectPosition target, EffectRenderer effectRenderer)
     {
-		if(rand.nextFloat() > 0.78)
-        {
-	        float f = 0.1F;
-	        double d0 = target.hitVec.xCoord + (this.rand.nextDouble() - 0.5D)*1.4D;
-	        double d1 = target.hitVec.yCoord + (this.rand.nextDouble() - 0.5D)*1.4D;
-	        double d2 = target.hitVec.zCoord + (this.rand.nextDouble() - 0.5D)*1.4D;
-	
-	        if (target.sideHit == 0)
-	        {
-	            d1 = target.hitVec.yCoord - (double)f;
-	        }
-	
-	        if (target.sideHit == 1)
-	        {
-	            d1 = target.hitVec.yCoord + (double)f;
-	        }
-	
-	        if (target.sideHit == 2)
-	        {
-	            d2 = target.hitVec.zCoord - (double)f;
-	        }
-	
-	        if (target.sideHit == 3)
-	        {
-	            d2 = target.hitVec.zCoord + (double)f;
-	        }
-	
-	        if (target.sideHit == 4)
-	        {
-	            d0 = target.hitVec.xCoord - (double)f;
-	        }
-	
-	        if (target.sideHit == 5)
-	        {
-	            d0 = target.hitVec.xCoord + (double)f;
-	        }
-
-        	effectRenderer.addEffect((new GreatwardDummyDamageFX(worldObj, d0, d1, d2, 0.0D, 0.0D, 0.0D, this, target.sideHit, worldObj.getBlockMetadata(target.blockX, target.blockY, target.blockZ), null)).func_70596_a(target.blockX, target.blockY, target.blockZ).multiplyVelocity(0.1F).multipleParticleScaleBy(1.8F));
-        }
+		if(((TileGreatwardPiece)worldObj.getBlockTileEntity(target.blockX, target.blockY, target.blockZ)).getCoreTile() != null)
+		{
+			super.addBlockHitEffects(worldObj, target, effectRenderer);
+		}
         
         return false;
     }
@@ -179,25 +126,10 @@ public class BlockGreatwardPiece extends BlockContainer
 	@SideOnly(Side.CLIENT)
     public boolean addBlockDestroyEffects(World world, int x, int y, int z, int meta, EffectRenderer effectRenderer)
     {	
-		byte b0 = 4;
-
-        for (int j1 = 0; j1 < b0; ++j1)
-        {
-            for (int k1 = 0; k1 < b0; ++k1)
-            {
-                for (int l1 = 0; l1 < b0; ++l1)
-                {
-                	if(rand.nextFloat() > 0.86F)
-                	{
-	                    double d0 = (double)x + ((double)j1 + 0.5D) / (double)b0;
-	                    double d1 = (double)y + ((double)k1 + 0.5D) / (double)b0;
-	                    double d2 = (double)z + ((double)l1 + 0.5D) / (double)b0;
-	                    int i2 = this.rand.nextInt(6);
-	                    effectRenderer.addEffect((new GreatwardDummyDamageFX(world, d0, d1, d2, d0 - (double)x - 0.5D, d1 - (double)y - 0.5D, d2 - (double)z - 0.5D, this, i2, meta, null)).func_70596_a(x, y, z).multiplyVelocity(0.75F).multipleParticleScaleBy(3.0F));
-                	}
-                }
-            }
-        }
+		if(((TileGreatwardPiece)world.getBlockTileEntity(x, y, z)).getCoreTile() != null)
+		{
+			super.addBlockDestroyEffects(world, x, y, z, meta, effectRenderer);
+		}
         
         return false;
     }

@@ -1,5 +1,13 @@
 package com.ggollmer.inevera.core.proxy;
 
+import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.ForgeDirection;
+
+import com.ggollmer.inevera.tileentity.TileGreatwardPiece;
+import com.ggollmer.inevera.tileentity.TileInevera;
+
+import cpw.mods.fml.client.FMLClientHandler;
+
 /**
  * IneveraCraft
  *
@@ -30,5 +38,30 @@ public class ClientProxy extends CommonProxy
 		super.registerTileEntities();
 		
 		// TODO Associate custom renderers with tile entities
+	}
+	
+	@Override
+    public void handleTileEntityPacket(int x, int y, int z, ForgeDirection orientation, String customName) {
+
+        TileEntity tileEntity = FMLClientHandler.instance().getClient().theWorld.getBlockTileEntity(x, y, z);
+
+        if (tileEntity != null) {
+            if (tileEntity instanceof TileInevera) {
+                ((TileInevera) tileEntity).setOrientation(orientation);
+                ((TileInevera) tileEntity).setCustomName(customName);
+            }
+        }
+    }
+	
+	@Override
+	public void handleGreatwardPiecePacket(int x, int y, int z, int coreX, int coreY, int coreZ)
+	{
+		TileEntity tileEntity = FMLClientHandler.instance().getClient().theWorld.getBlockTileEntity(x, y, z);
+		
+		if (tileEntity != null) {
+            if (tileEntity instanceof TileGreatwardPiece) {
+            	((TileGreatwardPiece) tileEntity).setCorePosition(coreX, coreY, coreZ);
+            }
+		}
 	}
 }
