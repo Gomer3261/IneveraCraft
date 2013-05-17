@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.ggollmer.inevera.block.BlockGreatwardComponent;
 import com.ggollmer.inevera.block.IneveraBlocks;
-import com.ggollmer.inevera.core.helper.LogHelper;
 import com.ggollmer.inevera.core.helper.NBTHelper;
 import com.ggollmer.inevera.greatward.GreatwardPieceHelper;
 import com.ggollmer.inevera.lib.Strings;
@@ -42,14 +41,14 @@ public class TileGreatwardCore extends TileEntity
 		super();
 		validGreatward = false;
 		piecePosList = new ArrayList<ChunkCoordinates>();
-		wardDirection = null;
+		wardDirection = ForgeDirection.UNKNOWN;
 	}
 	
 	public void invalidateGreatward()
 	{
 		boolean changed = validGreatward;
 		setValidGreatward(false);
-		wardDirection = null;
+		wardDirection = ForgeDirection.UNKNOWN;
 		
 		revertDummyList();
 		
@@ -57,12 +56,6 @@ public class TileGreatwardCore extends TileEntity
 		{
 			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
-		LogHelper.debugLog(String.format("Greatward Invalidated at: x%d, y%d, z%d", xCoord, yCoord, zCoord));
-	}
-	
-	public boolean isValidGreatward()
-	{
-		return validGreatward;
 	}
 	
 	public void setValidGreatward(boolean valid)
@@ -81,9 +74,24 @@ public class TileGreatwardCore extends TileEntity
 		}
 	}
 	
+	public boolean isValidGreatward()
+	{
+		return validGreatward;
+	}
+	
 	public void setPiecesCoordList(List<ChunkCoordinates> pieces)
 	{
 		piecePosList = pieces;
+	}
+	
+	public ForgeDirection getWardDirection()
+	{
+		return wardDirection;
+	}
+	
+	public void setWardDirection(ForgeDirection direction)
+	{
+		wardDirection = direction;
 	}
 	
 	public void onNeighborChange(World world, int x, int y, int z)
@@ -149,11 +157,6 @@ public class TileGreatwardCore extends TileEntity
 		piecePosList.clear();
 	}
 	
-	public ForgeDirection getWardDirection()
-	{
-		return wardDirection;
-	}
-	
 	@Override
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
 
@@ -170,6 +173,8 @@ public class TileGreatwardCore extends TileEntity
             	this.setValidGreatward(true);
             }
         }
+        
+        this.wardDirection = ForgeDirection.getOrientation(nbtTagCompound.getByte(Strings.NBT_TE_WARDIDRECTION_KEY));
     }
 
     @Override
@@ -178,11 +183,12 @@ public class TileGreatwardCore extends TileEntity
         super.writeToNBT(nbtTagCompound);
 
         nbtTagCompound.setTag(Strings.NBT_TE_GW_DUMMYLIST_KEY, NBTHelper.createChunkCoordinatesNBTTagList(piecePosList));
+        nbtTagCompound.setByte(Strings.NBT_TE_WARDIDRECTION_KEY, (byte)this.wardDirection.ordinal());
     }
     
     @Override
     public Packet getDescriptionPacket()
     {
-    	return PacketTypeHandler.populatePacket(new PacketGreatwardCoreUpdate(xCoord, yCoord, zCoord, validGreatward, piecePosList));
+    	return PacketTypeHandler.populatePacket(new PacketGreatwardCoreUpdate(xCoord, yCoord, zCoord, validGreatward, (byte)wardDirection.ordinal(), piecePosList));
     }
 }

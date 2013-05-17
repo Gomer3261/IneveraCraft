@@ -28,6 +28,7 @@ public class PacketGreatwardCoreUpdate extends PacketInevera
 {
 	public int x, y, z;
 	public boolean valid;
+	public byte direction;
 	public List<ChunkCoordinates> pieces;
 	
 	public PacketGreatwardCoreUpdate()
@@ -35,13 +36,14 @@ public class PacketGreatwardCoreUpdate extends PacketInevera
 		super(PacketTypeHandler.GWCORE, true);
 	}
 	
-	public PacketGreatwardCoreUpdate(int x, int y, int z, boolean valid, List<ChunkCoordinates> pieces)
+	public PacketGreatwardCoreUpdate(int x, int y, int z, boolean valid, byte direction, List<ChunkCoordinates> pieces)
 	{
         super(PacketTypeHandler.GWCORE, true);
         this.x = x;
         this.y = y;
         this.z = z;
         this.valid = valid;
+        this.direction = direction;
         this.pieces = pieces;
     }
 	
@@ -52,6 +54,7 @@ public class PacketGreatwardCoreUpdate extends PacketInevera
         data.writeInt(y);
         data.writeInt(z);
         data.writeBoolean(valid);
+        data.writeByte(direction);
         if(valid == true)
         {
         	data.writeInt(pieces.size());
@@ -71,6 +74,7 @@ public class PacketGreatwardCoreUpdate extends PacketInevera
         y = data.readInt();
         z = data.readInt();
         valid = data.readBoolean();
+        direction = data.readByte();
         pieces = null;
         if(valid == true)
         {
@@ -92,6 +96,6 @@ public class PacketGreatwardCoreUpdate extends PacketInevera
     public void execute(INetworkManager manager, Player player)
 	{
         LogHelper.debugLog("PacketGreatwardCoreUpdate - Execute");
-        Inevera.proxy.handleGreatwardCorePacket(x, y, z, valid, pieces);
+        Inevera.proxy.handleGreatwardCorePacket(x, y, z, valid, direction, pieces);
     }
 }
