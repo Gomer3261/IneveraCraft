@@ -51,38 +51,38 @@ public class GreatwardManager
 	 * @param world The world the ward will exist in.
 	 * @return null if no valid ward is found.
 	 */
-	public static Greatward generateGreatward(int px, int py, int pz, int id, String wardType, ForgeDirection dir, World world)
+	public static Greatward generateGreatward(World world, int px, int py, int pz, int id, String wardType, ForgeDirection dir)
 	{
 		GreatwardTarget target = null;
 		for(GreatwardTarget t : targetList)
 		{
-			if(t.findPattern(px, py, pz, dir, world))
+			/*if(t.findPattern(px, py, pz, dir, world))
 			{
 				target = t;
 				break;
-			}
+			}*/
 		}
 		if(target == null) return null;
 		
 		GreatwardAttribute attribute = null;
 		for(GreatwardAttribute a: attributeList)
 		{
-			if(a.findPattern(px, py, pz, dir, world))
+			/*if(a.findPattern(px, py, pz, dir, world))
 			{
 				attribute = a;
 				break;
-			}
+			}*/
 		}
 		if(attribute == null) return null;
 		
 		GreatwardEffect effect = null;
 		for(GreatwardEffect e: effectList)
 		{
-			if(e.findPattern(px, py, px, dir, world))
+			/*if(e.findPattern(px, py, px, dir, world))
 			{
 				effect = e;
 				break;
-			}
+			}*/
 		}
 		if(effect == null) return null;
 		

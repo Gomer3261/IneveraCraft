@@ -4,9 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.logging.Level;
 
-import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
-
 import com.ggollmer.inevera.core.helper.LogHelper;
 
 /**
@@ -62,12 +59,5 @@ public abstract class GreatwardComponent
 		}
 		
 		return new GreatwardMap(dimx, dimy, charMap);
-	}
-	
-	public boolean findPattern(int px, int py, int pz, ForgeDirection dir, World world)
-	{
-		
-		
-		return false;
 	}
 }
