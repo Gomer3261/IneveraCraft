@@ -53,13 +53,13 @@ public class BlockGreatwardPiece extends BlockGreatwardComponent
 	@Override
 	public Icon getIcon(int side, int metadata)
 	{
-		return iconArray[metadata];
+		return iconArray[metadata & (~BlockGreatwardComponent.ACTIVE_BIT)];
 	}
 	
 	@Override
 	public int damageDropped(int metadata)
 	{
-		return metadata;
+		return metadata & (~BlockGreatwardComponent.ACTIVE_BIT);
 	}
 	
 	@Override

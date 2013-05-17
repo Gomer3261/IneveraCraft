@@ -6,11 +6,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraftforge.common.ForgeDirection;
 
+import com.ggollmer.inevera.client.renderer.TileGreatwardCoreRenderer;
+import com.ggollmer.inevera.lib.RenderIds;
 import com.ggollmer.inevera.tileentity.TileGreatwardCore;
 import com.ggollmer.inevera.tileentity.TileGreatwardPiece;
 import com.ggollmer.inevera.tileentity.TileInevera;
 
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 
 /**
  * IneveraCraft
@@ -23,6 +26,8 @@ import cpw.mods.fml.client.FMLClientHandler;
  */
 public class ClientProxy extends CommonProxy
 {
+	public static int renderPass;
+	
 	@Override
     public void registerSoundHandler()
 	{
@@ -33,7 +38,11 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void initRenderingAndTextures()
 	{
-		// TODO Fill in with custom renderers
+		RenderIds.greatwardCoreRenderer = RenderingRegistry.getNextAvailableRenderId();
+		
+		RenderingRegistry.registerBlockHandler(new TileGreatwardCoreRenderer());
+		
+		//MinecraftForgeClient.registerItemRenderer(BlockIds.MINOR_WARD_CORE, renderer)
 	}
 	
 	@Override
@@ -41,7 +50,7 @@ public class ClientProxy extends CommonProxy
 	{
 		super.registerTileEntities();
 		
-		// TODO Associate custom renderers with tile entities
+		//ClientRegistry.bindTileEntitySpecialRenderer(TileGreatwardCoreMinor.class, new TileGreatwardCoreRenderer());
 	}
 	
 	@Override

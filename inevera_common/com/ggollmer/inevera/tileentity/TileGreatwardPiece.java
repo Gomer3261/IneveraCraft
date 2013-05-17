@@ -4,6 +4,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 
+import com.ggollmer.inevera.block.BlockGreatwardComponent;
 import com.ggollmer.inevera.lib.TileStrings;
 import com.ggollmer.inevera.network.PacketTypeHandler;
 import com.ggollmer.inevera.network.packet.PacketGreatwardPieceUpdate;
@@ -50,12 +51,14 @@ public class TileGreatwardPiece extends TileEntity
 		
 		if(core != null)
 		{
+			if(worldObj != null) worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) | BlockGreatwardComponent.ACTIVE_BIT), 2);
 			coreX = core.xCoord;
 			coreY = core.yCoord;
 			coreZ = core.zCoord;
 		}
 		else
 		{
+			if(worldObj != null) worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) & (~BlockGreatwardComponent.ACTIVE_BIT)), 2);
 			coreX = 0;
 			coreY = 0;
 			coreZ = 0;

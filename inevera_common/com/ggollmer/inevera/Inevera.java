@@ -102,6 +102,9 @@ public class Inevera
 		/* Instantiate IneveraCraft's Tile Entities */
         proxy.registerTileEntities();
         
+        /* Instantiate IneveraCraft's Custom Renderers */
+        proxy.initRenderingAndTextures();
+        
         /* Instantiate IneveraCraft's Recipes */
         IneveraRecipes.init();
 	}

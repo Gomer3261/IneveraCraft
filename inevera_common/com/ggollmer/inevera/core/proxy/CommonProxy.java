@@ -3,7 +3,7 @@ package com.ggollmer.inevera.core.proxy;
 import java.util.List;
 
 import com.ggollmer.inevera.lib.TileNames;
-import com.ggollmer.inevera.tileentity.TileGreatwardCoreMinor;
+import com.ggollmer.inevera.tileentity.TileGreatwardCore;
 import com.ggollmer.inevera.tileentity.TileGreatwardPiece;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,7 +35,7 @@ public class CommonProxy implements IGuiHandler
     public void registerTileEntities()
     {
     	GameRegistry.registerTileEntity(TileGreatwardPiece.class, TileNames.TE_GREATWARD_PIECE_NAME);
-        GameRegistry.registerTileEntity(TileGreatwardCoreMinor.class, TileNames.TE_GREATWARD_CORE_MINOR_NAME);
+        GameRegistry.registerTileEntity(TileGreatwardCore.class, TileNames.TE_GREATWARD_CORE_MINOR_NAME);
     }
 	
 	@Override

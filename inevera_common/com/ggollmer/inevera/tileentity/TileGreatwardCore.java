@@ -3,6 +3,7 @@ package com.ggollmer.inevera.tileentity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ggollmer.inevera.block.BlockGreatwardComponent;
 import com.ggollmer.inevera.block.IneveraBlocks;
 import com.ggollmer.inevera.core.helper.LogHelper;
 import com.ggollmer.inevera.core.helper.NBTHelper;
@@ -30,7 +31,7 @@ import net.minecraftforge.common.ForgeDirection;
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  *
  */
-public abstract class TileGreatwardCore extends TileEntity
+public class TileGreatwardCore extends TileEntity
 {
 	protected boolean validGreatward;
 	protected List<ChunkCoordinates> piecePosList;
@@ -47,7 +48,7 @@ public abstract class TileGreatwardCore extends TileEntity
 	public void invalidateGreatward()
 	{
 		boolean changed = validGreatward;
-		validGreatward = false;
+		setValidGreatward(false);
 		wardDirection = null;
 		
 		revertDummyList();
@@ -67,6 +68,17 @@ public abstract class TileGreatwardCore extends TileEntity
 	public void setValidGreatward(boolean valid)
 	{
 		validGreatward = valid;
+		if(worldObj != null)
+		{
+			if(valid)
+			{
+				worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) | BlockGreatwardComponent.ACTIVE_BIT), 2);
+			}
+			else
+			{
+				worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) & (~BlockGreatwardComponent.ACTIVE_BIT)), 2);
+			}
+		}
 	}
 	
 	public void setPiecesCoordList(List<ChunkCoordinates> pieces)
@@ -95,11 +107,11 @@ public abstract class TileGreatwardCore extends TileEntity
 		// TODO: this is temporary code to make sure that the dummy actually works.
 		if(worldObj.getBlockId(x,y+1, z) != 0)
 		{
-			if(GreatwardPieceHelper.isValidGreatwardPiece(worldObj.getBlockId(xCoord,  yCoord+1, zCoord)))
+			if(GreatwardPieceHelper.isValidGreatwardPiece(worldObj.getBlockId(x,  y+1, z)) && ((TileGreatwardPiece)worldObj.getBlockTileEntity(x, y+1, z)).getCoreTile() == null)
 			{
 				wardDirection = ForgeDirection.UP;
 				convertDummy(world, x+wardDirection.offsetX, y+wardDirection.offsetY, z+wardDirection.offsetZ);
-				validGreatward = true;
+				setValidGreatward(true);
 			}
 		}
 		
@@ -149,6 +161,14 @@ public abstract class TileGreatwardCore extends TileEntity
 
         if (nbtTagCompound.hasKey(Strings.NBT_TE_GW_DUMMYLIST_KEY)) {
             piecePosList = NBTHelper.getChunkCoordinatesListFromNBTTagList(nbtTagCompound.getTagList(Strings.NBT_TE_GW_DUMMYLIST_KEY));
+            if(piecePosList.isEmpty())
+            {
+            	this.setValidGreatward(false);
+            }
+            else
+            {
+            	this.setValidGreatward(true);
+            }
         }
     }
 

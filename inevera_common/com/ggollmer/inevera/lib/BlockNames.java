@@ -24,4 +24,6 @@ public class BlockNames
 	
 	/* Effect Names */
 	public static String GREATWARD_COMPONENT_FX_NAME = "greatwardComponentFX";
+	public static String GREATWARD_COMPONENT_ACTIVE_NAME = "greatwardComponentActive";
+	public static String GREATWARD_COMPONENT_INACTIVE_NAME = "greatwardComponentInactive";
 }

@@ -3,8 +3,10 @@ package com.ggollmer.inevera.block;
 import java.util.Random;
 
 import com.ggollmer.inevera.client.particle.GreatwardDummyDamageFX;
+import com.ggollmer.inevera.core.proxy.ClientProxy;
 import com.ggollmer.inevera.lib.BlockNames;
 import com.ggollmer.inevera.lib.Reference;
+import com.ggollmer.inevera.lib.RenderIds;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -18,7 +20,11 @@ import net.minecraft.world.World;
 
 public abstract class BlockGreatwardComponent extends BlockInevera
 {
+	public static final int ACTIVE_BIT = 1<<3;
+	
 	protected Icon[] iconFXArray;
+	protected Icon iconCoreActive;
+	protected Icon iconCoreInactive;
 	protected Random rand;
 	
 	protected BlockGreatwardComponent(int id, Material material)
@@ -37,11 +43,57 @@ public abstract class BlockGreatwardComponent extends BlockInevera
 	    {        	
 	        this.iconFXArray[i] = iconRegister.registerIcon(Reference.MOD_ID.toLowerCase() + ":" + BlockNames.GREATWARD_COMPONENT_FX_NAME + "_" + i);
 	    }
+	    
+	    iconCoreActive = iconRegister.registerIcon(Reference.MOD_ID.toLowerCase() + ":" + BlockNames.GREATWARD_COMPONENT_ACTIVE_NAME);
+	    iconCoreInactive = iconRegister.registerIcon(Reference.MOD_ID.toLowerCase() + ":" + BlockNames.GREATWARD_COMPONENT_INACTIVE_NAME);
 	}
 	
 	public Icon getEffectIcon(int par15, int par16)
 	{
 		return iconFXArray[rand.nextInt(5)];
+	}
+	
+	public Icon getCoreIcon(int metadata)
+	{
+		if((metadata & ACTIVE_BIT) != 0)
+		{
+			return iconCoreActive;
+		}
+		else
+		{
+			return iconCoreInactive;
+		}
+	}
+	
+	@Override
+	public boolean renderAsNormalBlock()
+	{
+		return false;
+	}
+	
+	@Override
+	public int getRenderType()
+	{
+		return RenderIds.greatwardCoreRenderer;
+	}
+	
+	@Override
+	public boolean isOpaqueCube()
+	{
+		return true;
+	}
+	
+	@Override
+	public int getRenderBlockPass()
+	{
+		return 1;
+	}
+	
+	@Override
+	public boolean canRenderInPass(int pass)
+	{
+		ClientProxy.renderPass = pass;
+		return true;
 	}
 	
 	@Override

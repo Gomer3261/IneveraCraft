@@ -4,7 +4,6 @@ import com.ggollmer.inevera.Inevera;
 import com.ggollmer.inevera.lib.BlockNames;
 import com.ggollmer.inevera.lib.Reference;
 import com.ggollmer.inevera.tileentity.TileGreatwardCore;
-import com.ggollmer.inevera.tileentity.TileGreatwardCoreMinor;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -43,7 +42,7 @@ public class BlockMinorGreatwardCore extends BlockGreatwardComponent
 	@Override
 	public TileEntity createNewTileEntity(World world)
 	{
-		return new TileGreatwardCoreMinor();
+		return new TileGreatwardCore();
 	}
 	
 	@Override
@@ -58,7 +57,7 @@ public class BlockMinorGreatwardCore extends BlockGreatwardComponent
 	@Override
 	public void breakBlock(World world, int x, int y, int z, int par5, int par6)
 	{
-		TileGreatwardCoreMinor tile = (TileGreatwardCoreMinor) world.getBlockTileEntity(x, y, z);
+		TileGreatwardCore tile = (TileGreatwardCore) world.getBlockTileEntity(x, y, z);
 		tile.invalidateGreatward();
 		
 		super.breakBlock(world, x, y, z, par5, par6);
@@ -67,7 +66,7 @@ public class BlockMinorGreatwardCore extends BlockGreatwardComponent
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, int id)
 	{
-		TileGreatwardCoreMinor tile = (TileGreatwardCoreMinor) world.getBlockTileEntity(x, y, z);
+		TileGreatwardCore tile = (TileGreatwardCore) world.getBlockTileEntity(x, y, z);
 		tile.onNeighborChange(world, x, y, z);
 		
 		super.onNeighborBlockChange(world, x, y, z, id);
@@ -76,7 +75,7 @@ public class BlockMinorGreatwardCore extends BlockGreatwardComponent
 	@Override
 	public void onPostBlockPlaced(World world, int x, int y, int z, int par5)
 	{
-		TileGreatwardCoreMinor tile = (TileGreatwardCoreMinor) world.getBlockTileEntity(x, y, z);
+		TileGreatwardCore tile = (TileGreatwardCore) world.getBlockTileEntity(x, y, z);
 		tile.onBlockPlaced(world, x, y, z);
 		
 		super.onPostBlockPlaced(world, x, y, z, par5);
