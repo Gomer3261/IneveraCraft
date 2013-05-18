@@ -5,6 +5,7 @@ import java.util.List;
 import com.ggollmer.inevera.greatward.GreatwardComponent;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
@@ -30,8 +31,8 @@ public abstract class GreatwardTarget extends GreatwardComponent
 		super(dimx, dimy, patternPath);
 	}
 	
-	public ForgeDirection findPatternAndDirection(World world, int px, int py, int pz, ForgeDirection dir, int id)
-	{		
+	public ForgeDirection findPatternAndDirection(World world, int px, int py, int pz, ForgeDirection dir, int id, int meta, List<ChunkCoordinates> greatwardBlocks)
+	{
 		for(ForgeDirection ex : ForgeDirection.VALID_DIRECTIONS)
 		{
 			if(ex != dir && ex != dir.getOpposite())
@@ -40,6 +41,10 @@ public abstract class GreatwardTarget extends GreatwardComponent
 				int sx = px + ex.offsetX + ey.offsetX;
 				int sy = px + ex.offsetY + ey.offsetY;
 				int sz = px + ex.offsetZ + ey.offsetZ;
+				if(areaMatchesPattern(world, id, meta, sx, sy, sz, ex, ey, dir, greatwardBlocks, true))
+				{
+					return ex;
+				}
 			}
 		}
 		

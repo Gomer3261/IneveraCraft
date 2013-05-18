@@ -2,8 +2,15 @@ package com.ggollmer.inevera.greatward;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
+import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
+
+import com.ggollmer.inevera.block.BlockGreatwardComponent;
 import com.ggollmer.inevera.core.helper.LogHelper;
 
 /**
@@ -24,6 +31,13 @@ public abstract class GreatwardComponent
 		pattern = this.loadGreatwardMap(dimx, dimy, patternPath);
 	}
 	
+	/**
+	 * Loads a greatward map from a file.
+	 * @param dimx The number of columns in the map.
+	 * @param dimy The number of rows in the map.
+	 * @param path The path to the map.
+	 * @return A greatward map object holding the data from the specified text file.
+	 */
 	protected GreatwardMap loadGreatwardMap(int dimx, int dimy, String path)
 	{		
 		char[][] charMap = new char[dimx][dimy];
@@ -59,5 +73,72 @@ public abstract class GreatwardComponent
 		}
 		
 		return new GreatwardMap(dimx, dimy, charMap);
+	}
+	
+	/**
+	 * Used to check if the world matches the components loaded GreatwardMap.
+	 * @param world The world object to work with.
+	 * @param posId The id that positive tiles should look for.
+	 * @param posMeta The metadata that positive tiles should look for.
+	 * @param sx The x position in starting point of the check (Top left corner of the patter)
+	 * @param sy The y position in starting point of the check (Top left corner of the patter)
+	 * @param sz The z position in starting point of the check (Top left corner of the patter)
+	 * @param ex The direction to move in the world when we move right 1 column in the map.
+	 * @param ey The direction to move in the world when we move down 1 column in the map.
+	 * @param ez The direction to 
+	 * @param metaMatters
+	 * @return
+	 */
+	protected boolean areaMatchesPattern(World world, int posId, int posMeta, int sx, int sy, int sz, ForgeDirection ex, ForgeDirection ey, ForgeDirection ez, List<ChunkCoordinates> greatwardBlocks, boolean metaMatters)
+	{
+		List<ChunkCoordinates> newCoords = new ArrayList<ChunkCoordinates>();
+		ChunkCoordinates coord;
+		
+		for(int i=0; i<pattern.getWidth(); i++)
+		{
+			for(int j=0; j<pattern.getHeight(); j++)
+			{
+				/* Empty tiles can be anything as far as we are concerned */
+				if(pattern.getValue(i, j) != GreatwardMap.GW_EMPTY_TILE)
+				{
+					coord = new ChunkCoordinates(sx + i*ex.offsetX + j*ey.offsetX,
+							sy + i*ex.offsetY + j*ey.offsetY,
+							sz + i*ex.offsetZ + j*ey.offsetZ);
+					int id = world.getBlockId(coord.posX, coord.posY, coord.posZ);	
+					int meta = world.getBlockMetadata(coord.posX, coord.posY, coord.posZ);
+					
+					/* Active ward components break the ward calculation. */
+					if(id == posId && (meta & BlockGreatwardComponent.ACTIVE_BIT) != 0)
+					{
+						return false;
+					}
+					
+					/* Do we match the pattern? */
+					if(pattern.getValue(i, j) == GreatwardMap.GW_POSITIVE_TILE)
+					{
+						if((posId != id 
+								|| (posMeta != meta && metaMatters))
+								|| !GreatwardHelper.isClearBlock(world.getBlockId(
+										coord.posX + ez.offsetX,
+										coord.posY + ez.offsetY,
+										coord.posZ + ez.offsetZ)))
+						{
+							return false;
+						}
+						else
+						{
+							newCoords.add(coord);
+						}
+					}
+					
+					if (pattern.getValue(i, j) == GreatwardMap.GW_NEGATIVE_TILE && (posId == id && (posMeta == meta || !metaMatters)))
+					{
+						return false;
+					}
+				}
+			}
+		}
+		greatwardBlocks.addAll(newCoords);
+		return true;
 	}
 }

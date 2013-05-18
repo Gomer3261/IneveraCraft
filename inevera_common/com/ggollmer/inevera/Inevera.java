@@ -11,7 +11,7 @@ import com.ggollmer.inevera.core.helper.LogHelper;
 import com.ggollmer.inevera.core.proxy.CommonProxy;
 import com.ggollmer.inevera.creativetab.CreativeTabInevera;
 import com.ggollmer.inevera.greatward.GreatwardManager;
-import com.ggollmer.inevera.greatward.GreatwardPieceHelper;
+import com.ggollmer.inevera.greatward.GreatwardHelper;
 import com.ggollmer.inevera.item.IneveraItems;
 import com.ggollmer.inevera.item.crafting.IneveraRecipes;
 import com.ggollmer.inevera.lib.Reference;
@@ -82,8 +82,8 @@ public class Inevera
 		/* Instantiate IneveraCraft's Items */
 		IneveraItems.init();
 		
-		/* Instantiate IneveraCraft's Greatward Dummy Helper */
-		GreatwardPieceHelper.init();
+		/* Instantiate IneveraCraft's Greatward Helper */
+		GreatwardHelper.init();
 		
 		/* Instantiate IneveraCraft's Greatward Manager */
 		GreatwardManager.init();

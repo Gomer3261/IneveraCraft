@@ -6,7 +6,9 @@ import java.util.List;
 import com.ggollmer.inevera.block.BlockGreatwardComponent;
 import com.ggollmer.inevera.block.IneveraBlocks;
 import com.ggollmer.inevera.core.helper.NBTHelper;
-import com.ggollmer.inevera.greatward.GreatwardPieceHelper;
+import com.ggollmer.inevera.greatward.Greatward;
+import com.ggollmer.inevera.greatward.GreatwardHelper;
+import com.ggollmer.inevera.greatward.GreatwardManager;
 import com.ggollmer.inevera.lib.Strings;
 import com.ggollmer.inevera.network.PacketTypeHandler;
 import com.ggollmer.inevera.network.packet.PacketGreatwardCoreUpdate;
@@ -35,6 +37,7 @@ public class TileGreatwardCore extends TileEntity
 	protected boolean validGreatward;
 	protected List<ChunkCoordinates> piecePosList;
 	protected ForgeDirection wardDirection;
+	protected Greatward greatward;
 	
 	public TileGreatwardCore()
 	{
@@ -42,6 +45,7 @@ public class TileGreatwardCore extends TileEntity
 		validGreatward = false;
 		piecePosList = new ArrayList<ChunkCoordinates>();
 		wardDirection = ForgeDirection.UNKNOWN;
+		greatward = null;
 	}
 	
 	public void invalidateGreatward()
@@ -69,6 +73,7 @@ public class TileGreatwardCore extends TileEntity
 			}
 			else
 			{
+				greatward = null;
 				worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) & (~BlockGreatwardComponent.ACTIVE_BIT)), 2);
 			}
 		}
@@ -115,11 +120,16 @@ public class TileGreatwardCore extends TileEntity
 		// TODO: this is temporary code to make sure that the dummy actually works.
 		if(worldObj.getBlockId(x,y+1, z) != 0)
 		{
-			if(GreatwardPieceHelper.isValidGreatwardPiece(worldObj.getBlockId(x,  y+1, z)) && ((TileGreatwardPiece)worldObj.getBlockTileEntity(x, y+1, z)).getCoreTile() == null)
+			if(GreatwardHelper.isValidGreatwardPiece(worldObj.getBlockId(x,  y+1, z)) && ((TileGreatwardPiece)worldObj.getBlockTileEntity(x, y+1, z)).getCoreTile() == null)
 			{
 				wardDirection = ForgeDirection.UP;
-				convertDummy(world, x+wardDirection.offsetX, y+wardDirection.offsetY, z+wardDirection.offsetZ);
-				setValidGreatward(true);
+				greatward = GreatwardManager.generateGreatward(world, x, y+1, z, worldObj.getBlockId(x,y+1, z), worldObj.getBlockMetadata(x,y+1, z), "", wardDirection);
+				
+				if(greatward != null)
+				{
+					convertDummyList(world, greatward.getGreatwardBlocks());
+					setValidGreatward(true);
+				}
 			}
 		}
 		
@@ -146,6 +156,14 @@ public class TileGreatwardCore extends TileEntity
 		
 		TileGreatwardPiece pieceTE = (TileGreatwardPiece) world.getBlockTileEntity(x, y, z);
 		pieceTE.setCoreTile(null);
+	}
+	
+	private void convertDummyList(World world, List<ChunkCoordinates> coords)
+	{
+		for(ChunkCoordinates c : coords)
+		{
+			convertDummy(world, c.posX, c.posY, c.posZ);
+		}
 	}
 	
 	private void revertDummyList()
