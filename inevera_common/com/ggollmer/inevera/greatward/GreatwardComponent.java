@@ -43,7 +43,8 @@ public abstract class GreatwardComponent
 		char[][] charMap = new char[dimx][dimy];
 		
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader(path));
+			
+			BufferedReader reader = new BufferedReader(new FileReader(GreatwardMap.class.getResource(path).getFile()));
 		    String line = null;
 		    int x;
 		    int y = 0;

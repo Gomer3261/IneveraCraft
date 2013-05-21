@@ -3,7 +3,6 @@ package com.ggollmer.inevera.block;
 import java.util.Random;
 
 import com.ggollmer.inevera.client.particle.GreatwardDummyDamageFX;
-import com.ggollmer.inevera.core.proxy.ClientProxy;
 import com.ggollmer.inevera.lib.BlockNames;
 import com.ggollmer.inevera.lib.Reference;
 import com.ggollmer.inevera.lib.RenderIds;
@@ -92,7 +91,6 @@ public abstract class BlockGreatwardComponent extends BlockInevera
 	@Override
 	public boolean canRenderInPass(int pass)
 	{
-		ClientProxy.renderPass = pass;
 		return true;
 	}
 	
