@@ -29,7 +29,10 @@ public abstract class GreatwardTarget extends GreatwardComponent
 	 */
 	public GreatwardTarget(String patternPath, String name)
 	{
-		super(GreatwardConstants.GW_TARGET_WIDTH, GreatwardConstants.GW_TARGET_HEIGHT, patternPath, name);
+		super(name);
+		addGreatwardMap(GreatwardConstants.GW_MINOR_TYPE, patternPath, GreatwardConstants.GW_TARGET_WIDTH, GreatwardConstants.GW_TARGET_HEIGHT);
+		addGreatwardMap(GreatwardConstants.GW_NORMAL_TYPE, patternPath, GreatwardConstants.GW_TARGET_WIDTH, GreatwardConstants.GW_TARGET_HEIGHT);
+		addGreatwardMap(GreatwardConstants.GW_MAJOR_TYPE, patternPath, GreatwardConstants.GW_TARGET_WIDTH, GreatwardConstants.GW_TARGET_HEIGHT);
 	}
 	
 	public ForgeDirection findPatternAndDirection(World world, int coreX, int coreY, int coreZ, ForgeDirection dir, int id, int meta, List<ChunkCoordinates> greatwardBlocks)
@@ -44,11 +47,11 @@ public abstract class GreatwardTarget extends GreatwardComponent
 			{
 				ForgeDirection ey = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[dir.ordinal()][ex.ordinal()]);
 				
-				int sx = px + ex.offsetX*(dimX/-2) + ey.offsetX*(dimY/-2);
-				int sy = py + ex.offsetY*(dimX/-2) + ey.offsetY*(dimY/-2);
-				int sz = pz + ex.offsetZ*(dimX/-2) + ey.offsetZ*(dimY/-2);
+				int sx = px + ex.offsetX*(GreatwardConstants.GW_TARGET_WIDTH/-2) + ey.offsetX*(GreatwardConstants.GW_TARGET_HEIGHT/-2);
+				int sy = py + ex.offsetY*(GreatwardConstants.GW_TARGET_WIDTH/-2) + ey.offsetY*(GreatwardConstants.GW_TARGET_HEIGHT/-2);
+				int sz = pz + ex.offsetZ*(GreatwardConstants.GW_TARGET_WIDTH/-2) + ey.offsetZ*(GreatwardConstants.GW_TARGET_HEIGHT/-2);
 				
-				if(areaMatchesPattern(world, id, meta, sx, sy, sz, ex, ey, dir, greatwardBlocks, true))
+				if(areaMatchesPattern(world, GreatwardConstants.GW_MINOR_TYPE, id, meta, sx, sy, sz, ex, ey, dir, greatwardBlocks, true))
 				{
 					return ex;
 				}

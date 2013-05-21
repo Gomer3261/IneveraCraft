@@ -23,7 +23,7 @@ public class GreatwardTargetAll extends GreatwardTarget
 	 * @param dimx
 	 * @param dimy
 	 * @param patternPath
-	 */
+	 */ 
 	public GreatwardTargetAll()
 	{
 		super(GreatwardConstants.GW_TARGET_ALL_LOCATION, GreatwardConstants.GW_TARGET_ALL_NAME);

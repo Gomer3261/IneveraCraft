@@ -22,9 +22,9 @@ public abstract class GreatwardAugment extends GreatwardComponent
 	 * @param dimy
 	 * @param patternPath
 	 */
-	public GreatwardAugment(int dimx, int dimy, String patternPath, String name)
+	public GreatwardAugment(String name)
 	{
-		super(dimx, dimy, patternPath, name);
+		super(name);
 	}
 
 }

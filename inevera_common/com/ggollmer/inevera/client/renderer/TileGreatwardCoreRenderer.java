@@ -3,7 +3,6 @@ package com.ggollmer.inevera.client.renderer;
 import org.lwjgl.opengl.GL11;
 
 import com.ggollmer.inevera.block.BlockGreatwardComponent;
-import com.ggollmer.inevera.core.proxy.ClientProxy;
 import com.ggollmer.inevera.lib.RenderIds;
 
 import net.minecraft.block.Block;
@@ -48,14 +47,8 @@ public class TileGreatwardCoreRenderer implements ISimpleBlockRenderingHandler
 			return false;
 		}
 		
-		if(ClientProxy.renderPass == 0)
-		{
-			renderer.renderBlockUsingTexture(Block.glowStone, x, y, z, ((BlockGreatwardComponent)block).getCoreIcon(world.getBlockMetadata(x, y, z)));
-		}
-		else
-		{
-			renderer.renderStandardBlock(block, x, y, z);
-		}
+		renderer.renderBlockUsingTexture(Block.glowStone, x, y, z, ((BlockGreatwardComponent)block).getCoreIcon(world.getBlockMetadata(x, y, z)));
+		renderer.renderStandardBlock(block, x, y, z);
 		
 		return true;
 	}

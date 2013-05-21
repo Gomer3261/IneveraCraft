@@ -10,6 +10,7 @@ import com.ggollmer.inevera.core.helper.NBTHelper;
 import com.ggollmer.inevera.greatward.Greatward;
 import com.ggollmer.inevera.greatward.GreatwardHelper;
 import com.ggollmer.inevera.greatward.GreatwardManager;
+import com.ggollmer.inevera.lib.GreatwardConstants;
 import com.ggollmer.inevera.lib.Strings;
 import com.ggollmer.inevera.network.PacketTypeHandler;
 import com.ggollmer.inevera.network.packet.PacketGreatwardCoreUpdate;
@@ -125,7 +126,7 @@ public class TileGreatwardCore extends TileEntity
 			{
 				wardDirection = ForgeDirection.UP;
 				LogHelper.debugLog(String.format("GreatwardCore searching for ward: x: %d, y: %d, z: %d", xCoord, yCoord, zCoord));
-				greatward = GreatwardManager.generateGreatward(world, x, y, z, worldObj.getBlockId(x,y+1, z), worldObj.getBlockMetadata(x,y+1, z), "", wardDirection);
+				greatward = GreatwardManager.generateGreatward(world, x, y, z, worldObj.getBlockId(x,y+1, z), worldObj.getBlockMetadata(x,y+1, z), GreatwardConstants.GW_MINOR_TYPE, wardDirection);
 				
 				if(greatward != null)
 				{

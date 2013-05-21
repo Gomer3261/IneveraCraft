@@ -19,9 +19,9 @@ public abstract class GreatwardEffect extends GreatwardComponent
 	 * @param dimy
 	 * @param patternPath
 	 */
-	public GreatwardEffect(int dimx, int dimy, String patternPath, String name)
+	public GreatwardEffect(String name)
 	{
-		super(dimx, dimy, patternPath, name);
+		super(name);
 	}
 
 }

@@ -41,4 +41,23 @@ public class GreatwardMap
 	{
 		return map[x][y];
 	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuilder builder = new StringBuilder();
+		builder.append('\n');
+		
+		for(int j=0; j<dimy; j++)
+		{
+			for(int i=0; i<dimx; i++)
+			{
+				builder.append(map[i][j]);
+				builder.append(' ');
+			}
+			builder.append('\n');
+		}
+		
+		return builder.toString();
+	}
 }

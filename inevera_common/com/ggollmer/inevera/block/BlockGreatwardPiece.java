@@ -3,6 +3,7 @@ package com.ggollmer.inevera.block;
 import java.util.List;
 
 import com.ggollmer.inevera.Inevera;
+import com.ggollmer.inevera.greatward.GreatwardHelper;
 import com.ggollmer.inevera.lib.Reference;
 import com.ggollmer.inevera.tileentity.TileGreatwardPiece;
 
@@ -102,7 +103,7 @@ public class BlockGreatwardPiece extends BlockGreatwardComponent
 			if(dummy.getCoreTile() != null)
 			{
 				ForgeDirection gwDir = dummy.getCoreTile().getWardDirection();
-				if(world.getBlockId(x+gwDir.offsetX, y+gwDir.offsetY, z+gwDir.offsetZ) != 0)
+				if(!GreatwardHelper.isClearBlock(world.getBlockId(x+gwDir.offsetX, y+gwDir.offsetY, z+gwDir.offsetZ)))
 				{
 					dummy.getCoreTile().invalidateGreatward();
 				}

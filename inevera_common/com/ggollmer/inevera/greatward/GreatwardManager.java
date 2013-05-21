@@ -9,6 +9,7 @@ import net.minecraftforge.common.ForgeDirection;
 
 import com.ggollmer.inevera.core.helper.LogHelper;
 import com.ggollmer.inevera.greatward.attribute.GreatwardAttribute;
+import com.ggollmer.inevera.greatward.attribute.GreatwardAttributeHealth;
 import com.ggollmer.inevera.greatward.augment.GreatwardAugment;
 import com.ggollmer.inevera.greatward.effect.GreatwardEffect;
 import com.ggollmer.inevera.greatward.target.GreatwardTarget;
@@ -43,6 +44,8 @@ public class GreatwardManager
 		typeList = new ArrayList<String>();
 		
 		registerTarget(new GreatwardTargetAll());
+		
+		registerAttribute(new GreatwardAttributeHealth());
 	}
 	
 	/**
@@ -75,15 +78,16 @@ public class GreatwardManager
 		if(target == null) return null;
 		
 		GreatwardAttribute attribute = null;
-		/*for(GreatwardAttribute a: attributeList)
+		for(GreatwardAttribute a: attributeList)
 		{
-			if(a.findPattern(px, py, pz, dir, world))
+			if(a.findPattern(world, wardType, coreX, coreY, coreZ, wardDirection, dir, id, meta, greatwardBlocks))
 			{
+				LogHelper.debugLog("WardAttribute found: " + a.getName());
 				attribute = a;
 				break;
 			}
 		}
-		if(attribute == null) return null;*/
+		if(attribute == null) return null;
 		
 		GreatwardEffect effect = null;
 		/*for(GreatwardEffect e: effectList)
