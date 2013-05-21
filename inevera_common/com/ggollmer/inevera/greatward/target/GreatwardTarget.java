@@ -2,7 +2,6 @@ package com.ggollmer.inevera.greatward.target;
 
 import java.util.List;
 
-import com.ggollmer.inevera.core.helper.LogHelper;
 import com.ggollmer.inevera.greatward.GreatwardComponent;
 import com.ggollmer.inevera.lib.GreatwardConstants;
 
@@ -24,9 +23,9 @@ public abstract class GreatwardTarget extends GreatwardComponent
 {
 	
 	/**
-	 * @param dimx
-	 * @param dimy
+	 * 
 	 * @param patternPath
+	 * @param name
 	 */
 	public GreatwardTarget(String patternPath, String name)
 	{
@@ -45,11 +44,9 @@ public abstract class GreatwardTarget extends GreatwardComponent
 			{
 				ForgeDirection ey = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[dir.ordinal()][ex.ordinal()]);
 				
-				int sx = px + ex.offsetX*(dimX/2) + ey.offsetX*(dimY/2);
-				int sy = py + ex.offsetY*(dimX/2) + ey.offsetY*(dimY/2);
-				int sz = pz + ex.offsetZ*(dimX/2) + ey.offsetZ*(dimY/2);
-				
-				LogHelper.debugLog(String.format("Testing Target: %s at: x: %d, y: %d, z:%d up:%s", this.getName(), sx, sy, sz, ex));
+				int sx = px + ex.offsetX*(dimX/-2) + ey.offsetX*(dimY/-2);
+				int sy = py + ex.offsetY*(dimX/-2) + ey.offsetY*(dimY/-2);
+				int sz = pz + ex.offsetZ*(dimX/-2) + ey.offsetZ*(dimY/-2);
 				
 				if(areaMatchesPattern(world, id, meta, sx, sy, sz, ex, ey, dir, greatwardBlocks, true))
 				{

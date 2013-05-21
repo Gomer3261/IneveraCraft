@@ -53,7 +53,7 @@ public class GreatwardHelper
 	 */
 	public static boolean isClearBlock(int blockId)
 	{
-		return false;
+		return clearBlocks[blockId];
 	}
 	
 	/**

@@ -56,10 +56,11 @@ public abstract class GreatwardComponent
 		    String line = null;
 		    int x;
 		    int y = 0;
+		    
 		    while ((line = reader.readLine()) != null) {
 		        for(x=0; x < dimx; x++)
 		        {
-		        	 char in = line.charAt(x+2);
+		        	 char in = line.charAt(x*2);
 		        	 switch(in)
 		        	 {
 		        		 case GreatwardMap.GW_NEGATIVE_TILE:
@@ -77,11 +78,15 @@ public abstract class GreatwardComponent
 		        y++;
 		    }
 		    reader.close();
-		} catch (Exception x) {
+		    
+		    return new GreatwardMap(dimx, dimy, charMap);
+		    
+		} catch (Exception e) {
 		    LogHelper.log(Level.SEVERE, "IneveraCraft: Greatward map: " + path + " could not be found.");
+		    e.printStackTrace();
 		}
 		
-		return new GreatwardMap(dimx, dimy, charMap);
+		return null;
 	}
 	
 	/**
@@ -125,8 +130,8 @@ public abstract class GreatwardComponent
 					/* Do we match the pattern? */
 					if(pattern.getValue(i, j) == GreatwardMap.GW_POSITIVE_TILE)
 					{
-						if((posId != id 
-								|| (posMeta != meta && metaMatters))
+						if(posId != id 
+								|| (posMeta != meta && metaMatters)
 								|| !GreatwardHelper.isClearBlock(world.getBlockId(
 										coord.posX + ez.offsetX,
 										coord.posY + ez.offsetY,

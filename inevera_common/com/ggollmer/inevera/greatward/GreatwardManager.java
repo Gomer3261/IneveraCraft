@@ -29,6 +29,7 @@ public class GreatwardManager
 	private static List<GreatwardAttribute> attributeList;
 	private static List<GreatwardEffect> effectList;
 	private static List<GreatwardAugment> augmentList;
+	private static List<String> typeList;
 	
 	/**
 	 * Used to initialize the greatward manager.
@@ -39,6 +40,7 @@ public class GreatwardManager
 		attributeList = new ArrayList<GreatwardAttribute>();
 		effectList = new ArrayList<GreatwardEffect>();
 		augmentList = new ArrayList<GreatwardAugment>();
+		typeList = new ArrayList<String>();
 		
 		registerTarget(new GreatwardTargetAll());
 	}
@@ -65,12 +67,9 @@ public class GreatwardManager
 			wardDirection = t.findPatternAndDirection(world, coreX, coreY, coreZ, dir, id, meta, greatwardBlocks);
 			if(wardDirection != ForgeDirection.UNKNOWN)
 			{
+				LogHelper.debugLog("WardTarget found: " + t.getName());
 				target = t;
 				break;
-			}
-			else
-			{
-				LogHelper.debugLog("WardTarget not found: " + t.getName());
 			}
 		}
 		if(target == null) return null;
@@ -136,5 +135,14 @@ public class GreatwardManager
 	public static void registerAugment(GreatwardAugment augment)
 	{
 		augmentList.add(augment);
+	}
+	
+	/**
+	 * Used to register additional greatward types with the manager.
+	 * @param type a string representing a unique type of greatward.
+	 */
+	public static void registerType(String type)
+	{
+		typeList.add(type);
 	}
 }

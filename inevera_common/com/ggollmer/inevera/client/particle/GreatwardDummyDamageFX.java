@@ -32,12 +32,12 @@ public class GreatwardDummyDamageFX extends EntityDiggingFX
         float f9 = f8 + 0.015609375F;
         float f10 = 0.1F * this.particleScale;
 
-        if (this.particleTextureIndex != null)
+        if (this.particleIcon != null)
         {
-            f6 = this.particleTextureIndex.getInterpolatedU((double)(0F));
-            f7 = this.particleTextureIndex.getInterpolatedU((double)(16.0F));
-            f8 = this.particleTextureIndex.getInterpolatedV((double)(0F));
-            f9 = this.particleTextureIndex.getInterpolatedV((double)(16.0F));
+            f6 = this.particleIcon.getInterpolatedU((double)(0F));
+            f7 = this.particleIcon.getInterpolatedU((double)(16.0F));
+            f8 = this.particleIcon.getInterpolatedV((double)(0F));
+            f9 = this.particleIcon.getInterpolatedV((double)(16.0F));
         }
 
         float f11 = (float)(this.prevPosX + (this.posX - this.prevPosX) * (double)par2 - interpPosX);
