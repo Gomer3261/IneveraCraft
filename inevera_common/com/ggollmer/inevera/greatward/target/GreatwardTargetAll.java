@@ -2,6 +2,8 @@ package com.ggollmer.inevera.greatward.target;
 
 import java.util.List;
 
+import com.ggollmer.inevera.lib.GreatwardConstants;
+
 import net.minecraft.entity.Entity;
 import net.minecraftforge.common.ForgeDirection;
 
@@ -22,10 +24,9 @@ public class GreatwardTargetAll extends GreatwardTarget
 	 * @param dimy
 	 * @param patternPath
 	 */
-	public GreatwardTargetAll(int dimx, int dimy, String patternPath)
+	public GreatwardTargetAll()
 	{
-		super(dimx, dimy, patternPath);
-		// TODO Auto-generated constructor stub
+		super(GreatwardConstants.GW_TARGET_ALL_LOCATION, GreatwardConstants.GW_TARGET_ALL_NAME);
 	}
 
 	@Override

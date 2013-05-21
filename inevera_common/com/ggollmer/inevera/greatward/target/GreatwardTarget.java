@@ -2,7 +2,9 @@ package com.ggollmer.inevera.greatward.target;
 
 import java.util.List;
 
+import com.ggollmer.inevera.core.helper.LogHelper;
 import com.ggollmer.inevera.greatward.GreatwardComponent;
+import com.ggollmer.inevera.lib.GreatwardConstants;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ChunkCoordinates;
@@ -26,21 +28,29 @@ public abstract class GreatwardTarget extends GreatwardComponent
 	 * @param dimy
 	 * @param patternPath
 	 */
-	public GreatwardTarget(int dimx, int dimy, String patternPath)
+	public GreatwardTarget(String patternPath, String name)
 	{
-		super(dimx, dimy, patternPath);
+		super(GreatwardConstants.GW_TARGET_WIDTH, GreatwardConstants.GW_TARGET_HEIGHT, patternPath, name);
 	}
 	
-	public ForgeDirection findPatternAndDirection(World world, int px, int py, int pz, ForgeDirection dir, int id, int meta, List<ChunkCoordinates> greatwardBlocks)
+	public ForgeDirection findPatternAndDirection(World world, int coreX, int coreY, int coreZ, ForgeDirection dir, int id, int meta, List<ChunkCoordinates> greatwardBlocks)
 	{
+		int px = coreX + dir.offsetX;
+		int py = coreY + dir.offsetY;
+		int pz = coreZ + dir.offsetZ;
+		
 		for(ForgeDirection ex : ForgeDirection.VALID_DIRECTIONS)
 		{
 			if(ex != dir && ex != dir.getOpposite())
 			{
 				ForgeDirection ey = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[dir.ordinal()][ex.ordinal()]);
-				int sx = px + ex.offsetX + ey.offsetX;
-				int sy = px + ex.offsetY + ey.offsetY;
-				int sz = px + ex.offsetZ + ey.offsetZ;
+				
+				int sx = px + ex.offsetX*(dimX/2) + ey.offsetX*(dimY/2);
+				int sy = py + ex.offsetY*(dimX/2) + ey.offsetY*(dimY/2);
+				int sz = pz + ex.offsetZ*(dimX/2) + ey.offsetZ*(dimY/2);
+				
+				LogHelper.debugLog(String.format("Testing Target: %s at: x: %d, y: %d, z:%d up:%s", this.getName(), sx, sy, sz, ex));
+				
 				if(areaMatchesPattern(world, id, meta, sx, sy, sz, ex, ey, dir, greatwardBlocks, true))
 				{
 					return ex;

@@ -20,8 +20,8 @@ public abstract class GreatwardAttribute extends GreatwardComponent
 	 * @param dimy
 	 * @param patternPath
 	 */
-	public GreatwardAttribute(int dimx, int dimy, String patternPath)
+	public GreatwardAttribute(int dimx, int dimy, String patternPath, String name)
 	{
-		super(dimx, dimy, patternPath);
+		super(dimx, dimy, patternPath, name);
 	}	
 }

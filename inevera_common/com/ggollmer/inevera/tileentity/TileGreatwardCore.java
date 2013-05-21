@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.ggollmer.inevera.block.BlockGreatwardComponent;
 import com.ggollmer.inevera.block.IneveraBlocks;
+import com.ggollmer.inevera.core.helper.LogHelper;
 import com.ggollmer.inevera.core.helper.NBTHelper;
 import com.ggollmer.inevera.greatward.Greatward;
 import com.ggollmer.inevera.greatward.GreatwardHelper;
@@ -123,7 +124,8 @@ public class TileGreatwardCore extends TileEntity
 			if(GreatwardHelper.isValidGreatwardPiece(worldObj.getBlockId(x,  y+1, z)) && ((TileGreatwardPiece)worldObj.getBlockTileEntity(x, y+1, z)).getCoreTile() == null)
 			{
 				wardDirection = ForgeDirection.UP;
-				greatward = GreatwardManager.generateGreatward(world, x, y+1, z, worldObj.getBlockId(x,y+1, z), worldObj.getBlockMetadata(x,y+1, z), "", wardDirection);
+				LogHelper.debugLog(String.format("GreatwardCore searching for ward: x: %d, y: %d, z: %d", xCoord, yCoord, zCoord));
+				greatward = GreatwardManager.generateGreatward(world, x, y, z, worldObj.getBlockId(x,y+1, z), worldObj.getBlockMetadata(x,y+1, z), "", wardDirection);
 				
 				if(greatward != null)
 				{

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -25,10 +26,16 @@ import com.ggollmer.inevera.core.helper.LogHelper;
 public abstract class GreatwardComponent
 {
 	protected GreatwardMap pattern;
+	protected String name;
+	protected int dimX;
+	protected int dimY;
 	
-	public GreatwardComponent(int dimx, int dimy, String patternPath)
+	public GreatwardComponent(int dimX, int dimY, String patternPath, String name)
 	{
-		pattern = this.loadGreatwardMap(dimx, dimy, patternPath);
+		pattern = this.loadGreatwardMap(dimX, dimY, patternPath);
+		this.name = name;
+		this.dimX = dimX;
+		this.dimY = dimY;
 	}
 	
 	/**
@@ -43,8 +50,9 @@ public abstract class GreatwardComponent
 		char[][] charMap = new char[dimx][dimy];
 		
 		try {
+			path = Minecraft.class.getResource(path).getFile();
 			
-			BufferedReader reader = new BufferedReader(new FileReader(GreatwardMap.class.getResource(path).getFile()));
+			BufferedReader reader = new BufferedReader(new FileReader(path));
 		    String line = null;
 		    int x;
 		    int y = 0;
@@ -141,5 +149,16 @@ public abstract class GreatwardComponent
 		}
 		greatwardBlocks.addAll(newCoords);
 		return true;
+	}
+	
+	public String getName()
+	{
+		return name;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return "GreatwardComponent: " + getName();
 	}
 }
