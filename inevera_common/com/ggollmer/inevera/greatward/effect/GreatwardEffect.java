@@ -1,23 +1,20 @@
 package com.ggollmer.inevera.greatward.effect;
 
-import com.ggollmer.inevera.greatward.GreatwardComponent;
+import com.ggollmer.inevera.greatward.GreatwardFullComponent;
 
 /**
  * IneveraCraft
  *
- * IGreatwardEffect.java
+ * GreatwardEffect.java
  *
  * @author gomer3261
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  *
  */
-public abstract class GreatwardEffect extends GreatwardComponent
+public abstract class GreatwardEffect extends GreatwardFullComponent
 {
-
 	/**
-	 * @param dimx
-	 * @param dimy
-	 * @param patternPath
+	 * @param name
 	 */
 	public GreatwardEffect(String name)
 	{

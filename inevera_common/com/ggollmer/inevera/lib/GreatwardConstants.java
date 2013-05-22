@@ -44,4 +44,12 @@ public class GreatwardConstants
 	public static final String GW_ATTRIBUTE_HEALTH_MINOR_LOCATION = GW_MINOR_LOCATION + "/" + GW_ATTRIBUTE_HEALTH_NAME + ".txt";
 	public static final String GW_ATTRIBUTE_HEALTH_NORMAL_LOCATION = GW_NORMAL_LOCATION + "/" + GW_ATTRIBUTE_HEALTH_NAME + ".txt";
 	public static final String GW_ATTRIBUTE_HEALTH_MAJOR_LOCATION = GW_MAJOR_LOCATION + "/" + GW_ATTRIBUTE_HEALTH_NAME + ".txt";
+	
+	/* Greatward effect constants */
+	public static final String GW_EFFECT_POSITIVE_NAME = "e_positive";
+	
+	/* Greatward effect maps */
+	public static final String GW_EFFECT_POSITIVE_MINOR_LOCATION = GW_MINOR_LOCATION + "/" + GW_EFFECT_POSITIVE_NAME + ".txt";
+	public static final String GW_EFFECT_POSITIVE_NORMAL_LOCATION = GW_NORMAL_LOCATION + "/" + GW_EFFECT_POSITIVE_NAME + ".txt";
+	public static final String GW_EFFECT_POSITIVE_MAJOR_LOCATION = GW_MAJOR_LOCATION + "/" + GW_EFFECT_POSITIVE_NAME + ".txt";
 }

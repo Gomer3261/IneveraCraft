@@ -1,7 +1,9 @@
 package com.ggollmer.inevera.greatward;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
@@ -12,8 +14,10 @@ import com.ggollmer.inevera.greatward.attribute.GreatwardAttribute;
 import com.ggollmer.inevera.greatward.attribute.GreatwardAttributeHealth;
 import com.ggollmer.inevera.greatward.augment.GreatwardAugment;
 import com.ggollmer.inevera.greatward.effect.GreatwardEffect;
+import com.ggollmer.inevera.greatward.effect.GreatwardEffectPositive;
 import com.ggollmer.inevera.greatward.target.GreatwardTarget;
 import com.ggollmer.inevera.greatward.target.GreatwardTargetAll;
+import com.ggollmer.inevera.lib.GreatwardConstants;
 
 /**
  * IneveraCraft
@@ -26,10 +30,11 @@ import com.ggollmer.inevera.greatward.target.GreatwardTargetAll;
  */
 public class GreatwardManager
 {
-	private static List<GreatwardTarget> targetList;
-	private static List<GreatwardAttribute> attributeList;
-	private static List<GreatwardEffect> effectList;
-	private static List<GreatwardAugment> augmentList;
+	private static Map<String, GreatwardTarget> targetMap;
+	private static Map<String, GreatwardAttribute> attributeMap;
+	private static Map<String, GreatwardEffect> effectMap;
+	private static Map<String, GreatwardAugment> augmentMap;
+	
 	private static List<String> typeList;
 	
 	/**
@@ -37,15 +42,18 @@ public class GreatwardManager
 	 */
 	public static void init()
 	{
-		targetList = new ArrayList<GreatwardTarget>();
-		attributeList = new ArrayList<GreatwardAttribute>();
-		effectList = new ArrayList<GreatwardEffect>();
-		augmentList = new ArrayList<GreatwardAugment>();
+		targetMap = new HashMap<String, GreatwardTarget>();
+		attributeMap = new HashMap<String, GreatwardAttribute>();
+		effectMap = new HashMap<String, GreatwardEffect>();
+		augmentMap = new HashMap<String, GreatwardAugment>();
+		
 		typeList = new ArrayList<String>();
 		
-		registerTarget(new GreatwardTargetAll());
+		registerTarget(GreatwardConstants.GW_TARGET_ALL_NAME, new GreatwardTargetAll(GreatwardConstants.GW_TARGET_ALL_NAME));
 		
-		registerAttribute(new GreatwardAttributeHealth());
+		registerAttribute(GreatwardConstants.GW_ATTRIBUTE_HEALTH_NAME, new GreatwardAttributeHealth(GreatwardConstants.GW_ATTRIBUTE_HEALTH_NAME));
+		
+		registerEffect(GreatwardConstants.GW_EFFECT_POSITIVE_NAME, new GreatwardEffectPositive(GreatwardConstants.GW_EFFECT_POSITIVE_NAME));
 	}
 	
 	/**
@@ -65,7 +73,7 @@ public class GreatwardManager
 		ForgeDirection wardDirection = null;
 		
 		GreatwardTarget target = null;
-		for(GreatwardTarget t : targetList)
+		for(GreatwardTarget t : targetMap.values())
 		{
 			wardDirection = t.findPatternAndDirection(world, coreX, coreY, coreZ, dir, id, meta, greatwardBlocks);
 			if(wardDirection != ForgeDirection.UNKNOWN)
@@ -78,7 +86,7 @@ public class GreatwardManager
 		if(target == null) return null;
 		
 		GreatwardAttribute attribute = null;
-		for(GreatwardAttribute a: attributeList)
+		for(GreatwardAttribute a: attributeMap.values())
 		{
 			if(a.findPattern(world, wardType, coreX, coreY, coreZ, wardDirection, dir, id, meta, greatwardBlocks))
 			{
@@ -90,15 +98,15 @@ public class GreatwardManager
 		if(attribute == null) return null;
 		
 		GreatwardEffect effect = null;
-		/*for(GreatwardEffect e: effectList)
+		for(GreatwardEffect e: effectMap.values())
 		{
-			if(e.findPattern(px, py, px, dir, world))
+			if(e.findPattern(world, wardType, coreX, coreY, coreZ, wardDirection, dir, id, meta, greatwardBlocks))
 			{
 				effect = e;
 				break;
 			}
 		}
-		if(effect == null) return null;*/
+		if(effect == null) return null;
 		
 		List<GreatwardAugment> augments = new ArrayList<GreatwardAugment>();
 		
@@ -109,36 +117,76 @@ public class GreatwardManager
 	 * Used to register a greatward target class with the manager.
 	 * @param target the target class to register.
 	 */
-	public static void registerTarget(GreatwardTarget target)
+	public static void registerTarget(String name, GreatwardTarget target)
 	{
-		targetList.add(target);
+		targetMap.put(name, target);
+	}
+	
+	/**
+	 * Used during loading to get a target object from the managers maps.
+	 * @param name The name of the target object.
+	 * @return The target object. Null if it dosn't exist.
+	 */
+	public static GreatwardTarget getTargetByName(String name)
+	{
+		return targetMap.get(name);
 	}
 	
 	/**
 	 * Used to register a greatward attribute class with the manager.
 	 * @param attribute the attribute class to register.
 	 */
-	public static void registerAttribute(GreatwardAttribute attribute)
+	public static void registerAttribute(String name, GreatwardAttribute attribute)
 	{
-		attributeList.add(attribute);
+		attributeMap.put(name, attribute);
+	}
+	
+	/**
+	 * Used during loading to get an attribute object from the managers maps.
+	 * @param name The name of the attribute object.
+	 * @return The attribute object. Null if it dosn't exist.
+	 */
+	public static GreatwardAttribute getAttributeByName(String name)
+	{
+		return attributeMap.get(name);
 	}
 	
 	/**
 	 * Used to register a greatward effect class with the manager.
 	 * @param effect the effect class to register.
 	 */
-	public static void registerEffect(GreatwardEffect effect)
+	public static void registerEffect(String name, GreatwardEffectPositive effect)
 	{
-		effectList.add(effect);
+		effectMap.put(name, effect);
+	}
+	
+	/**
+	 * Used during loading to get an effect object from the managers maps.
+	 * @param name The name of the effect object.
+	 * @return The effect object. Null if it dosn't exist.
+	 */
+	public static GreatwardEffect getEffectByName(String name)
+	{
+		return effectMap.get(name);
 	}
 	
 	/**
 	 * Used to register a greatward augment class with the manager.
 	 * @param augment the augment class to register.
 	 */
-	public static void registerAugment(GreatwardAugment augment)
+	public static void registerAugment(String name, GreatwardAugment augment)
 	{
-		augmentList.add(augment);
+		augmentMap.put(name, augment);
+	}
+	
+	/**
+	 * Used during loading to get an augment object from the managers maps.
+	 * @param name The name of the augment object.
+	 * @return The augment object. Null if it dosn't exist.
+	 */
+	public static GreatwardAugment getAugmentByName(String name)
+	{
+		return augmentMap.get(name);
 	}
 	
 	/**
