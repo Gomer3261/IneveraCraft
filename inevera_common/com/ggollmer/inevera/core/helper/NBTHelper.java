@@ -8,6 +8,7 @@ import com.ggollmer.inevera.lib.Strings;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ChunkCoordinates;
 
 /**
@@ -110,5 +111,47 @@ public class NBTHelper
 		}
 		
 		return coordList;
+	}
+	
+	/**
+	 * Used to create an NBTTagList from the toString() values in a list of objects.
+	 * @param key The key for the new list tag.
+	 * @param objectList The objects to convert to strings.
+	 * @return The new NBT tag.
+	 */
+	public static NBTTagList createObjectNBTTagListFromToString(String key, List<? extends Object> objectList)
+	{
+		if(objectList  == null) {
+			return null;
+		}
+		
+		NBTTagList tagList = new NBTTagList(key);
+		for(Object obj : objectList)
+		{
+			tagList.appendTag(new NBTTagString(Strings.NBT_STRING_KEY, obj.toString()));
+		}
+		
+		return tagList;
+	}
+	
+	/**
+	 * Converts an NBTTagList to a list of strings.
+	 * @param tagList The tag list to read from.
+	 * @return A list containing all strings within the tag.
+	 */
+	public static List<String> getStringListFromNBTTagList(NBTTagList tagList)
+	{
+		if(tagList == null) {
+			return null;
+		}
+		
+		List<String> strList = new ArrayList<String>();
+		
+		for(int i=0; i<tagList.tagCount(); i++)
+		{
+			strList.add(( (NBTTagString)tagList.tagAt(i) ).data);
+		}
+		
+		return strList;
 	}
 }

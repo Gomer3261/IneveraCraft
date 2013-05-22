@@ -110,7 +110,15 @@ public class GreatwardManager
 		
 		List<GreatwardAugment> augments = new ArrayList<GreatwardAugment>();
 		
-		return new Greatward(target, attribute, effect, augments, greatwardBlocks);
+		Greatward gw = new Greatward(target, attribute, effect, augments, wardDirection, greatwardBlocks);
+		if(gw.isValidGreatward())
+		{
+			return gw;
+		}
+		else
+		{
+			return null;
+		}
 	}
 	
 	/**

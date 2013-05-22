@@ -8,9 +8,11 @@ import java.util.List;
 
 import net.minecraft.network.INetworkManager;
 import net.minecraft.util.ChunkCoordinates;
+import net.minecraftforge.common.ForgeDirection;
 
 import com.ggollmer.inevera.Inevera;
 import com.ggollmer.inevera.core.helper.LogHelper;
+import com.ggollmer.inevera.greatward.Greatward;
 import com.ggollmer.inevera.network.PacketTypeHandler;
 
 import cpw.mods.fml.common.network.Player;
@@ -29,22 +31,33 @@ public class PacketGreatwardCoreUpdate extends PacketInevera
 	public int x, y, z;
 	public boolean valid;
 	public byte direction;
-	public List<ChunkCoordinates> pieces;
+	public List<ChunkCoordinates> blocks;
+	public String target;
+	public String attribute;
+	public String effect;
+	public List<String> augments;
 	
 	public PacketGreatwardCoreUpdate()
 	{
 		super(PacketTypeHandler.GWCORE, true);
 	}
 	
-	public PacketGreatwardCoreUpdate(int x, int y, int z, boolean valid, byte direction, List<ChunkCoordinates> pieces)
+	public PacketGreatwardCoreUpdate(int x, int y, int z, Greatward greatward)
 	{
         super(PacketTypeHandler.GWCORE, true);
         this.x = x;
         this.y = y;
         this.z = z;
-        this.valid = valid;
-        this.direction = direction;
-        this.pieces = pieces;
+        this.valid = greatward != null;
+        if(valid)
+        {
+        	this.direction = (byte)greatward.getWardDirection().ordinal();
+        	this.blocks = greatward.getGreatwardBlocks();
+        	this.target = greatward.getTargetName();
+        	this.attribute = greatward.getAttributeName();
+        	this.effect = greatward.getEffectName();
+        	this.augments = greatward.getAugmentNames();
+        }
     }
 	
 	@Override
@@ -54,15 +67,23 @@ public class PacketGreatwardCoreUpdate extends PacketInevera
         data.writeInt(y);
         data.writeInt(z);
         data.writeBoolean(valid);
-        data.writeByte(direction);
         if(valid == true)
         {
-        	data.writeInt(pieces.size());
-        	for(ChunkCoordinates coord: pieces)
+        	data.writeByte(direction);
+        	data.writeInt(blocks.size());
+        	for(ChunkCoordinates coord: blocks)
         	{
         		data.writeInt(coord.posX);
         		data.writeInt(coord.posY);
         		data.writeInt(coord.posZ);
+        	}
+        	data.writeUTF(target);
+        	data.writeUTF(attribute);
+        	data.writeUTF(effect);
+        	data.writeInt(augments.size());
+        	for(String augment : augments)
+        	{
+        		data.writeUTF(augment);
         	}
         }
     }
@@ -74,11 +95,10 @@ public class PacketGreatwardCoreUpdate extends PacketInevera
         y = data.readInt();
         z = data.readInt();
         valid = data.readBoolean();
-        direction = data.readByte();
-        pieces = null;
         if(valid == true)
         {
-        	pieces = new ArrayList<ChunkCoordinates>();
+        	direction = data.readByte();
+        	blocks = new ArrayList<ChunkCoordinates>();
         	int size = data.readInt();
         	
         	for(int i=0; i<size; i++)
@@ -87,8 +107,29 @@ public class PacketGreatwardCoreUpdate extends PacketInevera
         		piece.posX = data.readInt();
         		piece.posY = data.readInt();
         		piece.posZ = data.readInt();
-        		pieces.add(piece);
+        		blocks.add(piece);
         	}
+        	
+        	target = data.readUTF();
+        	attribute = data.readUTF();
+        	effect = data.readUTF();
+        	
+        	augments = new ArrayList<String>();
+        	size = data.readInt();
+        	for(int i=0; i<size; i++)
+        	{
+        		String str = data.readUTF();
+        		augments.add(str);
+        	}
+        }
+        else
+        {
+        	direction = (byte)ForgeDirection.UNKNOWN.ordinal();
+            blocks = null;
+            target = null;
+            attribute = null;
+            effect = null;
+            augments = null;
         }
     }
 	
@@ -96,6 +137,6 @@ public class PacketGreatwardCoreUpdate extends PacketInevera
     public void execute(INetworkManager manager, Player player)
 	{
         LogHelper.debugLog("PacketGreatwardCoreUpdate - Execute");
-        Inevera.proxy.handleGreatwardCorePacket(x, y, z, valid, direction, pieces);
+        Inevera.proxy.handleGreatwardCorePacket(x, y, z, valid, direction, blocks, target, attribute, effect, augments);
     }
 }

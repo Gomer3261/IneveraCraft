@@ -23,6 +23,14 @@ public class GreatwardConstants
     public static final int GW_MAJOR_WIDTH = 15;
     public static final int GW_MAJOR_HEIGHT = 15;
 	
+    /* Greatward NBT keys */
+    public static final String GW_NBT_TARGET_KEY = "GwTarget";
+    public static final String GW_NBT_ATTRIBUTE_KEY = "GwAttribute";
+    public static final String GW_NBT_EFFECT_KEY = "GwEffect";
+    public static final String GW_NBT_AUGMENTS_KEY = "GwAugments";
+    public static final String GW_NBT_DIRECTION_KEY = "GwDirection";
+    public static final String GW_NBT_COORD_LIST_KEY = "GwBlockList";
+    
     /* Greatward resource locations */
 	public static final String GW_MAP_LOCATION = "/mods/inevera/greatwards";
 	public static final String GW_MINOR_LOCATION = GW_MAP_LOCATION + "/" + GW_MINOR_TYPE + "/";
@@ -32,6 +40,7 @@ public class GreatwardConstants
     /* Greatward target constants */
     public static final int GW_TARGET_WIDTH = 3;
     public static final int GW_TARGET_HEIGHT = 3;
+    
     public static final String GW_TARGET_ALL_NAME = "t_all";
     
     /* Greatward target maps */

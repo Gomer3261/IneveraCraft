@@ -1,12 +1,10 @@
 package com.ggollmer.inevera.tileentity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.ggollmer.inevera.block.BlockGreatwardComponent;
 import com.ggollmer.inevera.block.IneveraBlocks;
 import com.ggollmer.inevera.core.helper.LogHelper;
-import com.ggollmer.inevera.core.helper.NBTHelper;
 import com.ggollmer.inevera.greatward.Greatward;
 import com.ggollmer.inevera.greatward.GreatwardHelper;
 import com.ggollmer.inevera.greatward.GreatwardManager;
@@ -36,27 +34,23 @@ import net.minecraftforge.common.ForgeDirection;
  */
 public class TileGreatwardCore extends TileEntity
 {
-	protected boolean validGreatward;
-	protected List<ChunkCoordinates> piecePosList;
-	protected ForgeDirection wardDirection;
 	protected Greatward greatward;
 	
 	public TileGreatwardCore()
 	{
 		super();
-		validGreatward = false;
-		piecePosList = new ArrayList<ChunkCoordinates>();
-		wardDirection = ForgeDirection.UNKNOWN;
 		greatward = null;
 	}
 	
 	public void invalidateGreatward()
 	{
-		boolean changed = validGreatward;
-		setValidGreatward(false);
-		wardDirection = ForgeDirection.UNKNOWN;
+		boolean changed = greatward != null;
 		
-		revertDummyList();
+		if(greatward != null)
+		{
+			revertDummyList();
+			setValidGreatward(false);
+		}
 		
 		if(changed && FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
 		{
@@ -64,9 +58,8 @@ public class TileGreatwardCore extends TileEntity
 		}
 	}
 	
-	public void setValidGreatward(boolean valid)
+	private void setValidGreatward(boolean valid)
 	{
-		validGreatward = valid;
 		if(worldObj != null)
 		{
 			if(valid)
@@ -75,6 +68,7 @@ public class TileGreatwardCore extends TileEntity
 			}
 			else
 			{
+				LogHelper.debugLog("GreatwardInvalidated");
 				greatward = null;
 				worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) & (~BlockGreatwardComponent.ACTIVE_BIT)), 2);
 			}
@@ -83,22 +77,19 @@ public class TileGreatwardCore extends TileEntity
 	
 	public boolean isValidGreatward()
 	{
-		return validGreatward;
-	}
-	
-	public void setPiecesCoordList(List<ChunkCoordinates> pieces)
-	{
-		piecePosList = pieces;
+		return greatward != null;
 	}
 	
 	public ForgeDirection getWardDirection()
 	{
-		return wardDirection;
-	}
-	
-	public void setWardDirection(ForgeDirection direction)
-	{
-		wardDirection = direction;
+		if(greatward != null)
+		{
+			return greatward.getWardDirection();
+		}
+		else
+		{
+			return ForgeDirection.UNKNOWN;
+		}
 	}
 	
 	public void onNeighborChange(World world, int x, int y, int z)
@@ -113,8 +104,8 @@ public class TileGreatwardCore extends TileEntity
 	
 	private void checkValidGreatward(World world, int x, int y, int z)
 	{
-		boolean changed = !validGreatward;
-		if(validGreatward)
+		boolean changed = greatward == null;
+		if(greatward != null)
 		{
 			return;
 		}
@@ -124,7 +115,7 @@ public class TileGreatwardCore extends TileEntity
 		{
 			if(GreatwardHelper.isValidGreatwardPiece(worldObj.getBlockId(x,  y+1, z)) && ((TileGreatwardPiece)worldObj.getBlockTileEntity(x, y+1, z)).getCoreTile() == null)
 			{
-				wardDirection = ForgeDirection.UP;
+				ForgeDirection wardDirection = ForgeDirection.UP;
 				LogHelper.debugLog(String.format("GreatwardCore searching for ward: x: %d, y: %d, z: %d", xCoord, yCoord, zCoord));
 				greatward = GreatwardManager.generateGreatward(world, x, y, z, worldObj.getBlockId(x,y+1, z), worldObj.getBlockMetadata(x,y+1, z), GreatwardConstants.GW_MINOR_TYPE, wardDirection);
 				
@@ -136,7 +127,7 @@ public class TileGreatwardCore extends TileEntity
 			}
 		}
 		
-		if(changed == validGreatward && FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
+		if(changed == (greatward != null) && FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
 		{
 			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
@@ -144,10 +135,13 @@ public class TileGreatwardCore extends TileEntity
 	
 	private void convertDummy(World world, int x, int y, int z)
 	{
+		if(world.getBlockId(x, y, z) != IneveraBlocks.greatwardWoodPiece.blockID)
+		{
+			return;
+		}
+		
 		TileGreatwardPiece pieceTE = (TileGreatwardPiece) world.getBlockTileEntity(x, y, z);
 		pieceTE.setCoreTile(this);
-		
-		piecePosList.add(new ChunkCoordinates(x, y, z));
 	}
 	
 	private void revertDummy(World world, int x, int y, int z)
@@ -171,45 +165,79 @@ public class TileGreatwardCore extends TileEntity
 	
 	private void revertDummyList()
 	{	
-		for(ChunkCoordinates dummyPos: piecePosList)
+		for(ChunkCoordinates dummyPos: greatward.getGreatwardBlocks())
 		{
 			this.revertDummy(worldObj, dummyPos.posX, dummyPos.posY, dummyPos.posZ);
 		}
-		piecePosList.clear();
 	}
 	
 	@Override
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
 
         super.readFromNBT(nbtTagCompound);
-
-        if (nbtTagCompound.hasKey(Strings.NBT_TE_GW_DUMMYLIST_KEY)) {
-            piecePosList = NBTHelper.getChunkCoordinatesListFromNBTTagList(nbtTagCompound.getTagList(Strings.NBT_TE_GW_DUMMYLIST_KEY));
-            if(piecePosList.isEmpty())
-            {
-            	this.setValidGreatward(false);
-            }
-            else
-            {
-            	this.setValidGreatward(true);
-            }
-        }
         
-        this.wardDirection = ForgeDirection.getOrientation(nbtTagCompound.getByte(Strings.NBT_TE_WARDIDRECTION_KEY));
+        if(nbtTagCompound.hasKey(Strings.NBT_TE_GW_VALID_KEY))
+        {
+        	if(nbtTagCompound.getBoolean(Strings.NBT_TE_GW_VALID_KEY))
+        	{
+        		greatward = new Greatward();
+        		greatward.readFromNBT(nbtTagCompound);
+        		
+        		if(!greatward.isValidGreatward())
+        		{
+        			invalidateGreatward();
+        		}
+        		else
+        		{
+        			setValidGreatward(true);
+        		}
+        		return;
+        	}
+        }
+        setValidGreatward(false);
     }
 
     @Override
     public void writeToNBT(NBTTagCompound nbtTagCompound) {
 
         super.writeToNBT(nbtTagCompound);
-
-        nbtTagCompound.setTag(Strings.NBT_TE_GW_DUMMYLIST_KEY, NBTHelper.createChunkCoordinatesNBTTagList(piecePosList));
-        nbtTagCompound.setByte(Strings.NBT_TE_WARDIDRECTION_KEY, (byte)this.wardDirection.ordinal());
+        
+        nbtTagCompound.setBoolean(Strings.NBT_TE_GW_VALID_KEY, greatward != null);
+        
+        if(greatward != null)
+        {
+        	greatward.writeToNBT(nbtTagCompound);
+        }
     }
+    
+    public void updateWardFromPacket(boolean valid, byte direction, List<ChunkCoordinates> blocks, String target, String attribute, String effect, List<String> augments)
+	{
+		if(valid)
+		{
+			if(greatward == null)
+			{
+				greatward = new Greatward();
+			}
+			greatward.updateWardFromPacket(direction, blocks, target, attribute, effect, augments);
+			
+			if(greatward.isValidGreatward())
+			{
+				setValidGreatward(true);
+			}
+			else
+			{
+				invalidateGreatward();
+			}
+		}
+		else
+		{
+			setValidGreatward(false);
+		}
+	}
     
     @Override
     public Packet getDescriptionPacket()
     {
-    	return PacketTypeHandler.populatePacket(new PacketGreatwardCoreUpdate(xCoord, yCoord, zCoord, validGreatward, (byte)wardDirection.ordinal(), piecePosList));
+    	return PacketTypeHandler.populatePacket(new PacketGreatwardCoreUpdate(xCoord, yCoord, zCoord, greatward));
     }
 }

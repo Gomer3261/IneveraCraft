@@ -62,7 +62,7 @@ public class CommonProxy implements IGuiHandler
 	{
 	}
 
-	public void handleGreatwardCorePacket(int x, int y, int z, boolean valid, byte direction, List<ChunkCoordinates> pieces)
+	public void handleGreatwardCorePacket(int x, int y, int z, boolean valid, byte direction, List<ChunkCoordinates> pieces, String target, String attribute, String effect, List<String> augments)
 	{
 	}
 }
