@@ -31,7 +31,9 @@ public class PacketGreatwardCoreUpdate extends PacketInevera
 	public int x, y, z;
 	public boolean valid;
 	public byte direction;
+	public byte orientation;
 	public List<ChunkCoordinates> blocks;
+	public String type;
 	public String target;
 	public String attribute;
 	public String effect;
@@ -52,7 +54,9 @@ public class PacketGreatwardCoreUpdate extends PacketInevera
         if(valid)
         {
         	this.direction = (byte)greatward.getWardDirection().ordinal();
+        	this.orientation = (byte)greatward.getWardOrientation().ordinal();
         	this.blocks = greatward.getGreatwardBlocks();
+        	this.type = greatward.getGreatwardType();
         	this.target = greatward.getTargetName();
         	this.attribute = greatward.getAttributeName();
         	this.effect = greatward.getEffectName();
@@ -70,6 +74,7 @@ public class PacketGreatwardCoreUpdate extends PacketInevera
         if(valid == true)
         {
         	data.writeByte(direction);
+        	data.writeByte(orientation);
         	data.writeInt(blocks.size());
         	for(ChunkCoordinates coord: blocks)
         	{
@@ -77,6 +82,7 @@ public class PacketGreatwardCoreUpdate extends PacketInevera
         		data.writeInt(coord.posY);
         		data.writeInt(coord.posZ);
         	}
+        	data.writeUTF(type);
         	data.writeUTF(target);
         	data.writeUTF(attribute);
         	data.writeUTF(effect);
@@ -98,6 +104,7 @@ public class PacketGreatwardCoreUpdate extends PacketInevera
         if(valid == true)
         {
         	direction = data.readByte();
+        	orientation = data.readByte();
         	blocks = new ArrayList<ChunkCoordinates>();
         	int size = data.readInt();
         	
@@ -109,6 +116,8 @@ public class PacketGreatwardCoreUpdate extends PacketInevera
         		piece.posZ = data.readInt();
         		blocks.add(piece);
         	}
+        	
+        	type = data.readUTF();
         	
         	target = data.readUTF();
         	attribute = data.readUTF();
@@ -137,6 +146,6 @@ public class PacketGreatwardCoreUpdate extends PacketInevera
     public void execute(INetworkManager manager, Player player)
 	{
         LogHelper.debugLog("PacketGreatwardCoreUpdate - Execute");
-        Inevera.proxy.handleGreatwardCorePacket(x, y, z, valid, direction, blocks, target, attribute, effect, augments);
+        Inevera.proxy.handleGreatwardCorePacket(x, y, z, valid, direction, orientation, blocks, type, target, attribute, effect, augments);
     }
 }

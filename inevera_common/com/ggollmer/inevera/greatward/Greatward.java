@@ -3,6 +3,7 @@ package com.ggollmer.inevera.greatward;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
@@ -27,12 +28,33 @@ import com.ggollmer.inevera.lib.GreatwardConstants;
  */
 public class Greatward
 {
+	/* State variables */
 	protected GreatwardTarget target;
 	protected GreatwardAttribute attribute;
 	protected GreatwardEffect effect;
 	protected List<GreatwardAugment> augments;
 	protected List<ChunkCoordinates> greatwardBlocks;
+	protected String wardType;
 	protected ForgeDirection wardDirection;
+	protected ForgeDirection wardOrientation;
+	
+	/* Operation variables */
+	private boolean initialized;
+	
+	public double centerX;
+	public double centerY;
+	public double centerZ;
+	public double radius;
+	public double height;
+	
+	public float costPerOperationModifier;
+	public float coreEnergyDrawRate;
+	
+	public float currentCoreEnergy;
+	public float maxCoreEnergy;
+	
+	public List<Entity> entityTargets;
+	public List<ChunkCoordinates> blockTargets;
 	
 	/**
 	 * @param target
@@ -43,14 +65,17 @@ public class Greatward
 	 * @param wardDirection 
 	 */
 	public Greatward(GreatwardTarget target, GreatwardAttribute attribute,
-			GreatwardEffect effect, List<GreatwardAugment> augments, ForgeDirection wardDirection, List<ChunkCoordinates> greatwardBlocks)
+			GreatwardEffect effect, List<GreatwardAugment> augments, String wardType, ForgeDirection wardDirection, ForgeDirection wardOrientation, List<ChunkCoordinates> greatwardBlocks)
 	{
 		this.target = target;
 		this.attribute = attribute;
 		this.effect = effect;
 		this.augments = augments;
+		this.wardType = wardType;
 		this.wardDirection = wardDirection;
+		this.wardOrientation = wardOrientation;
 		this.greatwardBlocks = greatwardBlocks;
+		initialized = false;
 	}
 	
 	/**
@@ -58,7 +83,7 @@ public class Greatward
 	 */
 	public Greatward()
 	{
-		this(null, null, null, null, ForgeDirection.UNKNOWN, null);
+		this(null, null, null, null, null, ForgeDirection.UNKNOWN, ForgeDirection.UNKNOWN, null);
 	}
 	
 	/**
@@ -71,12 +96,26 @@ public class Greatward
 	}
 	
 	/**
+	 * Used to get the orientation for the greatward.
+	 * @return the direction the ward is oriented to.
+	 */
+	public ForgeDirection getWardOrientation()
+	{
+		return wardOrientation;
+	}
+	
+	/**
 	 * Used to get the list of blocks contained in the greatward.
 	 * @return The list of blocks making up the greatward.
 	 */
 	public List<ChunkCoordinates> getGreatwardBlocks()
 	{
 		return greatwardBlocks;
+	}
+	
+	public String getGreatwardType()
+	{
+		return wardType;
 	}
 	
 	public String getTargetName()
@@ -107,12 +146,48 @@ public class Greatward
 	}
 	
 	/**
-	 * TODO: DO THIS THING
+	 * Used to update the greatward object, causing it to effect the real world.
 	 * @param world
+	 * @param coreX
+	 * @param coreY
+	 * @param coreZ
 	 */
-	public void update(World world)
+	public void update(World world, int coreX, int coreY, int coreZ)
 	{
+		if(!initialized)
+		{
+			init(world, coreX, coreY, coreZ);
+			target.onGreatwardInit(world, this);
+			attribute.onGreatwardInit(world, this);
+			effect.onGreatwardInit(world, this);
+			
+			for(GreatwardAugment augment : augments)
+			{
+				augment.onGreatwardInit(world, this);
+			}
+		}
 		
+		if(attribute.canPerformOperation(world, this))
+		{
+			entityTargets = target.findValidEntityTargets(world, this);
+			blockTargets = target.findValidBlockTargets(world, this);
+			
+			attribute.performGreatwardEffects(world, this, effect.getEffectMultiplier(world, this));
+		}
+	}
+	
+	private void init(World world, int coreX, int coreY, int coreZ)
+	{
+		//TODO: Actually calculate these values.
+		
+		
+		costPerOperationModifier = 1;
+		coreEnergyDrawRate = 1;
+		
+		currentCoreEnergy = 0;
+		maxCoreEnergy = 100;
+		
+		initialized = true;
 	}
 	
 	/**
@@ -125,7 +200,9 @@ public class Greatward
 		if(attribute == null) return false;
 		if(effect == null) return false;
 		if(augments == null) return false;
+		if(!GreatwardManager.isValidType(wardType)) return false;
 		if(wardDirection.equals(ForgeDirection.UNKNOWN)) return false;
+		if(wardOrientation.equals(ForgeDirection.UNKNOWN)) return false;
 		if(greatwardBlocks == null) return false;
 		if(greatwardBlocks.isEmpty()) return false;
 		return true;
@@ -157,15 +234,23 @@ public class Greatward
 			}
 		}
 		
+		if(nbtTagCompound.hasKey(GreatwardConstants.GW_NBT_WARD_TYPE_KEY)) {
+			wardType = nbtTagCompound.getString(GreatwardConstants.GW_NBT_WARD_TYPE_KEY);
+		}
+		
 		if (nbtTagCompound.hasKey(GreatwardConstants.GW_NBT_DIRECTION_KEY)) {
 			wardDirection = ForgeDirection.getOrientation(nbtTagCompound.getByte(GreatwardConstants.GW_NBT_DIRECTION_KEY));
+		}
+		
+		if (nbtTagCompound.hasKey(GreatwardConstants.GW_NBT_ORIENTATION_KEY)) {
+			wardOrientation = ForgeDirection.getOrientation(nbtTagCompound.getByte(GreatwardConstants.GW_NBT_ORIENTATION_KEY));
 		}
 		
 		if (nbtTagCompound.hasKey(GreatwardConstants.GW_NBT_COORD_LIST_KEY)) {
             greatwardBlocks = NBTHelper.getChunkCoordinatesListFromNBTTagList(nbtTagCompound.getTagList(GreatwardConstants.GW_NBT_COORD_LIST_KEY));
         }
 		
-		LogHelper.debugLog(String.format("Loading Greatward From NBT dir: %S, blocks %d, target: %s, attribute: %s, effect %s, augments %d", wardDirection.toString(), greatwardBlocks.size(), target.getName(), attribute.getName(), effect.getName(), augments.size()));
+		LogHelper.debugLog(String.format("Loading Greatward From NBT dir: %S, blocks %d, type: %s, target: %s, attribute: %s, effect %s, augments %d", wardDirection.toString(), greatwardBlocks.size(), wardType, target.getName(), attribute.getName(), effect.getName(), augments.size()));
 	}
 	
 	/**
@@ -188,7 +273,11 @@ public class Greatward
 		}
 		nbtTagCompound.setTag(GreatwardConstants.GW_NBT_AUGMENTS_KEY, NBTHelper.createObjectNBTTagListFromToString(GreatwardConstants.GW_NBT_AUGMENTS_KEY, augmentNames));
 		
+		nbtTagCompound.setString(GreatwardConstants.GW_NBT_WARD_TYPE_KEY, wardType);
+		
 		nbtTagCompound.setByte(GreatwardConstants.GW_NBT_DIRECTION_KEY, (byte)wardDirection.ordinal());
+		
+		nbtTagCompound.setByte(GreatwardConstants.GW_NBT_ORIENTATION_KEY, (byte)wardOrientation.ordinal());
 		
 		nbtTagCompound.setTag(GreatwardConstants.GW_NBT_COORD_LIST_KEY, NBTHelper.createChunkCoordinatesNBTTagList(greatwardBlocks));
 	}
@@ -197,17 +286,20 @@ public class Greatward
 	 * Used to populate a greatward object from a network packet.
 	 * @param direction The new greatward direction.
 	 * @param blocks The blocks that make up the greatward.
+	 * @param wardType The type of ward this greatward is.
 	 * @param target The target type of the greatward.
 	 * @param attribute The attribute type of the greatward.
 	 * @param effect The effect type of the greatward.
 	 * @param augments The augments applied to the greatward.
 	 */
-	public void updateWardFromPacket(byte direction, List<ChunkCoordinates> blocks, String target, String attribute, String effect, List<String> augments)
+	public void updateWardFromPacket(byte direction, byte orientation, List<ChunkCoordinates> blocks, String wardType, String target, String attribute, String effect, List<String> augments)
 	{
-		LogHelper.debugLog(String.format("Recieved Greatward update packet! dir: %S, Blocks: %d,  target: %s, attribute: %s, effect %s, augments %d", ForgeDirection.getOrientation(direction).toString(), blocks.size(), target, attribute, effect, augments.size()));
+		LogHelper.debugLog(String.format("Recieved Greatward update packet! dir: %S, ori %s, Blocks: %d, type: %s, target: %s, attribute: %s, effect %s, augments %d", ForgeDirection.getOrientation(direction).toString(), ForgeDirection.getOrientation(orientation).toString(), blocks.size(), wardType, target, attribute, effect, augments.size()));
 		
 		wardDirection = ForgeDirection.getOrientation(direction);
+		wardOrientation = ForgeDirection.getOrientation(orientation);
 		greatwardBlocks = blocks;
+		this.wardType = wardType;
 		this.target = GreatwardManager.getTargetByName(target);
 		this.attribute = GreatwardManager.getAttributeByName(attribute);
 		this.effect = GreatwardManager.getEffectByName(effect);
@@ -217,5 +309,7 @@ public class Greatward
 		{
 			this.augments.add(GreatwardManager.getAugmentByName(augment));
 		}
+		
+		initialized = false;
 	}
 }

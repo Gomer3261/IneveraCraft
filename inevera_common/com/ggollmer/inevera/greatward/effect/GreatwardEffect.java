@@ -1,5 +1,8 @@
 package com.ggollmer.inevera.greatward.effect;
 
+import net.minecraft.world.World;
+
+import com.ggollmer.inevera.greatward.Greatward;
 import com.ggollmer.inevera.greatward.GreatwardFullComponent;
 
 /**
@@ -14,11 +17,18 @@ import com.ggollmer.inevera.greatward.GreatwardFullComponent;
 public abstract class GreatwardEffect extends GreatwardFullComponent
 {
 	/**
-	 * @param name
+	 * @param name The unique name of the greatward component
 	 */
 	public GreatwardEffect(String name)
 	{
 		super(name);
 	}
-
+	
+	/**
+	 * Used to get the multiplier that should be applied to the greatward attribute.
+	 * @param world The world the greatward exists in.
+	 * @param greatward The greatward itself.
+	 * @return The multiplier to be applied to the greatward attribute.
+	 */
+	public abstract float getEffectMultiplier(World world, Greatward greatward);
 }

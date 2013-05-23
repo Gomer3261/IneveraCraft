@@ -210,7 +210,7 @@ public class TileGreatwardCore extends TileEntity
         }
     }
     
-    public void updateWardFromPacket(boolean valid, byte direction, List<ChunkCoordinates> blocks, String target, String attribute, String effect, List<String> augments)
+    public void updateWardFromPacket(boolean valid, byte direction, byte orientation, List<ChunkCoordinates> blocks, String type, String target, String attribute, String effect, List<String> augments)
 	{
 		if(valid)
 		{
@@ -218,7 +218,7 @@ public class TileGreatwardCore extends TileEntity
 			{
 				greatward = new Greatward();
 			}
-			greatward.updateWardFromPacket(direction, blocks, target, attribute, effect, augments);
+			greatward.updateWardFromPacket(direction, orientation, blocks, type, target, attribute, effect, augments);
 			
 			if(greatward.isValidGreatward())
 			{

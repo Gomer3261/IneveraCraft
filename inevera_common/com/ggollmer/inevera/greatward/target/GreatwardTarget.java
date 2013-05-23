@@ -2,6 +2,7 @@ package com.ggollmer.inevera.greatward.target;
 
 import java.util.List;
 
+import com.ggollmer.inevera.greatward.Greatward;
 import com.ggollmer.inevera.greatward.GreatwardComponent;
 import com.ggollmer.inevera.lib.GreatwardConstants;
 
@@ -35,25 +36,25 @@ public abstract class GreatwardTarget extends GreatwardComponent
 		addGreatwardMap(GreatwardConstants.GW_MAJOR_TYPE, patternPath, GreatwardConstants.GW_TARGET_WIDTH, GreatwardConstants.GW_TARGET_HEIGHT);
 	}
 	
-	public ForgeDirection findPatternAndDirection(World world, int coreX, int coreY, int coreZ, ForgeDirection dir, int id, int meta, List<ChunkCoordinates> greatwardBlocks)
+	public ForgeDirection findPatternAndDirection(World world, int coreX, int coreY, int coreZ, ForgeDirection ez, int id, int meta, List<ChunkCoordinates> greatwardBlocks)
 	{
-		int px = coreX + dir.offsetX;
-		int py = coreY + dir.offsetY;
-		int pz = coreZ + dir.offsetZ;
+		int px = coreX + ez.offsetX;
+		int py = coreY + ez.offsetY;
+		int pz = coreZ + ez.offsetZ;
 		
-		for(ForgeDirection ex : ForgeDirection.VALID_DIRECTIONS)
+		for(ForgeDirection ey : ForgeDirection.VALID_DIRECTIONS)
 		{
-			if(ex != dir && ex != dir.getOpposite())
+			if(ey != ez && ey != ez.getOpposite())
 			{
-				ForgeDirection ey = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[dir.ordinal()][ex.ordinal()]);
+				ForgeDirection ex = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[ez.ordinal()][ey.ordinal()]);
 				
-				int sx = px + ex.offsetX*(GreatwardConstants.GW_TARGET_WIDTH/-2) + ey.offsetX*(GreatwardConstants.GW_TARGET_HEIGHT/-2);
-				int sy = py + ex.offsetY*(GreatwardConstants.GW_TARGET_WIDTH/-2) + ey.offsetY*(GreatwardConstants.GW_TARGET_HEIGHT/-2);
-				int sz = pz + ex.offsetZ*(GreatwardConstants.GW_TARGET_WIDTH/-2) + ey.offsetZ*(GreatwardConstants.GW_TARGET_HEIGHT/-2);
+				int sx = px + ex.offsetX*(GreatwardConstants.GW_TARGET_WIDTH/-2) + ey.offsetX*(GreatwardConstants.GW_TARGET_HEIGHT/2);
+				int sy = py + ex.offsetY*(GreatwardConstants.GW_TARGET_WIDTH/-2) + ey.offsetY*(GreatwardConstants.GW_TARGET_HEIGHT/2);
+				int sz = pz + ex.offsetZ*(GreatwardConstants.GW_TARGET_WIDTH/-2) + ey.offsetZ*(GreatwardConstants.GW_TARGET_HEIGHT/2);
 				
-				if(areaMatchesPattern(world, GreatwardConstants.GW_MINOR_TYPE, id, meta, sx, sy, sz, ex, ey, dir, greatwardBlocks, true))
+				if(areaMatchesPattern(world, GreatwardConstants.GW_MINOR_TYPE, id, meta, sx, sy, sz, ex, ey, ez, greatwardBlocks, true))
 				{
-					return ex;
+					return ey;
 				}
 			}
 		}
@@ -61,9 +62,7 @@ public abstract class GreatwardTarget extends GreatwardComponent
 		return ForgeDirection.UNKNOWN;
 	}
 
-	List<Entity> findValidEntityTargets(int px, int py, int pz, String type, ForgeDirection dir)
-	{
-		return null;
-	}
+	public abstract List<Entity> findValidEntityTargets(World world, Greatward ward);
+	public abstract List<ChunkCoordinates> findValidBlockTargets(World world, Greatward ward);
 
 }

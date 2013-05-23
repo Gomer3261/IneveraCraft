@@ -77,13 +77,13 @@ public class ClientProxy extends CommonProxy
 	}
 	
 	@Override
-	public void handleGreatwardCorePacket(int x, int y, int z, boolean valid, byte direction, List<ChunkCoordinates> pieces, String target, String attribute, String effect, List<String> augments)
+	public void handleGreatwardCorePacket(int x, int y, int z, boolean valid, byte direction, byte orientation, List<ChunkCoordinates> pieces, String type, String target, String attribute, String effect, List<String> augments)
 	{
 		TileEntity tileEntity = FMLClientHandler.instance().getClient().theWorld.getBlockTileEntity(x, y, z);
 		
 		if (tileEntity != null) {
             if (tileEntity instanceof TileGreatwardCore) {
-            	((TileGreatwardCore) tileEntity).updateWardFromPacket(valid, direction, pieces, target, attribute, effect, augments);
+            	((TileGreatwardCore) tileEntity).updateWardFromPacket(valid, direction, orientation, pieces, type, target, attribute, effect, augments);
             }
 		}
 	}

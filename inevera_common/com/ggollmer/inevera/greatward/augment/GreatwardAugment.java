@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.ggollmer.inevera.greatward.augment;
 
 import com.ggollmer.inevera.greatward.GreatwardComponent;
@@ -18,13 +15,10 @@ public abstract class GreatwardAugment extends GreatwardComponent
 {
 
 	/**
-	 * @param dimx
-	 * @param dimy
-	 * @param patternPath
+	 * @param name The unique name of the greatwardComponent, used for NBT data.
 	 */
 	public GreatwardAugment(String name)
 	{
 		super(name);
 	}
-
 }

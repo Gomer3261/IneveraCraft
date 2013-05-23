@@ -35,7 +35,7 @@ public class GreatwardManager
 	private static Map<String, GreatwardEffect> effectMap;
 	private static Map<String, GreatwardAugment> augmentMap;
 	
-	private static List<String> typeList;
+	private static Map<String, GreatwardDimensions> typeDimensionMap;
 	
 	/**
 	 * Used to initialize the greatward manager.
@@ -47,13 +47,17 @@ public class GreatwardManager
 		effectMap = new HashMap<String, GreatwardEffect>();
 		augmentMap = new HashMap<String, GreatwardAugment>();
 		
-		typeList = new ArrayList<String>();
+		typeDimensionMap = new HashMap<String, GreatwardDimensions>();
 		
 		registerTarget(GreatwardConstants.GW_TARGET_ALL_NAME, new GreatwardTargetAll(GreatwardConstants.GW_TARGET_ALL_NAME));
 		
 		registerAttribute(GreatwardConstants.GW_ATTRIBUTE_HEALTH_NAME, new GreatwardAttributeHealth(GreatwardConstants.GW_ATTRIBUTE_HEALTH_NAME));
 		
 		registerEffect(GreatwardConstants.GW_EFFECT_POSITIVE_NAME, new GreatwardEffectPositive(GreatwardConstants.GW_EFFECT_POSITIVE_NAME));
+		
+		registerType(GreatwardConstants.GW_MINOR_TYPE, new GreatwardDimensions(GreatwardConstants.GW_MINOR_DIMENSION, GreatwardConstants.GW_MINOR_OFFSET_X, GreatwardConstants.GW_MINOR_OFFSET_Y, GreatwardConstants.GW_MINOR_PROJECTION));
+		registerType(GreatwardConstants.GW_NORMAL_TYPE, new GreatwardDimensions(GreatwardConstants.GW_NORMAL_DIMENSION, GreatwardConstants.GW_NORMAL_OFFSET_X, GreatwardConstants.GW_NORMAL_OFFSET_Y, GreatwardConstants.GW_NORMAL_PROJECTION));
+		registerType(GreatwardConstants.GW_MAJOR_TYPE, new GreatwardDimensions(GreatwardConstants.GW_MAJOR_DIMENSION, GreatwardConstants.GW_MAJOR_OFFSET_X, GreatwardConstants.GW_MAJOR_OFFSET_Y, GreatwardConstants.GW_MAJOR_PROJECTION));
 	}
 	
 	/**
@@ -63,20 +67,20 @@ public class GreatwardManager
 	 * @param coreZ The z position of the greatwarcd core.
 	 * @param id The block id to check for while looking for a ward.
 	 * @param wardType The type(size) of ward to look for.
-	 * @param dir The direction the final ward should be facing.
+	 * @param wardDirection The direction the final ward should be facing.
 	 * @param world The world the ward will exist in.
 	 * @return null if no valid ward is found.
 	 */
-	public static Greatward generateGreatward(World world, int coreX, int coreY, int coreZ, int id, int meta, String wardType, ForgeDirection dir)
+	public static Greatward generateGreatward(World world, int coreX, int coreY, int coreZ, int id, int meta, String wardType, ForgeDirection wardDirection)
 	{
 		List<ChunkCoordinates> greatwardBlocks = new ArrayList<ChunkCoordinates>();
-		ForgeDirection wardDirection = null;
+		ForgeDirection wardOrientation = null;
 		
 		GreatwardTarget target = null;
 		for(GreatwardTarget t : targetMap.values())
 		{
-			wardDirection = t.findPatternAndDirection(world, coreX, coreY, coreZ, dir, id, meta, greatwardBlocks);
-			if(wardDirection != ForgeDirection.UNKNOWN)
+			wardOrientation = t.findPatternAndDirection(world, coreX, coreY, coreZ, wardDirection, id, meta, greatwardBlocks);
+			if(wardOrientation != ForgeDirection.UNKNOWN)
 			{
 				LogHelper.debugLog("WardTarget found: " + t.getName());
 				target = t;
@@ -88,7 +92,7 @@ public class GreatwardManager
 		GreatwardAttribute attribute = null;
 		for(GreatwardAttribute a: attributeMap.values())
 		{
-			if(a.findPattern(world, wardType, coreX, coreY, coreZ, wardDirection, dir, id, meta, greatwardBlocks))
+			if(a.findPattern(world, wardType, coreX, coreY, coreZ, wardOrientation, wardDirection, id, meta, greatwardBlocks))
 			{
 				LogHelper.debugLog("WardAttribute found: " + a.getName());
 				attribute = a;
@@ -100,7 +104,7 @@ public class GreatwardManager
 		GreatwardEffect effect = null;
 		for(GreatwardEffect e: effectMap.values())
 		{
-			if(e.findPattern(world, wardType, coreX, coreY, coreZ, wardDirection, dir, id, meta, greatwardBlocks))
+			if(e.findPattern(world, wardType, coreX, coreY, coreZ, wardOrientation, wardDirection, id, meta, greatwardBlocks))
 			{
 				effect = e;
 				break;
@@ -110,7 +114,7 @@ public class GreatwardManager
 		
 		List<GreatwardAugment> augments = new ArrayList<GreatwardAugment>();
 		
-		Greatward gw = new Greatward(target, attribute, effect, augments, wardDirection, greatwardBlocks);
+		Greatward gw = new Greatward(target, attribute, effect, augments, wardType, wardDirection, wardOrientation, greatwardBlocks);
 		if(gw.isValidGreatward())
 		{
 			return gw;
@@ -201,8 +205,28 @@ public class GreatwardManager
 	 * Used to register additional greatward types with the manager.
 	 * @param type a string representing a unique type of greatward.
 	 */
-	public static void registerType(String type)
+	public static void registerType(String type, GreatwardDimensions dim)
 	{
-		typeList.add(type);
+		typeDimensionMap.put(type, dim);
+	}
+	
+	/**
+	 * Used to check if a type string is registered with the manager.
+	 * @param type The type string to look at.
+	 * @return True if the type is registered.
+	 */
+	public static boolean isValidType(String type)
+	{
+		return typeDimensionMap.containsKey(type);
+	}
+	
+	/**
+	 * Used to get the dimensions of a ward from the ward's type
+	 * @param type The type of greatward.
+	 * @return The greatwardDimensions object for that greatward type.
+	 */
+	public static GreatwardDimensions getDimensionsForType(String type)
+	{
+		return typeDimensionMap.get(type);
 	}
 }

@@ -16,19 +16,29 @@ public class GreatwardConstants
     public static final String GW_NORMAL_TYPE = "normal";
     public static final String GW_MAJOR_TYPE = "major";
     
-    public static final int GW_MINOR_WIDTH = 9;
-    public static final int GW_MINOR_HEIGHT = 9;
-    public static final int GW_NORMAL_WIDTH = 12;
-    public static final int GW_NORMAL_HEIGHT = 12;
-    public static final int GW_MAJOR_WIDTH = 15;
-    public static final int GW_MAJOR_HEIGHT = 15;
+    public static final int GW_MINOR_DIMENSION = 9;
+    public static final int GW_MINOR_OFFSET_X = -2;
+	public static final int GW_MINOR_OFFSET_Y = 2;
+	public static final int GW_MINOR_PROJECTION = 4;
+    
+    public static final int GW_NORMAL_DIMENSION = 12;
+    public static final int GW_NORMAL_OFFSET_X = -2;
+	public static final int GW_NORMAL_OFFSET_Y = 2;
+	public static final int GW_NORMAL_PROJECTION = 5;
+    
+    public static final int GW_MAJOR_DIMENSION = 15;
+    public static final int GW_MAJOR_OFFSET_X = -2;
+	public static final int GW_MAJOR_OFFSET_Y = 2;
+	public static final int GW_MAJOR_PROJECTION = 6;
 	
     /* Greatward NBT keys */
     public static final String GW_NBT_TARGET_KEY = "GwTarget";
     public static final String GW_NBT_ATTRIBUTE_KEY = "GwAttribute";
     public static final String GW_NBT_EFFECT_KEY = "GwEffect";
     public static final String GW_NBT_AUGMENTS_KEY = "GwAugments";
+    public static final String GW_NBT_WARD_TYPE_KEY = "GwType";
     public static final String GW_NBT_DIRECTION_KEY = "GwDirection";
+    public static final String GW_NBT_ORIENTATION_KEY = "GwOrientation";
     public static final String GW_NBT_COORD_LIST_KEY = "GwBlockList";
     
     /* Greatward resource locations */

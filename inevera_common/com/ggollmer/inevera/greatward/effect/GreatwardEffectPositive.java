@@ -1,5 +1,8 @@
 package com.ggollmer.inevera.greatward.effect;
 
+import net.minecraft.world.World;
+
+import com.ggollmer.inevera.greatward.Greatward;
 import com.ggollmer.inevera.lib.GreatwardConstants;
 
 /**
@@ -16,7 +19,17 @@ public class GreatwardEffectPositive extends GreatwardEffect
 	public GreatwardEffectPositive(String name)
 	{
 		super(name);
-		addGreatwardMap(GreatwardConstants.GW_MINOR_TYPE, GreatwardConstants.GW_EFFECT_POSITIVE_MINOR_LOCATION, GreatwardConstants.GW_MINOR_WIDTH, GreatwardConstants.GW_MINOR_HEIGHT);
+		addGreatwardMap(GreatwardConstants.GW_MINOR_TYPE, GreatwardConstants.GW_EFFECT_POSITIVE_MINOR_LOCATION, GreatwardConstants.GW_MINOR_DIMENSION, GreatwardConstants.GW_MINOR_DIMENSION);
 	}
 
+	@Override
+	public float getEffectMultiplier(World world, Greatward greatward)
+	{
+		return 1;
+	}
+
+	@Override
+	public void onGreatwardInit(World world, Greatward greatward)
+	{
+	}
 }

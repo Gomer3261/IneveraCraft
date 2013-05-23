@@ -122,16 +122,16 @@ public abstract class GreatwardComponent
 			return false;
 		}
 		
-		for(int i=0; i<pattern.getWidth(); i++)
+		for(int y=0; y<pattern.getWidth(); y++)
 		{
-			for(int j=0; j<pattern.getHeight(); j++)
+			for(int x=0; x<pattern.getHeight(); x++)
 			{
 				/* Empty tiles can be anything as far as we are concerned */
-				if(pattern.getValue(i, j) != GreatwardMap.GW_EMPTY_TILE)
+				if(pattern.getValue(x, y) != GreatwardMap.GW_EMPTY_TILE)
 				{
-					coord = new ChunkCoordinates(sx + i*ex.offsetX + j*ey.offsetX,
-							sy + i*ex.offsetY + j*ey.offsetY,
-							sz + i*ex.offsetZ + j*ey.offsetZ);
+					coord = new ChunkCoordinates(sx + x*ex.offsetX + y*ey.offsetX*-1,
+							sy + x*ex.offsetY + y*ey.offsetY*-1,
+							sz + x*ex.offsetZ + y*ey.offsetZ*-1);
 					int id = world.getBlockId(coord.posX, coord.posY, coord.posZ);	
 					int meta = world.getBlockMetadata(coord.posX, coord.posY, coord.posZ);
 					
@@ -142,7 +142,7 @@ public abstract class GreatwardComponent
 					}
 					
 					/* Do we match the pattern? */
-					if(pattern.getValue(i, j) == GreatwardMap.GW_POSITIVE_TILE)
+					if(pattern.getValue(x, y) == GreatwardMap.GW_POSITIVE_TILE)
 					{
 						if(posId != id 
 								|| (posMeta != meta && metaMatters)
@@ -159,7 +159,7 @@ public abstract class GreatwardComponent
 						}
 					}
 					
-					if (pattern.getValue(i, j) == GreatwardMap.GW_NEGATIVE_TILE && (posId == id && (posMeta == meta || !metaMatters)))
+					if (pattern.getValue(x, y) == GreatwardMap.GW_NEGATIVE_TILE && (posId == id && (posMeta == meta || !metaMatters)))
 					{
 						return false;
 					}
@@ -206,6 +206,16 @@ public abstract class GreatwardComponent
 	{
 		return patterns.get(type);
 	}
+	
+	/**
+	 * Called as the greatward is initializing (after state changes) used to change how
+	 * a greatward works.
+	 * 
+	 * This should be the only time the attribute writes to the greatward.
+	 * @param world The world the greatward exists in.
+	 * @param greatward The greatward itself.
+	 */
+	public abstract void onGreatwardInit(World world, Greatward greatward);
 	
 	/**
 	 * Used to get the name of the greatward component.
