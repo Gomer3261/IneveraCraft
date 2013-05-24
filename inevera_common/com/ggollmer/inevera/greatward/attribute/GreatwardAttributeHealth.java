@@ -2,6 +2,7 @@ package com.ggollmer.inevera.greatward.attribute;
 
 import net.minecraft.world.World;
 
+import com.ggollmer.inevera.core.helper.LogHelper;
 import com.ggollmer.inevera.greatward.Greatward;
 import com.ggollmer.inevera.lib.GreatwardConstants;
 
@@ -16,7 +17,6 @@ import com.ggollmer.inevera.lib.GreatwardConstants;
  */
 public class GreatwardAttributeHealth extends GreatwardAttribute
 {
-
 	/**
 	 * @param name
 	 */
@@ -30,19 +30,31 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 	@Override
 	public void onGreatwardInit(World world, Greatward greatward)
 	{
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public boolean canPerformOperation(World world, Greatward greatward)
 	{
-		// TODO Auto-generated method stub
+		if(greatward.currentCoreEnergy >= 100)
+		{
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public void performGreatwardEffects(World world, Greatward greatward, float effectMutliplier)
 	{
-		// TODO Auto-generated method stub
+		if(!greatward.entityTargets.isEmpty())
+		{
+			if(greatward.entityTargets.size() > 1)
+			{
+				LogHelper.debugLog("Healing: " + greatward.entityTargets.get(rand.nextInt((greatward.entityTargets.size()-1))).getEntityName());
+			}
+			else
+			{
+				LogHelper.debugLog("Healing: " + greatward.entityTargets.get(0).getEntityName());
+			}
+		}
 	}
 }

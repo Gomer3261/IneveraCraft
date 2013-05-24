@@ -89,6 +89,12 @@ public class TileGreatwardPiece extends TileEntity
 	}
 	
 	@Override
+	public boolean canUpdate()
+	{
+		return false;
+	}
+	
+	@Override
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
 
         super.readFromNBT(nbtTagCompound);

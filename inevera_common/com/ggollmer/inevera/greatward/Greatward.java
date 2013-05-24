@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -44,6 +45,11 @@ public class Greatward
 	public double centerX;
 	public double centerY;
 	public double centerZ;
+	public double cornerX;
+	public double cornerY;
+	public double cornerZ;
+	
+	public double width;
 	public double radius;
 	public double height;
 	
@@ -53,6 +59,7 @@ public class Greatward
 	public float currentCoreEnergy;
 	public float maxCoreEnergy;
 	
+	public AxisAlignedBB bounds;
 	public List<Entity> entityTargets;
 	public List<ChunkCoordinates> blockTargets;
 	
@@ -155,7 +162,7 @@ public class Greatward
 	public void update(World world, int coreX, int coreY, int coreZ)
 	{
 		if(!initialized)
-		{
+		{	
 			init(world, coreX, coreY, coreZ);
 			target.onGreatwardInit(world, this);
 			attribute.onGreatwardInit(world, this);
@@ -165,6 +172,8 @@ public class Greatward
 			{
 				augment.onGreatwardInit(world, this);
 			}
+			
+			recalculateBounds();
 		}
 		
 		if(attribute.canPerformOperation(world, this))
@@ -174,12 +183,27 @@ public class Greatward
 			
 			attribute.performGreatwardEffects(world, this, effect.getEffectMultiplier(world, this));
 		}
+		
+		if(currentCoreEnergy < maxCoreEnergy)
+		{
+			currentCoreEnergy += coreEnergyDrawRate;
+			
+			if(currentCoreEnergy > maxCoreEnergy)
+			{
+				currentCoreEnergy = maxCoreEnergy;
+			}
+		}
 	}
 	
 	private void init(World world, int coreX, int coreY, int coreZ)
 	{
-		//TODO: Actually calculate these values.
-		
+		GreatwardDimensions dim = GreatwardManager.getDimensionsForType(wardType);
+		cornerX = dim.getStartX(coreX, wardDirection, wardOrientation);
+		cornerY = dim.getStartY(coreY, wardDirection, wardOrientation);
+		cornerZ = dim.getStartZ(coreZ, wardDirection, wardOrientation);
+		width = dim.getWidth();
+		radius = dim.getRadius();
+		height = dim.getHeight();
 		
 		costPerOperationModifier = 1;
 		coreEnergyDrawRate = 1;
@@ -188,6 +212,35 @@ public class Greatward
 		maxCoreEnergy = 100;
 		
 		initialized = true;
+	}
+	
+	private void recalculateBounds()
+	{
+		ForgeDirection wardOri2 = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[wardDirection.ordinal()][wardOrientation.ordinal()]);
+		double endX = cornerX + height*wardDirection.offsetX + width*wardOrientation.offsetX*-1 + width*wardOri2.offsetX;
+		double endY = cornerY + height*wardDirection.offsetY + width*wardOrientation.offsetY*-1 + width*wardOri2.offsetY;
+		double endZ = cornerZ + height*wardDirection.offsetZ + width*wardOrientation.offsetZ*-1 + width*wardOri2.offsetZ;
+		
+		double minX, maxX, minY, maxY, minZ, maxZ;
+		
+		minX = (cornerX < endX) ? cornerX : endX+1;
+		maxX = (cornerX < endX) ? endX : cornerX+1;
+		minY = (cornerY < endY) ? cornerY : endY+1;
+		maxY = (cornerY < endY) ? endY : cornerY+1;
+		minZ = (cornerZ < endZ) ? cornerZ : endZ+1;
+		maxZ = (cornerZ < endZ) ? endZ : cornerZ+1;
+		
+		LogHelper.debugLog(String.format("Bounds Calculated: minX: %f minY: %f minZ: %f MaxX: %f MaxY: %f MaxZ: %f", minX, minY, minZ, maxX, maxY, maxZ));
+		bounds = AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
+		
+		centerX = minX + (maxX - minX)/2;
+		centerY = minY;
+		centerZ = minZ + (maxZ - minZ)/2;
+	}
+	
+	public List<Integer> getValidBlockTargets()
+	{
+		return attribute.getValidBlockTargets();
 	}
 	
 	/**
@@ -250,7 +303,7 @@ public class Greatward
             greatwardBlocks = NBTHelper.getChunkCoordinatesListFromNBTTagList(nbtTagCompound.getTagList(GreatwardConstants.GW_NBT_COORD_LIST_KEY));
         }
 		
-		LogHelper.debugLog(String.format("Loading Greatward From NBT dir: %S, blocks %d, type: %s, target: %s, attribute: %s, effect %s, augments %d", wardDirection.toString(), greatwardBlocks.size(), wardType, target.getName(), attribute.getName(), effect.getName(), augments.size()));
+		LogHelper.debugLog(String.format("Loading Greatward From NBT dir: %S, ori: %s, blocks %d, type: %s, target: %s, attribute: %s, effect %s, augments %d", wardDirection.toString(), wardOrientation.toString(), greatwardBlocks.size(), wardType, target.getName(), attribute.getName(), effect.getName(), augments.size()));
 	}
 	
 	/**

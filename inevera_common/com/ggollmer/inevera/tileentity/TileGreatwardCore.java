@@ -102,6 +102,15 @@ public class TileGreatwardCore extends TileEntity
 		checkValidGreatward(world, x, y, z);
 	}
 	
+	@Override
+	public void updateEntity()
+	{
+		if(greatward != null)
+		{
+			greatward.update(worldObj, xCoord, yCoord, zCoord);
+		}
+	}
+	
 	private void checkValidGreatward(World world, int x, int y, int z)
 	{
 		boolean changed = greatward == null;

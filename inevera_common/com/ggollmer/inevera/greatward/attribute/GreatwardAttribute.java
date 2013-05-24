@@ -1,7 +1,7 @@
-/**
- * 
- */
 package com.ggollmer.inevera.greatward.attribute;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import net.minecraft.world.World;
 
@@ -19,13 +19,16 @@ import com.ggollmer.inevera.greatward.GreatwardFullComponent;
  */
 public abstract class GreatwardAttribute extends GreatwardFullComponent
 {
-
+	
+	private static List<Integer> validIds;
+	
 	/**
 	 * @param name
 	 */
 	public GreatwardAttribute(String name)
 	{
 		super(name);
+		validIds = new ArrayList<Integer>();
 	}
 	
 	/**
@@ -41,4 +44,22 @@ public abstract class GreatwardAttribute extends GreatwardFullComponent
 	 * @param greatward The greatward itself.
 	 */
 	public abstract void performGreatwardEffects(World world, Greatward greatward, float effectMultiplier);
+
+	/**
+	 * Used to check which blocks should be targetted based on block id.
+	 * @return A list of valid block Ids for the greatward to target.
+	 */
+	public List<Integer> getValidBlockTargets()
+	{
+		return validIds;
+	}
+	
+	/**
+	 * Used to register valid target ids with the greatward attribute.
+	 * @param id The id to register with the attribute.
+	 */
+	public void registerValidId(int id)
+	{
+		validIds.add(id);
+	}
 }

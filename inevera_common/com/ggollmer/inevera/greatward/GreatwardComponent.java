@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.logging.Level;
 
 import net.minecraft.client.Minecraft;
@@ -31,6 +32,7 @@ public abstract class GreatwardComponent
 	
 	protected Map<String, GreatwardMap> patterns;
 	protected String name;
+	protected Random rand;
 	
 	/**
 	 * Constructs a new greatward component.
@@ -40,6 +42,7 @@ public abstract class GreatwardComponent
 	{
 		patterns = new HashMap<String, GreatwardMap>();
 		this.name = name;
+		rand = new Random();
 	}
 	
 	/**

@@ -1,7 +1,9 @@
 package com.ggollmer.inevera.greatward.target;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.ggollmer.inevera.core.helper.LogHelper;
 import com.ggollmer.inevera.greatward.Greatward;
 import com.ggollmer.inevera.lib.GreatwardConstants;
 
@@ -32,20 +34,53 @@ public class GreatwardTargetAll extends GreatwardTarget
 	@Override
 	public void onGreatwardInit(World world, Greatward greatward)
 	{
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public List<Entity> findValidEntityTargets(World world, Greatward greatward)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		List<Entity> targetEntities = new ArrayList<Entity>();
+		List<?> worldEntities = world.getEntitiesWithinAABB(Entity.class, greatward.bounds);
+		
+		for(Object obj : worldEntities)
+		{
+			if(obj instanceof Entity)
+			{
+				double dist = ((Entity)obj).getDistance(greatward.centerX, ((Entity)obj).posY, greatward.centerZ);
+				if(dist <= greatward.radius)
+				{
+					targetEntities.add((Entity)obj);
+				}
+			}
+		}
+		
+		LogHelper.debugLog("Entities found: size: " + targetEntities.size() + " List: " + targetEntities.toString());
+		
+		return targetEntities;
 	}
 
 	@Override
 	public List<ChunkCoordinates> findValidBlockTargets(World world, Greatward greatward)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		List<ChunkCoordinates> targetBlocks = new ArrayList<ChunkCoordinates>();
+		
+		if(!greatward.getValidBlockTargets().isEmpty())
+		{
+			for(int i=(int)Math.floor(greatward.bounds.minX); i<(int)Math.floor(greatward.bounds.maxX); i++)
+			{
+				for(int j=(int)Math.floor(greatward.bounds.minY); j<(int)Math.floor(greatward.bounds.maxY); j++)
+				{
+					for(int k=(int)Math.floor(greatward.bounds.minX); k<(int)Math.floor(greatward.bounds.maxX); k++)
+					{
+						if(greatward.getValidBlockTargets().contains(world.getBlockId(i, j, k)))
+						{
+							targetBlocks.add(new ChunkCoordinates(i, j, k));
+						}
+					}
+				}
+			}
+		}
+		
+		return targetBlocks;
 	}
 }

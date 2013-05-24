@@ -36,19 +36,9 @@ public class GreatwardDimensions
 		return projectionLength;
 	}
 	
-	public double getCenterX(int coreX, ForgeDirection wardDir, ForgeDirection wardOri)
+	public int getWidth()
 	{
-		return getStartX(coreX, wardDir, wardOri) + (width/2 + 1)*(1 - wardOri.offsetX);
-	}
-	
-	public double getCenterY(int coreY, ForgeDirection wardDir, ForgeDirection wardOri)
-	{
-		return getStartY(coreY, wardDir, wardOri) + (width/2 + 1)*(1 - wardOri.offsetY);
-	}
-	
-	public double getCenterZ(int coreZ, ForgeDirection wardDir,  ForgeDirection wardOri)
-	{
-		return getStartZ(coreZ, wardDir, wardOri) + (width/2 + 1)*(1 - wardOri.offsetZ);
+		return width;
 	}
 	
 	public int getStartX(int coreX, ForgeDirection wardDir, ForgeDirection wardOri)
