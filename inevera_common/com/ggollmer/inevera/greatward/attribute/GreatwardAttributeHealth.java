@@ -1,5 +1,10 @@
 package com.ggollmer.inevera.greatward.attribute;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.world.World;
 
 import com.ggollmer.inevera.core.helper.LogHelper;
@@ -17,8 +22,9 @@ import com.ggollmer.inevera.lib.GreatwardConstants;
  */
 public class GreatwardAttributeHealth extends GreatwardAttribute
 {
+	private static final int OPERATION_COST = 30;	
 	/**
-	 * @param name
+	 * @param name The unique name of the greatward component.
 	 */
 	public GreatwardAttributeHealth(String name)
 	{
@@ -35,7 +41,7 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 	@Override
 	public boolean canPerformOperation(World world, Greatward greatward)
 	{
-		if(greatward.currentCoreEnergy >= 100)
+		if(greatward.currentCoreEnergy >= OPERATION_COST)
 		{
 			return true;
 		}
@@ -43,17 +49,32 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 	}
 
 	@Override
-	public void performGreatwardEffects(World world, Greatward greatward, float effectMutliplier)
+	public void performGreatwardEffects(World world, Greatward greatward, float effectMultiplier)
 	{
 		if(!greatward.entityTargets.isEmpty())
 		{
-			if(greatward.entityTargets.size() > 1)
+			List<EntityLiving> healableEntities = new ArrayList<EntityLiving>();
+			
+			for(Entity e : greatward.entityTargets)
 			{
-				LogHelper.debugLog("Healing: " + greatward.entityTargets.get(rand.nextInt((greatward.entityTargets.size()-1))).getEntityName());
+				if(e instanceof EntityLiving)
+				{
+					healableEntities.add((EntityLiving)e);
+				}
 			}
-			else
+			
+			if(!healableEntities.isEmpty())
 			{
-				LogHelper.debugLog("Healing: " + greatward.entityTargets.get(0).getEntityName());
+				int index = 0;
+				
+				if(healableEntities.size() > 1)
+				{
+					index = rand.nextInt((greatward.entityTargets.size()-1));
+				}
+				
+				LogHelper.debugLog("Healing: " + healableEntities.get(index).getEntityName());
+				healableEntities.get(index).heal((int)(1*effectMultiplier));
+				greatward.currentCoreEnergy -= OPERATION_COST;
 			}
 		}
 	}

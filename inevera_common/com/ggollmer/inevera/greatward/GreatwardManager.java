@@ -14,6 +14,8 @@ import com.ggollmer.inevera.greatward.attribute.GreatwardAttribute;
 import com.ggollmer.inevera.greatward.attribute.GreatwardAttributeHealth;
 import com.ggollmer.inevera.greatward.augment.GreatwardAugment;
 import com.ggollmer.inevera.greatward.effect.GreatwardEffect;
+import com.ggollmer.inevera.greatward.effect.GreatwardEffectChaotic;
+import com.ggollmer.inevera.greatward.effect.GreatwardEffectNegative;
 import com.ggollmer.inevera.greatward.effect.GreatwardEffectPositive;
 import com.ggollmer.inevera.greatward.target.GreatwardTarget;
 import com.ggollmer.inevera.greatward.target.GreatwardTargetAll;
@@ -54,6 +56,8 @@ public class GreatwardManager
 		registerAttribute(GreatwardConstants.GW_ATTRIBUTE_HEALTH_NAME, new GreatwardAttributeHealth(GreatwardConstants.GW_ATTRIBUTE_HEALTH_NAME));
 		
 		registerEffect(GreatwardConstants.GW_EFFECT_POSITIVE_NAME, new GreatwardEffectPositive(GreatwardConstants.GW_EFFECT_POSITIVE_NAME));
+		registerEffect(GreatwardConstants.GW_EFFECT_NEGATIVE_NAME, new GreatwardEffectNegative(GreatwardConstants.GW_EFFECT_NEGATIVE_NAME));
+		registerEffect(GreatwardConstants.GW_EFFECT_CHAOTIC_NAME, new GreatwardEffectChaotic(GreatwardConstants.GW_EFFECT_CHAOTIC_NAME));
 		
 		registerType(GreatwardConstants.GW_MINOR_TYPE, new GreatwardDimensions(GreatwardConstants.GW_MINOR_DIMENSION, GreatwardConstants.GW_MINOR_OFFSET_X, GreatwardConstants.GW_MINOR_OFFSET_Y, GreatwardConstants.GW_MINOR_PROJECTION));
 		registerType(GreatwardConstants.GW_NORMAL_TYPE, new GreatwardDimensions(GreatwardConstants.GW_NORMAL_DIMENSION, GreatwardConstants.GW_NORMAL_OFFSET_X, GreatwardConstants.GW_NORMAL_OFFSET_Y, GreatwardConstants.GW_NORMAL_PROJECTION));
@@ -106,6 +110,7 @@ public class GreatwardManager
 		{
 			if(e.findPattern(world, wardType, coreX, coreY, coreZ, wardOrientation, wardDirection, id, meta, greatwardBlocks))
 			{
+				LogHelper.debugLog("WardEffect found: " + e.getName());
 				effect = e;
 				break;
 			}
@@ -167,7 +172,7 @@ public class GreatwardManager
 	 * Used to register a greatward effect class with the manager.
 	 * @param effect the effect class to register.
 	 */
-	public static void registerEffect(String name, GreatwardEffectPositive effect)
+	public static void registerEffect(String name, GreatwardEffect effect)
 	{
 		effectMap.put(name, effect);
 	}

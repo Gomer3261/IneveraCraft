@@ -47,7 +47,12 @@ public class TileGreatwardCoreRenderer implements ISimpleBlockRenderingHandler
 			return false;
 		}
 		
+		//renderer.setOverrideBlockTexture(((BlockGreatwardComponent)block).getCoreIcon(world.getBlockMetadata(x, y, z)));
+		//GL11.glScalef(0.99f, 0.99f, 0.99f);
+		//renderer.renderStandardBlockWithColorMultiplier(Block.glowStone, x, y, z, 255, 255, 255);
 		renderer.renderBlockUsingTexture(Block.glowStone, x, y, z, ((BlockGreatwardComponent)block).getCoreIcon(world.getBlockMetadata(x, y, z)));
+		//renderer.clearOverrideBlockTexture();
+		//GL11.glScalef(1.0101010100f, 1.0101010100f, 1.0101010100f);
 		renderer.renderStandardBlock(block, x, y, z);
 		
 		return true;

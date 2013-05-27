@@ -66,9 +66,19 @@ public class GreatwardConstants
 	
 	/* Greatward effect constants */
 	public static final String GW_EFFECT_POSITIVE_NAME = "e_positive";
+	public static final String GW_EFFECT_NEGATIVE_NAME = "e_negative";
+	public static final String GW_EFFECT_CHAOTIC_NAME = "e_chaotic";
 	
 	/* Greatward effect maps */
 	public static final String GW_EFFECT_POSITIVE_MINOR_LOCATION = GW_MINOR_LOCATION + "/" + GW_EFFECT_POSITIVE_NAME + ".txt";
 	public static final String GW_EFFECT_POSITIVE_NORMAL_LOCATION = GW_NORMAL_LOCATION + "/" + GW_EFFECT_POSITIVE_NAME + ".txt";
 	public static final String GW_EFFECT_POSITIVE_MAJOR_LOCATION = GW_MAJOR_LOCATION + "/" + GW_EFFECT_POSITIVE_NAME + ".txt";
+	
+	public static final String GW_EFFECT_NEGATIVE_MINOR_LOCATION = GW_MINOR_LOCATION + "/" + GW_EFFECT_NEGATIVE_NAME + ".txt";
+	public static final String GW_EFFECT_NEGATIVE_NORMAL_LOCATION = GW_NORMAL_LOCATION + "/" + GW_EFFECT_NEGATIVE_NAME + ".txt";
+	public static final String GW_EFFECT_NEGATIVE_MAJOR_LOCATION = GW_MAJOR_LOCATION + "/" + GW_EFFECT_NEGATIVE_NAME + ".txt";
+	
+	public static final String GW_EFFECT_CHAOTIC_MINOR_LOCATION = GW_MINOR_LOCATION + "/" + GW_EFFECT_CHAOTIC_NAME + ".txt";
+	public static final String GW_EFFECT_CHAOTIC_NORMAL_LOCATION = GW_NORMAL_LOCATION + "/" + GW_EFFECT_CHAOTIC_NAME + ".txt";
+	public static final String GW_EFFECT_CHAOTIC_MAJOR_LOCATION = GW_MAJOR_LOCATION + "/" + GW_EFFECT_CHAOTIC_NAME + ".txt";
 }

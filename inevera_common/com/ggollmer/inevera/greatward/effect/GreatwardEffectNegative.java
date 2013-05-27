@@ -8,25 +8,25 @@ import com.ggollmer.inevera.lib.GreatwardConstants;
 /**
  * IneveraCraft
  *
- * IGreatwardEffect.java
+ * GreatwardEffectNegative.java
  *
  * @author gomer3261
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  *
  */
-public class GreatwardEffectPositive extends GreatwardEffect
+public class GreatwardEffectNegative extends GreatwardEffect
 {
-	public GreatwardEffectPositive(String name)
+	public GreatwardEffectNegative(String name)
 	{
 		super(name);
-		addGreatwardMap(GreatwardConstants.GW_MINOR_TYPE, GreatwardConstants.GW_EFFECT_POSITIVE_MINOR_LOCATION, GreatwardConstants.GW_MINOR_DIMENSION, GreatwardConstants.GW_MINOR_DIMENSION);
+		addGreatwardMap(GreatwardConstants.GW_MINOR_TYPE, GreatwardConstants.GW_EFFECT_NEGATIVE_MINOR_LOCATION, GreatwardConstants.GW_MINOR_DIMENSION, GreatwardConstants.GW_MINOR_DIMENSION);
 		//TODO: Add normal and major types.
 	}
 
 	@Override
 	public float getEffectMultiplier(World world, Greatward greatward)
 	{
-		return 1;
+		return -1;
 	}
 
 	@Override

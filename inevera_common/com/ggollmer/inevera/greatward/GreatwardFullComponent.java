@@ -6,8 +6,6 @@ import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
-import com.ggollmer.inevera.core.helper.LogHelper;
-
 
 /**
  * IneveraCraft
@@ -52,7 +50,6 @@ public abstract class GreatwardFullComponent extends GreatwardComponent
 			int sy = GreatwardManager.getDimensionsForType(wardType).getStartY(coreY, ez, ey);
 			int sz = GreatwardManager.getDimensionsForType(wardType).getStartZ(coreZ, ez, ey);
 			
-			LogHelper.debugLog(String.format("Looking for greatward attribute: x: %d, y: %d, z: %d, dir: %s", sx, sy, sz, ey.toString()));
 			return areaMatchesPattern(world, wardType, id, meta, sx, sy, sz, ex, ey, ez, greatwardBlocks, true);
 		}
 		return false;

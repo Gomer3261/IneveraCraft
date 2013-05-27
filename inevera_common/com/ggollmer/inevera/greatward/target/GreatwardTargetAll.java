@@ -3,7 +3,6 @@ package com.ggollmer.inevera.greatward.target;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ggollmer.inevera.core.helper.LogHelper;
 import com.ggollmer.inevera.greatward.Greatward;
 import com.ggollmer.inevera.lib.GreatwardConstants;
 
@@ -53,8 +52,6 @@ public class GreatwardTargetAll extends GreatwardTarget
 				}
 			}
 		}
-		
-		LogHelper.debugLog("Entities found: size: " + targetEntities.size() + " List: " + targetEntities.toString());
 		
 		return targetEntities;
 	}
