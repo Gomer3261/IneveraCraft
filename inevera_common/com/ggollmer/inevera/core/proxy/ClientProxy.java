@@ -6,7 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraftforge.common.ForgeDirection;
 
-import com.ggollmer.inevera.client.renderer.TileGreatwardCoreRenderer;
+import com.ggollmer.inevera.client.renderer.GreatwardComponentBlockRenderer;
 import com.ggollmer.inevera.lib.RenderIds;
 import com.ggollmer.inevera.tileentity.TileGreatwardCore;
 import com.ggollmer.inevera.tileentity.TileGreatwardPiece;
@@ -38,7 +38,7 @@ public class ClientProxy extends CommonProxy
 	{
 		RenderIds.greatwardCoreRenderer = RenderingRegistry.getNextAvailableRenderId();
 		
-		RenderingRegistry.registerBlockHandler(new TileGreatwardCoreRenderer());
+		RenderingRegistry.registerBlockHandler(new GreatwardComponentBlockRenderer());
 		
 		//MinecraftForgeClient.registerItemRenderer(BlockIds.MINOR_WARD_CORE, renderer)
 	}

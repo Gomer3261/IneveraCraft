@@ -7,7 +7,10 @@ import com.ggollmer.inevera.lib.RenderIds;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 /**
@@ -19,7 +22,7 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  *
  */
-public class TileGreatwardCoreRenderer implements ISimpleBlockRenderingHandler
+public class GreatwardComponentBlockRenderer implements ISimpleBlockRenderingHandler
 {
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer)
@@ -47,15 +50,34 @@ public class TileGreatwardCoreRenderer implements ISimpleBlockRenderingHandler
 			return false;
 		}
 		
-		//renderer.setOverrideBlockTexture(((BlockGreatwardComponent)block).getCoreIcon(world.getBlockMetadata(x, y, z)));
-		//GL11.glScalef(0.99f, 0.99f, 0.99f);
-		//renderer.renderStandardBlockWithColorMultiplier(Block.glowStone, x, y, z, 255, 255, 255);
-		renderer.renderBlockUsingTexture(Block.glowStone, x, y, z, ((BlockGreatwardComponent)block).getCoreIcon(world.getBlockMetadata(x, y, z)));
-		//renderer.clearOverrideBlockTexture();
-		//GL11.glScalef(1.0101010100f, 1.0101010100f, 1.0101010100f);
+		renderInnerCube(world, x, y, z, block, ((BlockGreatwardComponent)block).getCoreIcon(world.getBlockMetadata(x, y, z)));
 		renderer.renderStandardBlock(block, x, y, z);
 		
 		return true;
+	}
+	
+	public void renderInnerCube(IBlockAccess world, int x, int y, int z, Block block, Icon icon)
+	{
+		Tessellator.instance.setBrightness(1024);
+		Tessellator.instance.setColorRGBA(255, 255, 255, 255);
+		
+		//UP
+		RenderUtils.drawTexturedQuad(x + 0.02f, y + 0.98f, z + 0.02f, icon, 0.96d, 0d, 0.96d, ForgeDirection.UP);
+		
+		//DOWN
+		RenderUtils.drawTexturedQuad(x + 0.02f, y + 0.02f, z + 0.02f, icon, 0.96d, 0d, 0.96d, ForgeDirection.DOWN);
+		
+		//NORTH
+		RenderUtils.drawTexturedQuad(x + 0.02f, y + 0.02f, z + 0.98f, icon, 0.96d, 0.96d, 0d, ForgeDirection.NORTH);
+		
+		//SOUTH
+		RenderUtils.drawTexturedQuad(x + 0.02f, y + 0.02f, z + 0.02f, icon, 0.96d, 0.96d, 0d, ForgeDirection.SOUTH);
+		
+		//EAST
+		RenderUtils.drawTexturedQuad(x + 0.98f, y + 0.02f, z + 0.02f, icon, 0d, 0.96d, 0.96d, ForgeDirection.EAST);
+		
+		//WEST
+		RenderUtils.drawTexturedQuad(x + 0.02f, y + 0.02f, z + 0.02f, icon, 0d, 0.96d, 0.96d, ForgeDirection.WEST);
 	}
 
 	@Override

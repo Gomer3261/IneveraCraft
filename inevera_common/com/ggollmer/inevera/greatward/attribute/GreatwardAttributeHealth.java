@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 import com.ggollmer.inevera.core.helper.LogHelper;
@@ -73,7 +74,14 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 				}
 				
 				LogHelper.debugLog("Healing: " + healableEntities.get(index).getEntityName());
-				healableEntities.get(index).heal((int)(1*effectMultiplier));
+				if(effectMultiplier < 0)
+				{
+					healableEntities.get(index).attackEntityFrom(DamageSource.magic, (int)(-1*effectMultiplier));
+				}
+				else
+				{
+					healableEntities.get(index).heal((int)(1*effectMultiplier));
+				}
 				greatward.currentCoreEnergy -= OPERATION_COST;
 			}
 		}
