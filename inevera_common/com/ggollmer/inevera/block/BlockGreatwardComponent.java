@@ -79,7 +79,7 @@ public abstract class BlockGreatwardComponent extends BlockInevera
 	@Override
 	public boolean isOpaqueCube()
 	{
-		return true;
+		return false;
 	}
 	
 	@Override

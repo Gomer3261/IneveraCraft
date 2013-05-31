@@ -119,19 +119,19 @@ public class TileGreatwardCore extends TileEntity
 			return;
 		}
 		
-		// TODO: this is temporary code to make sure that the dummy actually works.
-		if(worldObj.getBlockId(x,y+1, z) != 0)
-		{
-			if(GreatwardHelper.isValidGreatwardPiece(worldObj.getBlockId(x,  y+1, z)) && ((TileGreatwardPiece)worldObj.getBlockTileEntity(x, y+1, z)).getCoreTile() == null)
+		for(ForgeDirection wardDirection : ForgeDirection.VALID_DIRECTIONS)
+		{                                     
+			if(GreatwardHelper.isValidGreatwardPiece(worldObj.getBlockId(x+wardDirection.offsetX,  y+wardDirection.offsetY, z+wardDirection.offsetZ)))
 			{
-				ForgeDirection wardDirection = ForgeDirection.UP;
-				LogHelper.debugLog(String.format("GreatwardCore searching for ward: x: %d, y: %d, z: %d", xCoord, yCoord, zCoord));
-				greatward = GreatwardManager.generateGreatward(world, x, y, z, worldObj.getBlockId(x,y+1, z), worldObj.getBlockMetadata(x,y+1, z), GreatwardConstants.GW_MINOR_TYPE, wardDirection);
-				
-				if(greatward != null)
+				if(((TileGreatwardPiece)worldObj.getBlockTileEntity(x+wardDirection.offsetX, y+wardDirection.offsetY, z+wardDirection.offsetZ)).getCoreTile() == null)
 				{
-					convertDummyList(world, greatward.getGreatwardBlocks());
-					setValidGreatward(true);
+					greatward = GreatwardManager.generateGreatward(world, x, y, z, worldObj.getBlockId(x+wardDirection.offsetX, y+wardDirection.offsetY, z+wardDirection.offsetZ), worldObj.getBlockMetadata(x+wardDirection.offsetX, y+wardDirection.offsetY, z+wardDirection.offsetZ), GreatwardConstants.GW_MINOR_TYPE, wardDirection);
+					
+					if(greatward != null)
+					{
+						convertDummyList(world, greatward.getGreatwardBlocks());
+						setValidGreatward(true);
+					}
 				}
 			}
 		}

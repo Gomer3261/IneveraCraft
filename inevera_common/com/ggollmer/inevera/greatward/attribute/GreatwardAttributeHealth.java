@@ -102,5 +102,7 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 				((IGWHealableBlock)Block.blocksList[world.getBlockId(coord.posX, coord.posY, coord.posZ)]).onGreatwardHeal(world, coord.posX, coord.posY, coord.posZ);
 			}
 		}
+		
+		//Minecraft.getMinecraft().effectRenderer.addEffect(entityfx = new EntityHugeExplodeFX(this.theWorld, par2, par4, par6, par8, par10, par12));
 	}
 }
