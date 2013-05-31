@@ -225,8 +225,8 @@ public class Greatward
 		
 		minX = (cornerX < endX) ? cornerX : endX+1;
 		maxX = (cornerX < endX) ? endX : cornerX+1;
-		minY = (cornerY < endY) ? cornerY : endY+1;
-		maxY = (cornerY < endY) ? endY : cornerY+1;
+		minY = (cornerY < endY) ? cornerY+1 : endY;
+		maxY = (cornerY < endY) ? endY+1 : cornerY;
 		minZ = (cornerZ < endZ) ? cornerZ : endZ+1;
 		maxZ = (cornerZ < endZ) ? endZ : cornerZ+1;
 		
@@ -238,9 +238,19 @@ public class Greatward
 		centerZ = minZ + (maxZ - minZ)/2;
 	}
 	
-	public List<Integer> getValidBlockTargets()
+	public boolean canTargetBlocks()
 	{
-		return attribute.getValidBlockTargets();
+		return attribute.canTargetBlocks();
+	}
+	
+	public boolean isValidBlockTarget(int id)
+	{
+		return attribute.isValidBlockTarget(id);
+	}
+	
+	public boolean isValidEntityTarget(Entity entity)
+	{
+		return attribute.isValidEntityTarget(entity);
 	}
 	
 	/**

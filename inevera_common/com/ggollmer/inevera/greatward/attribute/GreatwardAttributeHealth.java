@@ -1,14 +1,12 @@
 package com.ggollmer.inevera.greatward.attribute;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-import com.ggollmer.inevera.core.helper.LogHelper;
 import com.ggollmer.inevera.greatward.Greatward;
 import com.ggollmer.inevera.lib.GreatwardConstants;
 
@@ -23,7 +21,9 @@ import com.ggollmer.inevera.lib.GreatwardConstants;
  */
 public class GreatwardAttributeHealth extends GreatwardAttribute
 {
-	private static final int OPERATION_COST = 30;	
+	private static final int OPERATION_COST = 30;
+	private static final int TARGETS_PER_OPERATION = 5;
+	private static final int AMOUNT_PER_OPERATION = 1;
 	/**
 	 * @param name The unique name of the greatward component.
 	 */
@@ -37,6 +37,21 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 	@Override
 	public void onGreatwardInit(World world, Greatward greatward)
 	{
+	}
+	
+	@Override
+	public boolean isValidEntityTarget(Entity target)
+	{
+		return ((target instanceof EntityLiving) || (target instanceof IGWHealableEntity));
+	}
+	
+	@Override
+	public void registerValidId(int id)
+	{
+		if(Block.blocksList[id] instanceof IGWHealableBlock)
+		{
+			super.registerValidId(id);
+		}
 	}
 
 	@Override
@@ -52,37 +67,39 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 	@Override
 	public void performGreatwardEffects(World world, Greatward greatward, float effectMultiplier)
 	{
+		/* Entities */
 		if(!greatward.entityTargets.isEmpty())
 		{
-			List<EntityLiving> healableEntities = new ArrayList<EntityLiving>();
-			
-			for(Entity e : greatward.entityTargets)
+			int targetCount = (greatward.entityTargets.size() < TARGETS_PER_OPERATION) ? greatward.entityTargets.size() : TARGETS_PER_OPERATION;
+			int startIndex = (greatward.entityTargets.size()>1) ? rand.nextInt(greatward.entityTargets.size()-1) : 0;
+			for(int i=0; i<targetCount; i++)
 			{
-				if(e instanceof EntityLiving)
+				Entity target = greatward.entityTargets.get((startIndex + i)%greatward.entityTargets.size());
+				if(target instanceof IGWHealableEntity)
 				{
-					healableEntities.add((EntityLiving)e);
-				}
-			}
-			
-			if(!healableEntities.isEmpty())
-			{
-				int index = 0;
-				
-				if(healableEntities.size() > 1)
-				{
-					index = rand.nextInt((greatward.entityTargets.size()-1));
-				}
-				
-				LogHelper.debugLog("Healing: " + healableEntities.get(index).getEntityName());
-				if(effectMultiplier < 0)
-				{
-					healableEntities.get(index).attackEntityFrom(DamageSource.magic, (int)(-1*effectMultiplier));
+					((IGWHealableEntity)target).onGreatwardHeal((int)(AMOUNT_PER_OPERATION*effectMultiplier));
 				}
 				else
 				{
-					healableEntities.get(index).heal((int)(1*effectMultiplier));
+					if(effectMultiplier < 0)
+					{
+						((EntityLiving)target).attackEntityFrom(DamageSource.magic, (int)(-1*effectMultiplier));
+					}
+					else
+					{
+						((EntityLiving)target).heal((int)(1*effectMultiplier));
+					}
 				}
-				greatward.currentCoreEnergy -= OPERATION_COST;
+			}
+			greatward.currentCoreEnergy -= OPERATION_COST;
+		}
+		
+		/* Blocks */
+		if(!greatward.blockTargets.isEmpty())
+		{
+			for(ChunkCoordinates coord : greatward.blockTargets)
+			{
+				((IGWHealableBlock)Block.blocksList[world.getBlockId(coord.posX, coord.posY, coord.posZ)]).onGreatwardHeal(world, coord.posX, coord.posY, coord.posZ);
 			}
 		}
 	}

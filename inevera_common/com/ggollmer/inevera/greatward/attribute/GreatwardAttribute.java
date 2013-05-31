@@ -1,8 +1,6 @@
 package com.ggollmer.inevera.greatward.attribute;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 
 import com.ggollmer.inevera.greatward.Greatward;
@@ -20,7 +18,8 @@ import com.ggollmer.inevera.greatward.GreatwardFullComponent;
 public abstract class GreatwardAttribute extends GreatwardFullComponent
 {
 	
-	private static List<Integer> validIds;
+	protected boolean[] validIds = new boolean[4096];
+	protected boolean canTargetBlocks;
 	
 	/**
 	 * @param name
@@ -28,7 +27,11 @@ public abstract class GreatwardAttribute extends GreatwardFullComponent
 	public GreatwardAttribute(String name)
 	{
 		super(name);
-		validIds = new ArrayList<Integer>();
+		for(int i=0; i<4096; i++)
+		{
+			validIds[i] = false;
+		}
+		canTargetBlocks = false;
 	}
 	
 	/**
@@ -46,12 +49,23 @@ public abstract class GreatwardAttribute extends GreatwardFullComponent
 	public abstract void performGreatwardEffects(World world, Greatward greatward, float effectMultiplier);
 
 	/**
-	 * Used to check which blocks should be targetted based on block id.
-	 * @return A list of valid block Ids for the greatward to target.
+	 * Used to check which blocks should be targeted based on block id.
+	 * @param id The id to check for.
+	 * @return true if a block can be targeted.
 	 */
-	public List<Integer> getValidBlockTargets()
+	public boolean isValidBlockTarget(int id)
 	{
-		return validIds;
+		return validIds[id];
+	}
+	
+	/**
+	 * Used to check if an entity can be targeted.
+	 * @param target The entity to be targeted.
+	 * @return True if the entity is a valid target.
+	 */
+	public boolean isValidEntityTarget(Entity target)
+	{
+		return true;
 	}
 	
 	/**
@@ -60,6 +74,16 @@ public abstract class GreatwardAttribute extends GreatwardFullComponent
 	 */
 	public void registerValidId(int id)
 	{
-		validIds.add(id);
+		validIds[id] = true;
+		canTargetBlocks = true;
+	}
+	
+	/**
+	 * Used to check if the attribute can target blocks.
+	 * @return True if the attribute can target blocks.
+	 */
+	public boolean canTargetBlocks()
+	{
+		return canTargetBlocks;
 	}
 }

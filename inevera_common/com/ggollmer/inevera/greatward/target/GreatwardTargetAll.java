@@ -45,10 +45,13 @@ public class GreatwardTargetAll extends GreatwardTarget
 		{
 			if(obj instanceof Entity)
 			{
-				double dist = ((Entity)obj).getDistance(greatward.centerX, ((Entity)obj).posY, greatward.centerZ);
-				if(dist <= greatward.radius)
+				if(greatward.isValidEntityTarget((Entity)obj))
 				{
-					targetEntities.add((Entity)obj);
+					double dist = ((Entity)obj).getDistance(greatward.centerX, ((Entity)obj).posY, greatward.centerZ);
+					if(dist <= greatward.radius)
+					{
+						targetEntities.add((Entity)obj);
+					}
 				}
 			}
 		}
@@ -61,7 +64,7 @@ public class GreatwardTargetAll extends GreatwardTarget
 	{
 		List<ChunkCoordinates> targetBlocks = new ArrayList<ChunkCoordinates>();
 		
-		if(!greatward.getValidBlockTargets().isEmpty())
+		if(!greatward.canTargetBlocks())
 		{
 			for(int i=(int)Math.floor(greatward.bounds.minX); i<(int)Math.floor(greatward.bounds.maxX); i++)
 			{
@@ -69,7 +72,7 @@ public class GreatwardTargetAll extends GreatwardTarget
 				{
 					for(int k=(int)Math.floor(greatward.bounds.minX); k<(int)Math.floor(greatward.bounds.maxX); k++)
 					{
-						if(greatward.getValidBlockTargets().contains(world.getBlockId(i, j, k)))
+						if(greatward.isValidBlockTarget(world.getBlockId(i, j, k)))
 						{
 							targetBlocks.add(new ChunkCoordinates(i, j, k));
 						}

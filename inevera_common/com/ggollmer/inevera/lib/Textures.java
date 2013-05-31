@@ -16,4 +16,6 @@ public class Textures
     /* Model Textures */
     
     /* Effect Textures */
+    public static final String EFFECT_FLOATING_WARD_LOCATION = EFFECTS_TEXTURE_LOCATION + "floatingWardFX";
+    public static final int EFFECT_FLOATING_WARD_COUNT = 5;
 }
