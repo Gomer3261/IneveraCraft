@@ -18,6 +18,9 @@ import com.ggollmer.inevera.greatward.effect.GreatwardEffect;
 import com.ggollmer.inevera.greatward.target.GreatwardTarget;
 import com.ggollmer.inevera.lib.GreatwardConstants;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 /**
  * IneveraCraft
  *
@@ -150,6 +153,22 @@ public class Greatward
 		}
 		
 		return names;
+	}
+	
+	/**
+	 * Used to render ambient ward particles within the ward's bounds.
+	 */
+	@SideOnly(Side.CLIENT)
+	public void renderAmbientParticles(World world)
+	{
+		target.renderAmbientParticles(world, this);
+		attribute.renderAmbientParticles(world, this);
+		effect.renderAmbientParticles(world, this);
+		
+		for(GreatwardAugment augment : augments)
+		{
+			augment.renderAmbientParticles(world, this);
+		}
 	}
 	
 	/**

@@ -34,6 +34,11 @@ public class GreatwardTargetAll extends GreatwardTarget
 	public void onGreatwardInit(World world, Greatward greatward)
 	{
 	}
+	
+	@Override
+	public void renderAmbientParticles(World world, Greatward greatward)
+	{
+	}
 
 	@Override
 	public List<Entity> findValidEntityTargets(World world, Greatward greatward)

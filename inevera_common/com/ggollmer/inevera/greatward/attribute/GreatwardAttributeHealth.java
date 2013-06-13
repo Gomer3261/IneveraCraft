@@ -40,6 +40,11 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 	}
 	
 	@Override
+	public void renderAmbientParticles(World world, Greatward greatward)
+	{
+	}
+	
+	@Override
 	public boolean isValidEntityTarget(Entity target)
 	{
 		return ((target instanceof EntityLiving) || (target instanceof IGWHealableEntity));
@@ -75,19 +80,26 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 			for(int i=0; i<targetCount; i++)
 			{
 				Entity target = greatward.entityTargets.get((startIndex + i)%greatward.entityTargets.size());
-				if(target instanceof IGWHealableEntity)
+				
+				if(!target.isDead)
 				{
-					((IGWHealableEntity)target).onGreatwardHeal((int)(AMOUNT_PER_OPERATION*effectMultiplier));
-				}
-				else
-				{
-					if(effectMultiplier < 0)
+					/* Send packet spawnEffect("Health", x, y, z, effectMutliplier) */
+					//Minecraft.getMinecraft().effectRenderer.addEffect(entityfx = new EntityHugeExplodeFX(this.theWorld, par2, par4, par6, par8, par10, par12));
+					
+					if(target instanceof IGWHealableEntity)
 					{
-						((EntityLiving)target).attackEntityFrom(DamageSource.magic, (int)(-1*effectMultiplier));
+						((IGWHealableEntity)target).onGreatwardHeal((int)(AMOUNT_PER_OPERATION*effectMultiplier));
 					}
 					else
 					{
-						((EntityLiving)target).heal((int)(1*effectMultiplier));
+						if(effectMultiplier < 0)
+						{
+							((EntityLiving)target).attackEntityFrom(DamageSource.magic, (int)(-1*effectMultiplier));
+						}
+						else
+						{
+							((EntityLiving)target).heal((int)(1*effectMultiplier));
+						}
 					}
 				}
 			}
@@ -102,7 +114,5 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 				((IGWHealableBlock)Block.blocksList[world.getBlockId(coord.posX, coord.posY, coord.posZ)]).onGreatwardHeal(world, coord.posX, coord.posY, coord.posZ);
 			}
 		}
-		
-		//Minecraft.getMinecraft().effectRenderer.addEffect(entityfx = new EntityHugeExplodeFX(this.theWorld, par2, par4, par6, par8, par10, par12));
 	}
 }

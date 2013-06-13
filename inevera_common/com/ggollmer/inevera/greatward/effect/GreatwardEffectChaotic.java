@@ -33,4 +33,9 @@ public class GreatwardEffectChaotic extends GreatwardEffect
 	public void onGreatwardInit(World world, Greatward greatward)
 	{
 	}
+
+	@Override
+	public void renderAmbientParticles(World world, Greatward greatward)
+	{
+	}
 }

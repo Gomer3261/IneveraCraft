@@ -221,6 +221,15 @@ public abstract class GreatwardComponent
 	public abstract void onGreatwardInit(World world, Greatward greatward);
 	
 	/**
+	 * Called every tick, used to render ambient particles in the air related to
+	 * the greatward's operation.
+	 * 
+	 * @param world The world being rendered in.
+	 * @param greatward The greatward that is spawning the particles.
+	 */
+	public abstract void renderAmbientParticles(World world, Greatward greatward);
+	
+	/**
 	 * Used to get the name of the greatward component.
 	 * @return The name of the greatward component.
 	 */

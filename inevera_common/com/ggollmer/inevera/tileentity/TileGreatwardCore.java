@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.ggollmer.inevera.block.BlockGreatwardComponent;
 import com.ggollmer.inevera.block.IneveraBlocks;
-import com.ggollmer.inevera.core.helper.LogHelper;
 import com.ggollmer.inevera.greatward.Greatward;
 import com.ggollmer.inevera.greatward.GreatwardHelper;
 import com.ggollmer.inevera.greatward.GreatwardManager;
@@ -68,7 +67,6 @@ public class TileGreatwardCore extends TileEntity
 			}
 			else
 			{
-				LogHelper.debugLog("GreatwardInvalidated");
 				greatward = null;
 				worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) & (~BlockGreatwardComponent.ACTIVE_BIT)), 2);
 			}
@@ -107,17 +105,20 @@ public class TileGreatwardCore extends TileEntity
 	{
 		if(greatward != null)
 		{
-			greatward.update(worldObj, xCoord, yCoord, zCoord);
+			if(!worldObj.isRemote) greatward.update(worldObj, xCoord, yCoord, zCoord);
+			greatward.renderAmbientParticles(worldObj);
 		}
 	}
 	
 	private void checkValidGreatward(World world, int x, int y, int z)
 	{
-		boolean changed = greatward == null;
-		if(greatward != null)
+		
+		if(greatward != null || world.isRemote)
 		{
 			return;
 		}
+		
+		boolean changed = greatward == null;
 		
 		for(ForgeDirection wardDirection : ForgeDirection.VALID_DIRECTIONS)
 		{                                     
