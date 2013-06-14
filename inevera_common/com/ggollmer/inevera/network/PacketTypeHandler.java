@@ -7,6 +7,7 @@ import com.ggollmer.inevera.lib.Reference;
 import com.ggollmer.inevera.network.packet.PacketGreatwardCoreUpdate;
 import com.ggollmer.inevera.network.packet.PacketGreatwardPieceUpdate;
 import com.ggollmer.inevera.network.packet.PacketInevera;
+import com.ggollmer.inevera.network.packet.PacketIneveraEffect;
 import com.ggollmer.inevera.network.packet.PacketTileUpdate;
 
 import net.minecraft.network.packet.Packet;
@@ -25,6 +26,7 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 public enum PacketTypeHandler
 {
 	TILE(PacketTileUpdate.class),
+	EFFECT(PacketIneveraEffect.class),
 	GWPIECE(PacketGreatwardPieceUpdate.class),
 	GWCORE(PacketGreatwardCoreUpdate.class);
 	

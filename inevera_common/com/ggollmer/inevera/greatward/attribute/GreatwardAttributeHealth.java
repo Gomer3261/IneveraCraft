@@ -1,6 +1,7 @@
 package com.ggollmer.inevera.greatward.attribute;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ChunkCoordinates;
@@ -114,5 +115,11 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 				((IGWHealableBlock)Block.blocksList[world.getBlockId(coord.posX, coord.posY, coord.posZ)]).onGreatwardHeal(world, coord.posX, coord.posY, coord.posZ);
 			}
 		}
+	}
+
+	@Override
+	public void performGreatwardAction(World world, boolean target_entity, int id, double posX, double posY, double posZ)
+	{
+		// TODO This should handle all actions performed on entities.
 	}
 }

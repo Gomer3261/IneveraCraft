@@ -87,4 +87,14 @@ public class ClientProxy extends CommonProxy
             }
 		}
 	}
+	
+	@Override
+	public void handleGreatwardActionPacket(String type, boolean target_entity, int target_id, double posX, double posY, double posZ, String args)
+	{
+	}
+	
+	@Override
+	public void handleIneveraEffectPacket(String type, double posX, double posY, double posZ, String args)
+	{
+	}
 }
