@@ -48,7 +48,17 @@ public abstract class GreatwardAttribute extends GreatwardFullComponent
 	 */
 	public abstract void performGreatwardEffects(World world, Greatward greatward, float effectMultiplier);
 	
-	public abstract void performGreatwardAction(World world, boolean target_entity, int id, double posX, double posY, double posZ);
+	/**
+	 * Used to perform a greatward action on a single target.
+	 * @param world The world the target exists within.
+	 * @param target_is_entity Is the target an entity or a block?
+	 * @param id The id of the target.
+	 * @param posX The x position of the target.
+	 * @param posY The y position of the target.
+	 * @param posZ The z position of the target.
+	 * @param args A set of action specific arguments to be interpreted from a string.
+	 */
+	public abstract void performGreatwardAction(World world, boolean target_is_entity, int id, double posX, double posY, double posZ, String args);
 
 	/**
 	 * Used to check which blocks should be targeted based on block id.

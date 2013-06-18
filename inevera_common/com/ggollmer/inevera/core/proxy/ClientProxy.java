@@ -2,11 +2,15 @@ package com.ggollmer.inevera.core.proxy;
 
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.common.ForgeDirection;
 
+import com.ggollmer.inevera.client.effect.IneveraEffectHelper;
 import com.ggollmer.inevera.client.renderer.GreatwardComponentBlockRenderer;
+import com.ggollmer.inevera.greatward.GreatwardManager;
 import com.ggollmer.inevera.lib.RenderIds;
 import com.ggollmer.inevera.tileentity.TileGreatwardCore;
 import com.ggollmer.inevera.tileentity.TileGreatwardPiece;
@@ -89,12 +93,20 @@ public class ClientProxy extends CommonProxy
 	}
 	
 	@Override
-	public void handleGreatwardActionPacket(String type, boolean target_entity, int target_id, double posX, double posY, double posZ, String args)
+	public void handleGreatwardActionPacket(String type, int dimension_id, boolean target_is_entity, List<Integer> target_ids, List<Vec3> target_positions, String args)
 	{
+		if(Minecraft.getMinecraft().theWorld.getWorldInfo().getDimension() == dimension_id)
+		{
+			for(int i=0; i<target_ids.size(); i++)
+			{
+				GreatwardManager.getAttributeByName(type).performGreatwardAction(Minecraft.getMinecraft().theWorld, target_is_entity, target_ids.get(i), target_positions.get(i).xCoord, target_positions.get(i).yCoord, target_positions.get(i).zCoord, args);
+			}
+		}
 	}
 	
 	@Override
 	public void handleIneveraEffectPacket(String type, double posX, double posY, double posZ, String args)
 	{
+		IneveraEffectHelper.spawnEffect(type, Minecraft.getMinecraft().theWorld, Minecraft.getMinecraft().effectRenderer, posX, posY, posZ, args);
 	}
 }

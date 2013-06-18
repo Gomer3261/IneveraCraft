@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 
 import com.ggollmer.inevera.lib.Reference;
+import com.ggollmer.inevera.network.packet.PacketGreatwardAction;
 import com.ggollmer.inevera.network.packet.PacketGreatwardCoreUpdate;
 import com.ggollmer.inevera.network.packet.PacketGreatwardPieceUpdate;
 import com.ggollmer.inevera.network.packet.PacketInevera;
@@ -28,7 +29,8 @@ public enum PacketTypeHandler
 	TILE(PacketTileUpdate.class),
 	EFFECT(PacketIneveraEffect.class),
 	GWPIECE(PacketGreatwardPieceUpdate.class),
-	GWCORE(PacketGreatwardCoreUpdate.class);
+	GWCORE(PacketGreatwardCoreUpdate.class),
+	GWACTION(PacketGreatwardAction.class);
 	
 	private Class<? extends PacketInevera> clazz;
 

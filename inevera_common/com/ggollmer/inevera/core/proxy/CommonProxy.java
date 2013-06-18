@@ -8,6 +8,7 @@ import com.ggollmer.inevera.tileentity.TileGreatwardPiece;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.common.network.IGuiHandler;
@@ -66,7 +67,7 @@ public class CommonProxy implements IGuiHandler
 	{
 	}
 	
-	public void handleGreatwardActionPacket(String type, boolean target_entity, int target_id, double posX, double posY, double posZ, String args)
+	public void handleGreatwardActionPacket(String type, int dimension_id, boolean target_is_entity, List<Integer> target_ids, List<Vec3> target_positions, String args)
 	{
 	}
 

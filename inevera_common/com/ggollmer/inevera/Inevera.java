@@ -5,6 +5,7 @@ import java.io.File;
 import net.minecraft.creativetab.CreativeTabs;
 
 import com.ggollmer.inevera.block.IneveraBlocks;
+import com.ggollmer.inevera.client.effect.IneveraEffectHelper;
 import com.ggollmer.inevera.configuration.ConfigurationHandler;
 import com.ggollmer.inevera.core.handlers.LocalizationHandler;
 import com.ggollmer.inevera.core.helper.LogHelper;
@@ -81,6 +82,9 @@ public class Inevera
 		
 		/* Instantiate IneveraCraft's Items */
 		IneveraItems.init();
+		
+		/* Instantiate IneveraCraft's Effect Helper */
+		IneveraEffectHelper.init();
 		
 		/* Instantiate IneveraCraft's Greatward Helper */
 		GreatwardHelper.init();
