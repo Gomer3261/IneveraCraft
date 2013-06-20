@@ -41,6 +41,7 @@ public class Greatward
 	protected String wardType;
 	protected ForgeDirection wardDirection;
 	protected ForgeDirection wardOrientation;
+	protected ForgeDirection wardOriright;
 	
 	/* Operation variables */
 	private boolean initialized;
@@ -84,12 +85,14 @@ public class Greatward
 		this.wardType = wardType;
 		this.wardDirection = wardDirection;
 		this.wardOrientation = wardOrientation;
+		this.wardOriright = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[wardDirection.ordinal()][wardOrientation.ordinal()]);
 		this.greatwardBlocks = greatwardBlocks;
 		initialized = false;
 	}
 	
 	/**
-	 * An empty greatward constructor, should be followed by an NBTTag read.
+	 * An empty greatward constructor. Used to load greatwards from NBT or Packets.
+	 * Greatward location information will be fixed in the update loop.
 	 */
 	public Greatward()
 	{
@@ -112,6 +115,15 @@ public class Greatward
 	public ForgeDirection getWardOrientation()
 	{
 		return wardOrientation;
+	}
+	
+	/**
+	 * Used to get the final direction in this ward's orientation matrix.
+	 * @return A final direction for the ward. (Right angle to the other 2 directions)
+	 */
+	public ForgeDirection getWardOriright()
+	{
+		return wardOriright;
 	}
 	
 	/**
@@ -217,9 +229,9 @@ public class Greatward
 	private void init(World world, int coreX, int coreY, int coreZ)
 	{
 		GreatwardDimensions dim = GreatwardManager.getDimensionsForType(wardType);
-		cornerX = dim.getStartX(coreX, wardDirection, wardOrientation);
-		cornerY = dim.getStartY(coreY, wardDirection, wardOrientation);
-		cornerZ = dim.getStartZ(coreZ, wardDirection, wardOrientation);
+		cornerX = dim.getStartX(coreX, wardDirection, wardOrientation, wardOriright);
+		cornerY = dim.getStartY(coreY, wardDirection, wardOrientation, wardOriright);
+		cornerZ = dim.getStartZ(coreZ, wardDirection, wardOrientation, wardOriright);
 		width = dim.getWidth();
 		radius = dim.getRadius();
 		height = dim.getHeight();
@@ -235,10 +247,9 @@ public class Greatward
 	
 	private void recalculateBounds()
 	{
-		ForgeDirection wardOri2 = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[wardDirection.ordinal()][wardOrientation.ordinal()]);
-		double endX = cornerX + height*wardDirection.offsetX + width*wardOrientation.offsetX*-1 + width*wardOri2.offsetX;
-		double endY = cornerY + height*wardDirection.offsetY + width*wardOrientation.offsetY*-1 + width*wardOri2.offsetY;
-		double endZ = cornerZ + height*wardDirection.offsetZ + width*wardOrientation.offsetZ*-1 + width*wardOri2.offsetZ;
+		double endX = cornerX + height*wardDirection.offsetX + width*wardOrientation.offsetX*-1 + width*wardOriright.offsetX;
+		double endY = cornerY + height*wardDirection.offsetY + width*wardOrientation.offsetY*-1 + width*wardOriright.offsetY;
+		double endZ = cornerZ + height*wardDirection.offsetZ + width*wardOrientation.offsetZ*-1 + width*wardOriright.offsetZ;
 		
 		double minX, maxX, minY, maxY, minZ, maxZ;
 		
@@ -375,11 +386,10 @@ public class Greatward
 	 * @param augments The augments applied to the greatward.
 	 */
 	public void updateWardFromPacket(byte direction, byte orientation, List<ChunkCoordinates> blocks, String wardType, String target, String attribute, String effect, List<String> augments)
-	{
-		LogHelper.debugLog(String.format("Recieved Greatward update packet! dir: %S, ori %s, Blocks: %d, type: %s, target: %s, attribute: %s, effect %s, augments %d", ForgeDirection.getOrientation(direction).toString(), ForgeDirection.getOrientation(orientation).toString(), blocks.size(), wardType, target, attribute, effect, augments.size()));
-		
+	{	
 		wardDirection = ForgeDirection.getOrientation(direction);
 		wardOrientation = ForgeDirection.getOrientation(orientation);
+		wardOriright = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[direction][orientation]);
 		greatwardBlocks = blocks;
 		this.wardType = wardType;
 		this.target = GreatwardManager.getTargetByName(target);
@@ -393,5 +403,19 @@ public class Greatward
 		}
 		
 		initialized = false;
+	}
+	
+	/**
+	 * Used to set greatward dimensions for a proxy greatward (In a remote world)
+	 * Should be called after a packet is handled.
+	 * @param world The world the greatward exists in.
+	 * @param coreX The x position of the core.
+	 * @param coreY The y position of the core.
+	 * @param coreZ The z position of the core.
+	 */
+	public void initializeProxy(World world, int coreX, int coreY, int coreZ)
+	{
+		init(world, coreX, coreY, coreZ);
+		recalculateBounds();
 	}
 }

@@ -29,6 +29,7 @@ public class GreatwardFX extends EntityFX
 	{
 		super(world, x, y, z, mx, my, mz);
 		this.particleIcon = ( (BlockGreatwardComponent)Block.blocksList[BlockIds.GREATWARD_WOOD_PIECE] ).getEffectIcon(0, 0);
+		this.particleMaxAge = 60;
 	}
 	
 	public GreatwardFX(World world, double x, double y, double z)

@@ -46,9 +46,9 @@ public abstract class GreatwardFullComponent extends GreatwardComponent
 		{			
 			ForgeDirection ex = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[ez.ordinal()][ey.ordinal()]);
 			
-			int sx = GreatwardManager.getDimensionsForType(wardType).getStartX(coreX, ez, ey);
-			int sy = GreatwardManager.getDimensionsForType(wardType).getStartY(coreY, ez, ey);
-			int sz = GreatwardManager.getDimensionsForType(wardType).getStartZ(coreZ, ez, ey);
+			int sx = GreatwardManager.getDimensionsForType(wardType).getStartX(coreX, ez, ey, ex);
+			int sy = GreatwardManager.getDimensionsForType(wardType).getStartY(coreY, ez, ey, ex);
+			int sz = GreatwardManager.getDimensionsForType(wardType).getStartZ(coreZ, ez, ey, ex);
 			
 			return areaMatchesPattern(world, wardType, id, meta, sx, sy, sz, ex, ey, ez, greatwardBlocks, true);
 		}

@@ -13,12 +13,18 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import com.ggollmer.inevera.client.effect.IneveraEffectHelper;
+import com.ggollmer.inevera.client.particle.GreatwardDummyDamageFX;
+import com.ggollmer.inevera.client.particle.GreatwardFX;
 import com.ggollmer.inevera.greatward.Greatward;
+import com.ggollmer.inevera.lib.BlockIds;
 import com.ggollmer.inevera.lib.GreatwardConstants;
 import com.ggollmer.inevera.network.PacketTypeHandler;
 import com.ggollmer.inevera.network.packet.PacketGreatwardAction;
+import com.ggollmer.inevera.block.BlockGreatwardComponent;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * IneveraCraft
@@ -50,8 +56,33 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void renderAmbientParticles(World world, Greatward greatward)
 	{
+		if(world.isRemote)
+		{
+			for(int i=0; i<1; i++)
+			{
+				double px = greatward.centerX + 
+						rand.nextDouble()*(rand.nextInt()%1)*greatward.radius*greatward.getWardOrientation().offsetX +
+						rand.nextDouble()*(rand.nextInt()%1)*greatward.radius*greatward.getWardOriright().offsetX +
+						rand.nextDouble()*greatward.height*greatward.getWardDirection().offsetX;
+				double py = greatward.centerY + 
+						rand.nextDouble()*(rand.nextInt()%1)*greatward.radius*greatward.getWardOrientation().offsetY +
+						rand.nextDouble()*(rand.nextInt()%1)*greatward.radius*greatward.getWardOriright().offsetY +
+						rand.nextDouble()*greatward.height*greatward.getWardDirection().offsetY;
+				double pz = greatward.centerZ + 
+						rand.nextDouble()*(rand.nextInt()%1)*greatward.radius*greatward.getWardOrientation().offsetZ +
+						rand.nextDouble()*(rand.nextInt()%1)*greatward.radius*greatward.getWardOriright().offsetZ +
+						rand.nextDouble()*greatward.height*greatward.getWardDirection().offsetZ;
+				double mx = rand.nextDouble()*(rand.nextInt()%1)/60f;
+				double my = rand.nextDouble()*(rand.nextInt()%1)/60f;
+				double mz = rand.nextDouble()*(rand.nextInt()%1)/60f;
+				
+				//Minecraft.getMinecraft().effectRenderer.addEffect(new GreatwardFX(world, px, py, pz, mx, my, mz));
+				Minecraft.getMinecraft().effectRenderer.addEffect(new GreatwardDummyDamageFX(world, px, py, pz, 0.0D, 0.0D, 0.0D, (BlockGreatwardComponent)Block.blocksList[BlockIds.GREATWARD_WOOD_PIECE], 1, 0, null));
+			}
+		}
 	}
 	
 	@Override

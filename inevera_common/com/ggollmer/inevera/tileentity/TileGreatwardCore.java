@@ -227,8 +227,13 @@ public class TileGreatwardCore extends TileEntity
 			if(greatward == null)
 			{
 				greatward = new Greatward();
+				greatward.updateWardFromPacket(direction, orientation, blocks, type, target, attribute, effect, augments);
+				greatward.initializeProxy(worldObj, xCoord, yCoord, zCoord);
 			}
-			greatward.updateWardFromPacket(direction, orientation, blocks, type, target, attribute, effect, augments);
+			else
+			{
+				greatward.updateWardFromPacket(direction, orientation, blocks, type, target, attribute, effect, augments);
+			}
 			
 			if(greatward.isValidGreatward())
 			{
