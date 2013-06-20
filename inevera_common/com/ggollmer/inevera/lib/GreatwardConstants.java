@@ -17,17 +17,17 @@ public class GreatwardConstants
     public static final String GW_MAJOR_TYPE = "major";
     
     public static final int GW_MINOR_DIMENSION = 9;
-    public static final int GW_MINOR_OFFSET_X = -2;
+    public static final int GW_MINOR_OFFSET_X = 2;
 	public static final int GW_MINOR_OFFSET_Y = 2;
 	public static final int GW_MINOR_PROJECTION = 4;
     
     public static final int GW_NORMAL_DIMENSION = 12;
-    public static final int GW_NORMAL_OFFSET_X = -2;
+    public static final int GW_NORMAL_OFFSET_X = 2;
 	public static final int GW_NORMAL_OFFSET_Y = 2;
 	public static final int GW_NORMAL_PROJECTION = 5;
     
     public static final int GW_MAJOR_DIMENSION = 15;
-    public static final int GW_MAJOR_OFFSET_X = -2;
+    public static final int GW_MAJOR_OFFSET_X = 2;
 	public static final int GW_MAJOR_OFFSET_Y = 2;
 	public static final int GW_MAJOR_PROJECTION = 6;
 	

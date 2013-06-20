@@ -4,6 +4,7 @@ import com.ggollmer.inevera.block.BlockGreatwardComponent;
 import com.ggollmer.inevera.lib.BlockIds;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.world.World;
 
@@ -20,16 +21,23 @@ public class GreatwardFX extends EntityFX
 {
 
 	/**
-	 * @param par1World
-	 * @param x
-	 * @param y
-	 * @param z
+	 * Used to create a basic greatward particle with a set position and motion.
+	 * @param par1World The world to create the particle in.
+	 * @param x The x position of the particle.
+	 * @param y The y position of the particle.
+	 * @param z The z position of the particle.
+	 * @param mx The x motion of the particle.
+	 * @param my The y motion of the particle.
+	 * @param mz The z motion of the particle.
 	 */
 	public GreatwardFX(World world, double x, double y, double z, double mx, double my, double mz)
 	{
 		super(world, x, y, z, mx, my, mz);
-		this.particleIcon = ( (BlockGreatwardComponent)Block.blocksList[BlockIds.GREATWARD_WOOD_PIECE] ).getEffectIcon(0, 0);
+		//this.setParticleIcon(Minecraft.getMinecraft().renderEngine, ( (BlockGreatwardComponent)Block.blocksList[BlockIds.GREATWARD_WOOD_PIECE] ).getEffectIcon(0, 0));
 		this.particleMaxAge = 60;
+		this.motionX = mx;
+		this.motionY = my;
+		this.motionZ = mz;
 	}
 	
 	public GreatwardFX(World world, double x, double y, double z)

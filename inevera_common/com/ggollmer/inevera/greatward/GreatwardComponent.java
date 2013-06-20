@@ -125,6 +125,9 @@ public abstract class GreatwardComponent
 			return false;
 		}
 		
+		ForgeDirection exPattern = ex.getOpposite();
+		ForgeDirection eyPattern = ey.getOpposite();
+		
 		for(int y=0; y<pattern.getWidth(); y++)
 		{
 			for(int x=0; x<pattern.getHeight(); x++)
@@ -132,9 +135,9 @@ public abstract class GreatwardComponent
 				/* Empty tiles can be anything as far as we are concerned */
 				if(pattern.getValue(x, y) != GreatwardMap.GW_EMPTY_TILE)
 				{
-					coord = new ChunkCoordinates(sx + x*ex.offsetX + y*ey.offsetX*-1,
-							sy + x*ex.offsetY + y*ey.offsetY*-1,
-							sz + x*ex.offsetZ + y*ey.offsetZ*-1);
+					coord = new ChunkCoordinates(sx + x*exPattern.offsetX + y*eyPattern.offsetX,
+							sy + x*exPattern.offsetY + y*eyPattern.offsetY,
+							sz + x*exPattern.offsetZ + y*eyPattern.offsetZ);
 					int id = world.getBlockId(coord.posX, coord.posY, coord.posZ);	
 					int meta = world.getBlockMetadata(coord.posX, coord.posY, coord.posZ);
 					

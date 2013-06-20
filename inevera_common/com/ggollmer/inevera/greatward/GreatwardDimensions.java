@@ -41,18 +41,18 @@ public class GreatwardDimensions
 		return width;
 	}
 	
-	public int getStartX(int coreX, ForgeDirection wardDir, ForgeDirection wardOri, ForgeDirection ex)
+	public int getStartX(int coreX, ForgeDirection wardDir, ForgeDirection wardOri, ForgeDirection wardRight)
 	{
-		return coreX + ex.offsetX*cornerOffsetX + wardOri.offsetX*cornerOffsetY + wardDir.offsetX;
+		return coreX + wardRight.offsetX*cornerOffsetX + wardOri.offsetX*cornerOffsetY + wardDir.offsetX;
 	}
 	
-	public int getStartY(int coreY, ForgeDirection wardDir, ForgeDirection wardOri, ForgeDirection ex)
+	public int getStartY(int coreY, ForgeDirection wardDir, ForgeDirection wardOri, ForgeDirection wardRight)
 	{
-		return coreY + ex.offsetY*cornerOffsetX + wardOri.offsetY*cornerOffsetY + wardDir.offsetY;
+		return coreY + wardRight.offsetY*cornerOffsetX + wardOri.offsetY*cornerOffsetY + wardDir.offsetY;
 	}
 	
-	public int getStartZ(int coreZ, ForgeDirection wardDir, ForgeDirection wardOri, ForgeDirection ex)
+	public int getStartZ(int coreZ, ForgeDirection wardDir, ForgeDirection wardOri, ForgeDirection wardRight)
 	{
-		return coreZ + ex.offsetZ*cornerOffsetX + wardOri.offsetZ*cornerOffsetY + wardDir.offsetZ;
+		return coreZ + wardRight.offsetZ*cornerOffsetX + wardOri.offsetZ*cornerOffsetY + wardDir.offsetZ;
 	}
 }

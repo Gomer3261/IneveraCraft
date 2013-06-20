@@ -2,6 +2,7 @@ package com.ggollmer.inevera.greatward;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
@@ -85,7 +86,7 @@ public class Greatward
 		this.wardType = wardType;
 		this.wardDirection = wardDirection;
 		this.wardOrientation = wardOrientation;
-		this.wardOriright = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[wardDirection.ordinal()][wardOrientation.ordinal()]);
+		this.wardOriright = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[wardOrientation.ordinal()][wardDirection.ordinal()]);
 		this.greatwardBlocks = greatwardBlocks;
 		initialized = false;
 	}
@@ -135,26 +136,46 @@ public class Greatward
 		return greatwardBlocks;
 	}
 	
+	/**
+	 * Used to get the type of the greatward (as a string)
+	 * @return The type of the greatward.
+	 */
 	public String getGreatwardType()
 	{
 		return wardType;
 	}
 	
+	/**
+	 * Used to get the target type as a string.
+	 * @return The target type.
+	 */
 	public String getTargetName()
 	{
 		return target.getName();
 	}
 	
+	/**
+	 * Used to get the attribute type as a string.
+	 * @return The attribute type.
+	 */
 	public String getAttributeName()
 	{
 		return attribute.getName();
 	}
 	
+	/**
+	 * Used to get the effect type as a string.
+	 * @return The effect type.
+	 */
 	public String getEffectName()
 	{
 		return effect.getName();
 	}
 	
+	/**
+	 * Used to get the augment types as a string.
+	 * @return The augment types.
+	 */
 	public List<String> getAugmentNames()
 	{
 		List<String> names = new ArrayList<String>();
@@ -226,6 +247,13 @@ public class Greatward
 		}
 	}
 	
+	/**
+	 * Used to initialized many important properties of the greatward.
+	 * @param world The world the greatward exists in.
+	 * @param coreX The x location of the greatward core.
+	 * @param coreY The y location of the greatward core.
+	 * @param coreZ The z location of the greatward core.
+	 */
 	private void init(World world, int coreX, int coreY, int coreZ)
 	{
 		GreatwardDimensions dim = GreatwardManager.getDimensionsForType(wardType);
@@ -245,11 +273,14 @@ public class Greatward
 		initialized = true;
 	}
 	
+	/**
+	 * Used to calculate the greatward's boundaries.
+	 */
 	private void recalculateBounds()
 	{
-		double endX = cornerX + height*wardDirection.offsetX + width*wardOrientation.offsetX*-1 + width*wardOriright.offsetX;
-		double endY = cornerY + height*wardDirection.offsetY + width*wardOrientation.offsetY*-1 + width*wardOriright.offsetY;
-		double endZ = cornerZ + height*wardDirection.offsetZ + width*wardOrientation.offsetZ*-1 + width*wardOriright.offsetZ;
+		double endX = cornerX + height*wardDirection.offsetX + width*wardOrientation.offsetX*-1 + width*wardOriright.offsetX*-1;
+		double endY = cornerY + height*wardDirection.offsetY + width*wardOrientation.offsetY*-1 + width*wardOriright.offsetY*-1;
+		double endZ = cornerZ + height*wardDirection.offsetZ + width*wardOrientation.offsetZ*-1 + width*wardOriright.offsetZ*-1;
 		
 		double minX, maxX, minY, maxY, minZ, maxZ;
 		
@@ -260,24 +291,61 @@ public class Greatward
 		minZ = (cornerZ < endZ) ? cornerZ : endZ+1;
 		maxZ = (cornerZ < endZ) ? endZ : cornerZ+1;
 		
-		LogHelper.debugLog(String.format("Bounds Calculated: minX: %f minY: %f minZ: %f MaxX: %f MaxY: %f MaxZ: %f", minX, minY, minZ, maxX, maxY, maxZ));
 		bounds = AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
 		
-		centerX = minX + (maxX - minX)/2;
-		centerY = minY;
-		centerZ = minZ + (maxZ - minZ)/2;
+		switch(wardDirection)
+		{
+			case UP:
+			case DOWN:
+				centerX = minX + (maxX - minX)/2f;
+				centerY = minY;
+				centerZ = minZ + (maxZ - minZ)/2f;
+				break;
+			case NORTH:
+			case SOUTH:
+				centerX = minX + (maxX - minX)/2f;
+				centerY = minY + (maxY - minY)/2f;
+				centerZ = minZ;
+				break;
+			case EAST:
+			case WEST:
+				centerX = minX;
+				centerY = minY + (maxY - minY)/2f;
+				centerZ = minZ + (maxZ - minZ)/2f;
+				break;
+			default:
+				centerX = minX;
+				centerY = minY;
+				centerZ = minZ;
+				LogHelper.log(Level.SEVERE, "Greatward.recalculateBounds(): Ward direction is UNKNOWN!");
+				break;	
+		}
 	}
 	
+	/**
+	 * Used to check if the greatward can target any blocks.
+	 * @return True if the greatward can target blocks.
+	 */
 	public boolean canTargetBlocks()
 	{
 		return attribute.canTargetBlocks();
 	}
 	
+	/**
+	 * Used to check if a block id is a valid target.
+	 * @param id The id to be checked.
+	 * @return True if the block can be targeted.
+	 */
 	public boolean isValidBlockTarget(int id)
 	{
 		return attribute.isValidBlockTarget(id);
 	}
 	
+	/**
+	 * Used to check if an entity is a valid target for this greatward.
+	 * @param entity The entity to be checked.
+	 * @return True if the entity can be targeted.
+	 */
 	public boolean isValidEntityTarget(Entity entity)
 	{
 		return attribute.isValidEntityTarget(entity);
@@ -389,7 +457,7 @@ public class Greatward
 	{	
 		wardDirection = ForgeDirection.getOrientation(direction);
 		wardOrientation = ForgeDirection.getOrientation(orientation);
-		wardOriright = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[direction][orientation]);
+		wardOriright = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[orientation][direction]);
 		greatwardBlocks = blocks;
 		this.wardType = wardType;
 		this.target = GreatwardManager.getTargetByName(target);

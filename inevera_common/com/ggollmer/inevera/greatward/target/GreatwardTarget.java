@@ -46,11 +46,11 @@ public abstract class GreatwardTarget extends GreatwardComponent
 		{
 			if(ey != ez && ey != ez.getOpposite())
 			{
-				ForgeDirection ex = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[ez.ordinal()][ey.ordinal()]);
+				ForgeDirection ex = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[ey.ordinal()][ez.ordinal()]);
 				
-				int sx = px + ex.offsetX*(GreatwardConstants.GW_TARGET_WIDTH/-2) + ey.offsetX*(GreatwardConstants.GW_TARGET_HEIGHT/2);
-				int sy = py + ex.offsetY*(GreatwardConstants.GW_TARGET_WIDTH/-2) + ey.offsetY*(GreatwardConstants.GW_TARGET_HEIGHT/2);
-				int sz = pz + ex.offsetZ*(GreatwardConstants.GW_TARGET_WIDTH/-2) + ey.offsetZ*(GreatwardConstants.GW_TARGET_HEIGHT/2);
+				int sx = px + ex.offsetX*(GreatwardConstants.GW_TARGET_WIDTH/2) + ey.offsetX*(GreatwardConstants.GW_TARGET_HEIGHT/2);
+				int sy = py + ex.offsetY*(GreatwardConstants.GW_TARGET_WIDTH/2) + ey.offsetY*(GreatwardConstants.GW_TARGET_HEIGHT/2);
+				int sz = pz + ex.offsetZ*(GreatwardConstants.GW_TARGET_WIDTH/2) + ey.offsetZ*(GreatwardConstants.GW_TARGET_HEIGHT/2);
 				
 				if(areaMatchesPattern(world, GreatwardConstants.GW_MINOR_TYPE, id, meta, sx, sy, sz, ex, ey, ez, greatwardBlocks, true))
 				{
