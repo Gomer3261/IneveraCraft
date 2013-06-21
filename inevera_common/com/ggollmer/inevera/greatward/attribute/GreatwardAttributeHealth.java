@@ -13,14 +13,11 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import com.ggollmer.inevera.client.effect.IneveraEffectHelper;
-import com.ggollmer.inevera.client.particle.GreatwardDummyDamageFX;
 import com.ggollmer.inevera.client.particle.GreatwardFX;
 import com.ggollmer.inevera.greatward.Greatward;
-import com.ggollmer.inevera.lib.BlockIds;
 import com.ggollmer.inevera.lib.GreatwardConstants;
 import com.ggollmer.inevera.network.PacketTypeHandler;
 import com.ggollmer.inevera.network.packet.PacketGreatwardAction;
-import com.ggollmer.inevera.block.BlockGreatwardComponent;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;

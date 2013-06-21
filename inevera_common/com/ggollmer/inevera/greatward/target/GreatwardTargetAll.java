@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ggollmer.inevera.greatward.Greatward;
+import com.ggollmer.inevera.greatward.GreatwardDimensions;
 import com.ggollmer.inevera.lib.GreatwardConstants;
 
 import net.minecraft.entity.Entity;
@@ -52,7 +53,24 @@ public class GreatwardTargetAll extends GreatwardTarget
 			{
 				if(greatward.isValidEntityTarget((Entity)obj))
 				{
-					double dist = ((Entity)obj).getDistance(greatward.centerX, ((Entity)obj).posY, greatward.centerZ);
+					double dist;
+					switch(greatward.getWardDirection())
+					{
+						case EAST:
+						case WEST:
+							dist = ((Entity)obj).getDistance( ((Entity)obj).posY, greatward.centerY, greatward.centerZ );
+							break;
+						case NORTH:
+						case SOUTH:
+							dist  = ((Entity)obj).getDistance( greatward.centerX, greatward.centerY, ((Entity)obj).posZ );
+							break;
+						case UP:
+						case DOWN:
+						default:
+							dist = ((Entity)obj).getDistance( greatward.centerX, ((Entity)obj).posY, greatward.centerZ );
+							break;
+					}
+					
 					if(dist <= greatward.radius)
 					{
 						targetEntities.add((Entity)obj);
@@ -69,17 +87,41 @@ public class GreatwardTargetAll extends GreatwardTarget
 	{
 		List<ChunkCoordinates> targetBlocks = new ArrayList<ChunkCoordinates>();
 		
+		//TODO: Not tested
+		
 		if(!greatward.canTargetBlocks())
 		{
-			for(int i=(int)Math.floor(greatward.bounds.minX); i<(int)Math.floor(greatward.bounds.maxX); i++)
+			for(int i=(int)Math.floor(greatward.bounds.minX); i<(int)Math.floor(greatward.bounds.maxX-1); i++)
 			{
-				for(int j=(int)Math.floor(greatward.bounds.minY); j<(int)Math.floor(greatward.bounds.maxY); j++)
+				for(int j=(int)Math.floor(greatward.bounds.minY); j<(int)Math.floor(greatward.bounds.maxY-1); j++)
 				{
-					for(int k=(int)Math.floor(greatward.bounds.minX); k<(int)Math.floor(greatward.bounds.maxX); k++)
+					for(int k=(int)Math.floor(greatward.bounds.minZ); k<(int)Math.floor(greatward.bounds.maxZ-1); k++)
 					{
 						if(greatward.isValidBlockTarget(world.getBlockId(i, j, k)))
 						{
-							targetBlocks.add(new ChunkCoordinates(i, j, k));
+							ChunkCoordinates coords = new ChunkCoordinates(i, j, k);
+							double dist;
+							switch(greatward.getWardDirection())
+							{
+								case EAST:
+								case WEST:
+									dist = GreatwardDimensions.getDistance(coords.posX, coords.posY, coords.posZ, coords.posY, greatward.centerY, greatward.centerZ);
+									break;
+								case NORTH:
+								case SOUTH:
+									dist  = GreatwardDimensions.getDistance(coords.posX, coords.posY, coords.posZ, greatward.centerX, greatward.centerY, coords.posZ );
+									break;
+								case UP:
+								case DOWN:
+								default:
+									dist = GreatwardDimensions.getDistance(coords.posX, coords.posY, coords.posZ, greatward.centerX, coords.posY, greatward.centerZ );
+									break;
+							}
+							
+							if(dist <= greatward.radius)
+							{
+								targetBlocks.add(new ChunkCoordinates(i, j, k));
+							}
 						}
 					}
 				}

@@ -47,9 +47,12 @@ public class Greatward
 	/* Operation variables */
 	private boolean initialized;
 	
+	/* Bounds center */
 	public double centerX;
 	public double centerY;
 	public double centerZ;
+	
+	/* Block locations, not bounds corner*/
 	public double cornerX;
 	public double cornerY;
 	public double cornerZ;
@@ -278,19 +281,26 @@ public class Greatward
 	 */
 	private void recalculateBounds()
 	{
-		double endX = cornerX + height*wardDirection.offsetX + width*wardOrientation.offsetX*-1 + width*wardOriright.offsetX*-1;
-		double endY = cornerY + height*wardDirection.offsetY + width*wardOrientation.offsetY*-1 + width*wardOriright.offsetY*-1;
-		double endZ = cornerZ + height*wardDirection.offsetZ + width*wardOrientation.offsetZ*-1 + width*wardOriright.offsetZ*-1;
+		double cornerXd = (wardDirection.equals(ForgeDirection.EAST)) ? cornerX+1 : cornerX;
+		double cornerYd = (wardDirection.equals(ForgeDirection.UP)) ? cornerY+1 : cornerY;
+		double cornerZd = (wardDirection.equals(ForgeDirection.SOUTH)) ? cornerZ+1 : cornerZ;
+		
+		double endX = cornerXd + height*wardDirection.offsetX + width*wardOrientation.offsetX*-1 + width*wardOriright.offsetX*-1;
+		double endY = cornerYd + height*wardDirection.offsetY + width*wardOrientation.offsetY*-1 + width*wardOriright.offsetY*-1;
+		double endZ = cornerZd + height*wardDirection.offsetZ + width*wardOrientation.offsetZ*-1 + width*wardOriright.offsetZ*-1;
 		
 		double minX, maxX, minY, maxY, minZ, maxZ;
 		
-		minX = (cornerX < endX) ? cornerX : endX+1;
-		maxX = (cornerX < endX) ? endX : cornerX+1;
-		minY = (cornerY < endY) ? cornerY+1 : endY;
-		maxY = (cornerY < endY) ? endY+1 : cornerY;
-		minZ = (cornerZ < endZ) ? cornerZ : endZ+1;
-		maxZ = (cornerZ < endZ) ? endZ : cornerZ+1;
+		minX = (cornerXd < endX) ? cornerXd : endX+1;
+		maxX = (cornerXd < endX) ? endX : cornerXd+1;
+		minY = (cornerYd < endY) ? cornerYd : endY+1;
+		maxY = (cornerYd < endY) ? endY : cornerYd+1;
+		minZ = (cornerZd < endZ) ? cornerZd : endZ+1;
+		maxZ = (cornerZd < endZ) ? endZ : cornerZd+1;
 		
+		LogHelper.debugLog(String.format("WardDirection: %s %s %s", wardDirection.toString(), wardOrientation.toString(), wardOriright.toString()));
+		LogHelper.debugLog(String.format("Greatward Corner: %f %f %f", cornerX, cornerY, cornerZ));
+		LogHelper.debugLog(String.format("Greatward Bounds Calculated: x: %f %f y: %f %f z: %f %f", minX, maxX, minY, maxY, minZ, maxZ));
 		bounds = AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
 		
 		switch(wardDirection)
@@ -298,18 +308,18 @@ public class Greatward
 			case UP:
 			case DOWN:
 				centerX = minX + (maxX - minX)/2f;
-				centerY = minY;
+				centerY = cornerYd;
 				centerZ = minZ + (maxZ - minZ)/2f;
 				break;
 			case NORTH:
 			case SOUTH:
 				centerX = minX + (maxX - minX)/2f;
 				centerY = minY + (maxY - minY)/2f;
-				centerZ = minZ;
+				centerZ = cornerZd;
 				break;
 			case EAST:
 			case WEST:
-				centerX = minX;
+				centerX = cornerXd;
 				centerY = minY + (maxY - minY)/2f;
 				centerZ = minZ + (maxZ - minZ)/2f;
 				break;
@@ -410,6 +420,8 @@ public class Greatward
 		if (nbtTagCompound.hasKey(GreatwardConstants.GW_NBT_COORD_LIST_KEY)) {
             greatwardBlocks = NBTHelper.getChunkCoordinatesListFromNBTTagList(nbtTagCompound.getTagList(GreatwardConstants.GW_NBT_COORD_LIST_KEY));
         }
+		
+		wardOriright = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[wardOrientation.ordinal()][wardDirection.ordinal()]);
 		
 		LogHelper.debugLog(String.format("Loading Greatward From NBT dir: %S, ori: %s, blocks %d, type: %s, target: %s, attribute: %s, effect %s, augments %d", wardDirection.toString(), wardOrientation.toString(), greatwardBlocks.size(), wardType, target.getName(), attribute.getName(), effect.getName(), augments.size()));
 	}
