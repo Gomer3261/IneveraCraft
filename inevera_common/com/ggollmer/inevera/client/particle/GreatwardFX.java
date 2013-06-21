@@ -30,18 +30,24 @@ public class GreatwardFX extends EntityFX
 	 * @param my The y motion of the particle.
 	 * @param mz The z motion of the particle.
 	 */
-	public GreatwardFX(World world, double x, double y, double z, double mx, double my, double mz)
+	public GreatwardFX(World world, int life, double x, double y, double z, double mx, double my, double mz)
 	{
 		super(world, x, y, z, mx, my, mz);
-		//this.setParticleIcon(Minecraft.getMinecraft().renderEngine, ( (BlockGreatwardComponent)Block.blocksList[BlockIds.GREATWARD_WOOD_PIECE] ).getEffectIcon(0, 0));
-		this.particleMaxAge = 60;
+		this.setParticleIcon(Minecraft.getMinecraft().renderEngine, ( (BlockGreatwardComponent)Block.blocksList[BlockIds.GREATWARD_WOOD_PIECE] ).getEffectIcon(0, 0));
+		this.particleMaxAge = life;
 		this.motionX = mx;
 		this.motionY = my;
 		this.motionZ = mz;
 	}
 	
-	public GreatwardFX(World world, double x, double y, double z)
+	public GreatwardFX(World world, int life, double x, double y, double z)
 	{
-		this(world, x, y, z, 0d, 0d, 0d);
+		this(world, life, x, y, z, 0d, 0d, 0d);
 	}
+	
+	@Override
+	public int getFXLayer()
+    {
+        return 1;
+    }
 }

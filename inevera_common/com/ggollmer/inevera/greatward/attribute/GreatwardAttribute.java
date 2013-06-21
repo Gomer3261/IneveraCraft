@@ -46,7 +46,7 @@ public abstract class GreatwardAttribute extends GreatwardFullComponent
 	 * @param world The world the greatward exists in.
 	 * @param greatward The greatward itself.
 	 */
-	public abstract void performGreatwardEffects(World world, Greatward greatward, float effectMultiplier);
+	public abstract void performGreatwardEffects(World world, Greatward greatward);
 	
 	/**
 	 * Used to perform a greatward action on a single target.

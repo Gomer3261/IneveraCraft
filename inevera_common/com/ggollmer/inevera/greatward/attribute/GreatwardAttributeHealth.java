@@ -58,27 +58,39 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 	{
 		if(world.isRemote)
 		{
-			for(int i=0; i<16; i++)
+			if(rand.nextInt()%24 > 4)
 			{
-				double angle = rand.nextDouble()*Math.PI*2;
-				double px = greatward.centerX + 
-						Math.cos(angle)/**rand.nextDouble()*/*greatward.radius*greatward.getWardOrientation().offsetX +
-						Math.sin(angle)/**rand.nextDouble()*/*greatward.radius*greatward.getWardOriright().offsetX +
-						rand.nextDouble()*greatward.height*greatward.getWardDirection().offsetX;
-				double py = greatward.centerY + 
-						Math.cos(angle)/**rand.nextDouble()*/*greatward.radius*greatward.getWardOrientation().offsetY +
-						Math.sin(angle)/**rand.nextDouble()*/*greatward.radius*greatward.getWardOriright().offsetY +
-						rand.nextDouble()*greatward.height*greatward.getWardDirection().offsetY;
-				double pz = greatward.centerZ + 
-						Math.cos(angle)/**rand.nextDouble()*/*greatward.radius*greatward.getWardOrientation().offsetZ +
-						Math.sin(angle)/**rand.nextDouble()*/*greatward.radius*greatward.getWardOriright().offsetZ +
-						rand.nextDouble()*greatward.height*greatward.getWardDirection().offsetZ;
-				double mx = 0;//rand.nextDouble()*(rand.nextInt()%1)/120f;
-				double my = 0;//rand.nextDouble()*(rand.nextInt()%1)/120f;
-				double mz = 0;//rand.nextDouble()*(rand.nextInt()%1)/120f;
-				
-				Minecraft.getMinecraft().effectRenderer.addEffect(new GreatwardFX(world, px, py, pz, mx, my, mz));
-				//Minecraft.getMinecraft().effectRenderer.addEffect(new GreatwardDummyDamageFX(world, px, py, pz, 0.0D, 0.0D, 0.0D, (BlockGreatwardComponent)Block.blocksList[BlockIds.GREATWARD_WOOD_PIECE], 1, 0, null));
+				for(int i=0; i<(rand.nextInt()+1)%6; i++)
+				{
+					float effectMultiplier = greatward.getEffectMultiplier(world);
+					if(effectMultiplier==0f) continue;
+					
+					double angle = rand.nextDouble()*Math.PI*2;
+					int life = (rand.nextInt()+12)%44;
+					
+					double mx = ((rand.nextDouble()+.13)/8f)*greatward.getWardDirection().offsetX*effectMultiplier;
+					double my = ((rand.nextDouble()+.13)/8f)*greatward.getWardDirection().offsetY*effectMultiplier;
+					double mz = ((rand.nextDouble()+.13)/8f)*greatward.getWardDirection().offsetZ*effectMultiplier;
+					
+					double offx = (effectMultiplier < 0) ? Math.abs(mx*life) : 0;
+					double offy = (effectMultiplier < 0) ? Math.abs(my*life) : 0;
+					double offz = (effectMultiplier < 0) ? Math.abs(mz*life) : 0;
+					
+					double px = greatward.centerX + 
+							Math.cos(angle)*rand.nextDouble()*greatward.radius*greatward.getWardOrientation().offsetX +
+							Math.sin(angle)*rand.nextDouble()*greatward.radius*greatward.getWardOriright().offsetX +
+							offx*greatward.getWardDirection().offsetX;
+					double py = greatward.centerY + 
+							Math.cos(angle)*rand.nextDouble()*greatward.radius*greatward.getWardOrientation().offsetY +
+							Math.sin(angle)*rand.nextDouble()*greatward.radius*greatward.getWardOriright().offsetY +
+							offy*greatward.getWardDirection().offsetY;
+					double pz = greatward.centerZ + 
+							Math.cos(angle)*rand.nextDouble()*greatward.radius*greatward.getWardOrientation().offsetZ +
+							Math.sin(angle)*rand.nextDouble()*greatward.radius*greatward.getWardOriright().offsetZ +
+							offz*greatward.getWardDirection().offsetZ;
+					
+					Minecraft.getMinecraft().effectRenderer.addEffect(new GreatwardFX(world, life, px, py, pz, mx, my, mz));
+				}
 			}
 		}
 	}
@@ -109,8 +121,10 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 	}
 
 	@Override
-	public void performGreatwardEffects(World world, Greatward greatward, float effectMultiplier)
+	public void performGreatwardEffects(World world, Greatward greatward)
 	{
+		float effectMultiplier = greatward.getEffectMultiplier(world);
+		
 		/* Entities */
 		if(!greatward.entityTargets.isEmpty())
 		{

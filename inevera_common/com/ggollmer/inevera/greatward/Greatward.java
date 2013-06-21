@@ -192,6 +192,16 @@ public class Greatward
 	}
 	
 	/**
+	 * Used to get the effect multiplier in different locations.
+	 * @param world The world that the greatward exists in.
+	 * @return The multiplier for the greatward.
+	 */
+	public float getEffectMultiplier(World world)
+	{
+		return effect.getEffectMultiplier(world, this);
+	}
+	
+	/**
 	 * Used to render ambient ward particles within the ward's bounds.
 	 */
 	@SideOnly(Side.CLIENT)
@@ -236,7 +246,7 @@ public class Greatward
 			entityTargets = target.findValidEntityTargets(world, this);
 			blockTargets = target.findValidBlockTargets(world, this);
 			
-			attribute.performGreatwardEffects(world, this, effect.getEffectMultiplier(world, this));
+			attribute.performGreatwardEffects(world, this);
 		}
 		
 		if(currentCoreEnergy < maxCoreEnergy)
@@ -298,9 +308,6 @@ public class Greatward
 		minZ = (cornerZd < endZ) ? cornerZd : endZ+1;
 		maxZ = (cornerZd < endZ) ? endZ : cornerZd+1;
 		
-		LogHelper.debugLog(String.format("WardDirection: %s %s %s", wardDirection.toString(), wardOrientation.toString(), wardOriright.toString()));
-		LogHelper.debugLog(String.format("Greatward Corner: %f %f %f", cornerX, cornerY, cornerZ));
-		LogHelper.debugLog(String.format("Greatward Bounds Calculated: x: %f %f y: %f %f z: %f %f", minX, maxX, minY, maxY, minZ, maxZ));
 		bounds = AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
 		
 		switch(wardDirection)
