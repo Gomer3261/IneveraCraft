@@ -10,9 +10,11 @@ import com.ggollmer.inevera.greatward.GreatwardManager;
 import com.ggollmer.inevera.lib.GreatwardConstants;
 import com.ggollmer.inevera.lib.Strings;
 import com.ggollmer.inevera.network.PacketTypeHandler;
+import com.ggollmer.inevera.network.packet.PacketGreatwardActivation;
 import com.ggollmer.inevera.network.packet.PacketGreatwardCoreUpdate;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 
 import net.minecraft.nbt.NBTTagCompound;
@@ -90,14 +92,19 @@ public class TileGreatwardCore extends TileEntity
 		}
 	}
 	
-	public void onNeighborChange(World world, int x, int y, int z)
+	/**
+	 * Used to activate a greatward, called on right clicking a greatward core.
+	 */
+	public void onGreatwardActivated()
 	{
-		checkValidGreatward(world, x, y, z);
-	}
-	
-	public void onBlockPlaced(World world, int x, int y, int z)
-	{
-		checkValidGreatward(world, x, y, z);
+		if(this.worldObj.isRemote)
+		{
+			PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketGreatwardActivation(worldObj.getWorldInfo().getDimension(), xCoord, yCoord, zCoord)));
+		}
+		else
+		{
+			checkValidGreatward(worldObj, xCoord, yCoord, zCoord);
+		}
 	}
 	
 	@Override
@@ -228,6 +235,7 @@ public class TileGreatwardCore extends TileEntity
 			{
 				greatward = new Greatward();
 				greatward.updateWardFromPacket(direction, orientation, blocks, type, target, attribute, effect, augments);
+				convertDummyList(worldObj, greatward.getGreatwardBlocks());
 				greatward.initializeProxy(worldObj, xCoord, yCoord, zCoord);
 			}
 			else
@@ -246,6 +254,10 @@ public class TileGreatwardCore extends TileEntity
 		}
 		else
 		{
+			if(greatward != null)
+			{
+				revertDummyList();
+			}
 			setValidGreatward(false);
 		}
 	}

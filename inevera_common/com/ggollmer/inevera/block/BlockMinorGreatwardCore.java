@@ -11,6 +11,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -64,21 +65,12 @@ public class BlockMinorGreatwardCore extends BlockGreatwardComponent
 	}
 	
 	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z, int id)
+	public boolean onBlockActivated(World world, int bx, int by, int bz, EntityPlayer player, int blockSide, float px, float py, float pz)
 	{
-		TileGreatwardCore tile = (TileGreatwardCore) world.getBlockTileEntity(x, y, z);
-		tile.onNeighborChange(world, x, y, z);
+		TileGreatwardCore tile = (TileGreatwardCore) world.getBlockTileEntity(bx, by, bz);
+		tile.onGreatwardActivated();
 		
-		super.onNeighborBlockChange(world, x, y, z, id);
-	}
-	
-	@Override
-	public void onPostBlockPlaced(World world, int x, int y, int z, int par5)
-	{
-		TileGreatwardCore tile = (TileGreatwardCore) world.getBlockTileEntity(x, y, z);
-		tile.onBlockPlaced(world, x, y, z);
-		
-		super.onPostBlockPlaced(world, x, y, z, par5);
+		return true;
 	}
 	
 	@Override

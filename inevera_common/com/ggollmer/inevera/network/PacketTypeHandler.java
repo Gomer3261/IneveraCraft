@@ -5,8 +5,8 @@ import java.io.DataInputStream;
 
 import com.ggollmer.inevera.lib.Reference;
 import com.ggollmer.inevera.network.packet.PacketGreatwardAction;
+import com.ggollmer.inevera.network.packet.PacketGreatwardActivation;
 import com.ggollmer.inevera.network.packet.PacketGreatwardCoreUpdate;
-import com.ggollmer.inevera.network.packet.PacketGreatwardPieceUpdate;
 import com.ggollmer.inevera.network.packet.PacketInevera;
 import com.ggollmer.inevera.network.packet.PacketIneveraEffect;
 import com.ggollmer.inevera.network.packet.PacketTileUpdate;
@@ -28,9 +28,9 @@ public enum PacketTypeHandler
 {
 	TILE(PacketTileUpdate.class),
 	EFFECT(PacketIneveraEffect.class),
-	GWPIECE(PacketGreatwardPieceUpdate.class),
 	GWCORE(PacketGreatwardCoreUpdate.class),
-	GWACTION(PacketGreatwardAction.class);
+	GWACTION(PacketGreatwardAction.class),
+	GWACTIVE(PacketGreatwardActivation.class);
 	
 	private Class<? extends PacketInevera> clazz;
 

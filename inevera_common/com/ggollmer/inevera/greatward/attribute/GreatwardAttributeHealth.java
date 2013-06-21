@@ -19,6 +19,7 @@ import com.ggollmer.inevera.lib.GreatwardConstants;
 import com.ggollmer.inevera.network.PacketTypeHandler;
 import com.ggollmer.inevera.network.packet.PacketGreatwardAction;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -56,7 +57,7 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 	@SideOnly(Side.CLIENT)
 	public void renderAmbientParticles(World world, Greatward greatward)
 	{
-		if(world.isRemote)
+		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 		{
 			if(rand.nextInt()%24 > 4)
 			{

@@ -12,21 +12,19 @@ import com.ggollmer.inevera.network.PacketTypeHandler;
 
 import cpw.mods.fml.common.network.Player;
 
-public class PacketGreatwardPieceUpdate extends PacketInevera
+public class PacketGreatwardActivation extends PacketInevera
 {
-	public int x, y, z, coreX, coreY, coreZ;
+	public int dimId, coreX, coreY, coreZ;
 	
-	public PacketGreatwardPieceUpdate()
+	public PacketGreatwardActivation()
 	{
-		super(PacketTypeHandler.GWPIECE, true);
+		super(PacketTypeHandler.GWACTIVE, true);
 	}
 	
-	public PacketGreatwardPieceUpdate(int x, int y, int z, int coreX, int coreY, int coreZ)
+	public PacketGreatwardActivation(int dimId, int coreX, int coreY, int coreZ)
 	{
-        super(PacketTypeHandler.GWPIECE, true);
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        super(PacketTypeHandler.GWACTIVE, true);
+        this.dimId = dimId;
         this.coreX = coreX;
         this.coreY = coreY;
         this.coreZ = coreZ;
@@ -35,9 +33,7 @@ public class PacketGreatwardPieceUpdate extends PacketInevera
 	@Override
     public void writeData(DataOutputStream data) throws IOException
     {
-        data.writeInt(x);
-        data.writeInt(y);
-        data.writeInt(z);
+		data.writeInt(dimId);
         data.writeInt(coreX);
         data.writeInt(coreY);
         data.writeInt(coreZ);
@@ -46,9 +42,7 @@ public class PacketGreatwardPieceUpdate extends PacketInevera
 	@Override
     public void readData(DataInputStream data) throws IOException
     {
-        x = data.readInt();
-        y = data.readInt();
-        z = data.readInt();
+		dimId = data.readInt();
         coreX = data.readInt();
         coreY = data.readInt();
         coreZ = data.readInt();
@@ -57,7 +51,7 @@ public class PacketGreatwardPieceUpdate extends PacketInevera
 	@Override
     public void execute(INetworkManager manager, Player player)
 	{
-        LogHelper.debugLog("PacketGreatwardPieceUpdate - Execute");
-        Inevera.proxy.handleGreatwardPiecePacket(x, y, z, coreX, coreY, coreZ);
+        LogHelper.debugLog("PacketGreatwardActivation - Execute");
+        Inevera.proxy.handleGreatwardActivationPacket(dimId, coreX, coreY, coreZ);
     }
 }

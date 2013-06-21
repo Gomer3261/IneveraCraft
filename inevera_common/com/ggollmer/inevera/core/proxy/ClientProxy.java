@@ -13,7 +13,6 @@ import com.ggollmer.inevera.client.renderer.GreatwardComponentBlockRenderer;
 import com.ggollmer.inevera.greatward.GreatwardManager;
 import com.ggollmer.inevera.lib.RenderIds;
 import com.ggollmer.inevera.tileentity.TileGreatwardCore;
-import com.ggollmer.inevera.tileentity.TileGreatwardPiece;
 import com.ggollmer.inevera.tileentity.TileInevera;
 
 import cpw.mods.fml.client.FMLClientHandler;
@@ -69,18 +68,6 @@ public class ClientProxy extends CommonProxy
     }
 	
 	@Override
-	public void handleGreatwardPiecePacket(int x, int y, int z, int coreX, int coreY, int coreZ)
-	{
-		TileEntity tileEntity = FMLClientHandler.instance().getClient().theWorld.getBlockTileEntity(x, y, z);
-		
-		if (tileEntity != null) {
-            if (tileEntity instanceof TileGreatwardPiece) {
-            	((TileGreatwardPiece) tileEntity).setCorePosition(coreX, coreY, coreZ);
-            }
-		}
-	}
-	
-	@Override
 	public void handleGreatwardCorePacket(int x, int y, int z, boolean valid, byte direction, byte orientation, List<ChunkCoordinates> pieces, String type, String target, String attribute, String effect, List<String> augments)
 	{
 		TileEntity tileEntity = FMLClientHandler.instance().getClient().theWorld.getBlockTileEntity(x, y, z);
@@ -95,7 +82,7 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void handleGreatwardActionPacket(String type, int dimension_id, boolean target_is_entity, List<Integer> target_ids, List<Vec3> target_positions, String args)
 	{
-		if(Minecraft.getMinecraft().theWorld.getWorldInfo().getDimension() == dimension_id)
+		if(FMLClientHandler.instance().getClient().theWorld.getWorldInfo().getDimension() == dimension_id)
 		{
 			for(int i=0; i<target_ids.size(); i++)
 			{

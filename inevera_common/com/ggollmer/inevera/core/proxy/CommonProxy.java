@@ -7,12 +7,16 @@ import com.ggollmer.inevera.tileentity.TileGreatwardCore;
 import com.ggollmer.inevera.tileentity.TileGreatwardPiece;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeDirection;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
 
 /**
  * IneveraCraft
@@ -59,10 +63,6 @@ public class CommonProxy implements IGuiHandler
 	{
 	}
 
-	public void handleGreatwardPiecePacket(int x, int y, int z, int coreX, int coreY, int coreZ)
-	{
-	}
-
 	public void handleGreatwardCorePacket(int x, int y, int z, boolean valid, byte direction, byte orientation, List<ChunkCoordinates> pieces, String type, String target, String attribute, String effect, List<String> augments)
 	{
 	}
@@ -73,5 +73,20 @@ public class CommonProxy implements IGuiHandler
 
 	public void handleIneveraEffectPacket(String type, double posX, double posY, double posZ, String args)
 	{
+	}
+
+	public void handleGreatwardActivationPacket(int dimId, int coreX, int coreY, int coreZ)
+	{
+		World world = DimensionManager.getWorld(dimId);
+		if(!world.isRemote && FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
+		{
+			TileEntity tileEntity = world.getBlockTileEntity(coreX, coreY, coreZ);
+			
+			if (tileEntity != null) {
+	            if (tileEntity instanceof TileGreatwardCore) {
+	            	((TileGreatwardCore) tileEntity).onGreatwardActivated();
+	            }
+			}
+		}
 	}
 }

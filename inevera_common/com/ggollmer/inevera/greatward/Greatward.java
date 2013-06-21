@@ -90,7 +90,7 @@ public class Greatward
 		this.wardDirection = wardDirection;
 		this.wardOrientation = wardOrientation;
 		this.wardOriright = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[wardOrientation.ordinal()][wardDirection.ordinal()]);
-		this.greatwardBlocks = greatwardBlocks;
+		this.greatwardBlocks = (greatwardBlocks==null) ? new ArrayList<ChunkCoordinates>() : greatwardBlocks;
 		initialized = false;
 	}
 	

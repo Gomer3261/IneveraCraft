@@ -1,13 +1,10 @@
 package com.ggollmer.inevera.tileentity;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 
 import com.ggollmer.inevera.block.BlockGreatwardComponent;
 import com.ggollmer.inevera.lib.TileStrings;
-import com.ggollmer.inevera.network.PacketTypeHandler;
-import com.ggollmer.inevera.network.packet.PacketGreatwardPieceUpdate;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -120,11 +117,5 @@ public class TileGreatwardPiece extends TileEntity
         nbtTagCompound.setInteger(TileStrings.NBT_TE_GW_DUMMY_CORE_X, coreX);
         nbtTagCompound.setInteger(TileStrings.NBT_TE_GW_DUMMY_CORE_Y, coreY);
         nbtTagCompound.setInteger(TileStrings.NBT_TE_GW_DUMMY_CORE_Z, coreZ);
-    }
-    
-    @Override
-    public Packet getDescriptionPacket()
-    {
-    	return PacketTypeHandler.populatePacket(new PacketGreatwardPieceUpdate(xCoord, yCoord, zCoord, coreX, coreY, coreZ));
     }
 }
