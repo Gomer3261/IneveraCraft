@@ -11,10 +11,10 @@ import com.ggollmer.inevera.lib.BlockNames;
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  *
  */
-public class ItemGreatwardWoodPiece extends ItemIneveraMultiblock
+public class ItemGreatwardNetherPiece extends ItemIneveraMultiblock
 {
-	public ItemGreatwardWoodPiece(int id)
+	public ItemGreatwardNetherPiece(int id)
 	{
-		super(id, BlockNames.GREATWARD_WOOD_PIECE_NAME, BlockNames.GREATWARD_WOOD_PIECE_SUBNAMES);
+		super(id, BlockNames.GREATWARD_NETHER_PIECE_NAME, BlockNames.GREATWARD_NETHER_PIECE_SUBNAMES);
 	}
 }

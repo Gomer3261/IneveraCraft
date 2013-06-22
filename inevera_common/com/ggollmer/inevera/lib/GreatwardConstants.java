@@ -1,5 +1,7 @@
 package com.ggollmer.inevera.lib;
 
+import net.minecraftforge.common.Configuration;
+
 /**
  * IneveraCraft
  *
@@ -11,6 +13,27 @@ package com.ggollmer.inevera.lib;
  */
 public class GreatwardConstants
 {
+	public static final String GREATWARD_CATEGORY = "greatward";
+	
+	/* Greatward piece constants */
+	public static final String GREATWARD_PIECE_CATEGORY = GREATWARD_CATEGORY + Configuration.CATEGORY_SPLITTER + "pieces";
+	
+	public static final int GREATWARD_WOOD_PIECE_DEFAULT_VALUE = 1;
+	public static final int GREATWARD_STONE_PIECE_DEFAULT_VALUE = 2;
+	public static final int GREATWARD_SAND_PIECE_DEFAULT_VALUE = 2;
+	public static final int GREATWARD_NETHER_PIECE_DEFAULT_VALUE = 3;
+	public static final int GREATWARD_METAL_PIECE_DEFAULT_VALUE = 5;
+	public static final int GREATWARD_PRECIOUS_PIECE_DEFAULT_VALUE = 6;
+	public static final int GREATWARD_GEM_PIECE_DEFAULT_VALUE = 8;
+	
+	public static int GREATWARD_WOOD_PIECE_VALUE;
+	public static int GREATWARD_STONE_PIECE_VALUE;
+	public static int GREATWARD_SAND_PIECE_VALUE;
+	public static int GREATWARD_NETHER_PIECE_VALUE;
+	public static int GREATWARD_METAL_PIECE_VALUE;
+	public static int GREATWARD_PRECIOUS_PIECE_VALUE;
+	public static int GREATWARD_GEM_PIECE_VALUE;
+	
 	/* Greatward type constants */
     public static final String GW_MINOR_TYPE = "minor";
     public static final String GW_NORMAL_TYPE = "normal";

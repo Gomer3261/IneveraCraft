@@ -22,6 +22,12 @@ public class GreatwardHelper
 		}
 		
 		addValidGreatwardPiece(IneveraBlocks.greatwardWoodPiece.blockID);
+		addValidGreatwardPiece(IneveraBlocks.greatwardStonePiece.blockID);
+		addValidGreatwardPiece(IneveraBlocks.greatwardSandPiece.blockID);
+		addValidGreatwardPiece(IneveraBlocks.greatwardNetherPiece.blockID);
+		addValidGreatwardPiece(IneveraBlocks.greatwardMetalPiece.blockID);
+		addValidGreatwardPiece(IneveraBlocks.greatwardPreciousPiece.blockID);
+		addValidGreatwardPiece(IneveraBlocks.greatwardGemPiece.blockID);
 		
 		addClearBlock(0);
 		addClearBlock(Block.glass.blockID);

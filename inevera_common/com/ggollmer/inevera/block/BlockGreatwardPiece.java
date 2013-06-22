@@ -24,17 +24,19 @@ import net.minecraftforge.common.ForgeDirection;
 public class BlockGreatwardPiece extends BlockGreatwardComponent
 {
 	private String[] subNames;
+	private int strength;
 	private Icon[] iconArray;
 
 	/**
 	 * @param id The id of the new block
 	 */
-	public BlockGreatwardPiece(int id, Material material, String name, String[] subNames)
+	public BlockGreatwardPiece(int id, Material material, String name, String[] subNames, int strength)
 	{
 		super(id, material);
 		this.setUnlocalizedName(name);
 		this.setCreativeTab(Inevera.tabsInevera);
 		this.subNames = subNames;
+		this.strength = strength;
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -55,6 +57,11 @@ public class BlockGreatwardPiece extends BlockGreatwardComponent
 	public Icon getIcon(int side, int metadata)
 	{
 		return iconArray[metadata & (~BlockGreatwardComponent.ACTIVE_BIT)];
+	}
+	
+	public int getGreatwardPieceStrength()
+	{
+		return strength;
 	}
 	
 	@Override
