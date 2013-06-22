@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 import com.ggollmer.inevera.client.effect.IneveraEffectHelper;
 import com.ggollmer.inevera.client.particle.GreatwardFX;
 import com.ggollmer.inevera.greatward.Greatward;
+import com.ggollmer.inevera.lib.EffectConstants;
 import com.ggollmer.inevera.lib.GreatwardConstants;
 import com.ggollmer.inevera.network.PacketTypeHandler;
 import com.ggollmer.inevera.network.packet.PacketGreatwardAction;
@@ -59,9 +60,10 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 	{
 		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 		{
-			if(rand.nextInt()%24 > 4)
+			if(rand.nextInt()%24 > 7)
 			{
-				for(int i=0; i<(rand.nextInt()+1)%6; i++)
+				int maxParticles = (( Math.abs(rand.nextInt())+1 )%4);
+				for(int i=0; i<maxParticles; i++)
 				{
 					float effectMultiplier = greatward.getEffectMultiplier(world);
 					if(effectMultiplier==0f) continue;
@@ -158,10 +160,12 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 					}
 					
 					target_ids.add(target.entityId);
-					target_positions.add(Vec3.fakePool.getVecFromPool(target.posX, target.posY, target.posZ));
+					target_positions.add(Vec3.fakePool.getVecFromPool(target.posX, target.posY+(target.height/2), target.posZ));
 				}
 			}
+			
 			PacketDispatcher.sendPacketToAllInDimension(PacketTypeHandler.populatePacket(new PacketGreatwardAction(this.getName(), world.getWorldInfo().getDimension(), true, target_ids, target_positions, Float.toString(effectMultiplier))), world.getWorldInfo().getDimension());
+			
 			greatward.currentCoreEnergy -= OPERATION_COST;
 		}
 		
@@ -189,6 +193,6 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 	@Override
 	public void performGreatwardAction(World world, boolean target_entity, int id, double posX, double posY, double posZ, String args)
 	{
-		IneveraEffectHelper.spawnEffect("health", world, Minecraft.getMinecraft().effectRenderer, posX, posY, posZ, args);
+		IneveraEffectHelper.spawnEffect(EffectConstants.EFFECT_HEAL_NAME, world, Minecraft.getMinecraft().effectRenderer, posX, posY, posZ, args);
 	}
 }

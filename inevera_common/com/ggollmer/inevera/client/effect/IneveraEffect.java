@@ -3,8 +3,8 @@ package com.ggollmer.inevera.client.effect;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.particle.EffectRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.World;
 
 /**
@@ -17,7 +17,7 @@ import net.minecraft.world.World;
  *
  */
 @SideOnly(Side.CLIENT)
-public abstract class IneveraEffect extends Entity
+public abstract class IneveraEffect extends EntityFX
 {
 	EffectRenderer renderer;
 	double posX;
@@ -28,46 +28,25 @@ public abstract class IneveraEffect extends Entity
 	
 	public IneveraEffect(World world, EffectRenderer effectRenderer, double px, double py, double pz, String args)
 	{
-		super(world);
+		super(world, px, py, pz);
 		this.renderer = effectRenderer;
 		this.posX = px;
 		this.posY = py;
 		this.posZ = pz;
 		this.age = 0;
 		this.ageMax = 120;
-		this.processArguments(args);
 	}
-	
-	@Override
-	protected void entityInit() {}
 	
 	@Override
 	public void onUpdate()
 	{
-		super.onUpdate();
-		if (this.age++ >= this.ageMax)
+		if (age >= ageMax)
 		{
-			this.setDead();
+			setDead();
 		}
+		age++;
 	}
 	
-	protected abstract void processArguments(String args);
-	
 	@Override
-	protected boolean canTriggerWalking()
-    {
-        return false;
-    }
-	
-	@Override
-	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) {}
-	
-	@Override
-    public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound) {}
-	
-	@Override
-	public boolean canAttackWithItem()
-    {
-        return false;
-    }
+	public void renderParticle(Tessellator par1Tessellator, float par2, float par3, float par4, float par5, float par6, float par7) {}
 }

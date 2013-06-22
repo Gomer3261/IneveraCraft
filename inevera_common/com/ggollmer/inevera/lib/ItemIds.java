@@ -12,9 +12,9 @@ package com.ggollmer.inevera.lib;
 public class ItemIds
 {
 	/* Default Item Ids */
-	public static int BASIC_WARDING_TOOLS_DEFAULT = 14500;
-	public static int DEMON_BONE_DEFAULT = 14501;
-	public static int DEMON_FLESH_DEFAULT = 14502;
+	public static final int BASIC_WARDING_TOOLS_DEFAULT = 14500;
+	public static final int DEMON_BONE_DEFAULT = 14501;
+	public static final int DEMON_FLESH_DEFAULT = 14502;
 	
 	/* Item Ids After Shift */
 	public static int BASIC_WARDING_TOOLS;

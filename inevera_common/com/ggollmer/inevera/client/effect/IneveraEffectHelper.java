@@ -4,6 +4,8 @@ import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.ggollmer.inevera.lib.EffectConstants;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -30,6 +32,8 @@ public class IneveraEffectHelper
 	public static void init()
 	{
 		effects = new HashMap<String, Class<? extends IneveraEffect>>(); 
+		
+		registerEffect(EffectConstants.EFFECT_HEAL_NAME, IneveraEffectHeal.class);
 	}
 	
 	/**
@@ -75,11 +79,15 @@ public class IneveraEffectHelper
 		{
 			try
 			{
-				Class<?> par_types[] = new Class[]{world.getClass(), effectRenderer.getClass(), Double.class, Double.class, Double.class, args.getClass()};
+				Class<?> par_types[] = new Class[]{World.class, EffectRenderer.class, double.class, double.class, double.class, String.class};
 				Constructor<?> constructor = effects.get(type).getConstructor(par_types);
-				Object arguments = new Object[]{world, effectRenderer, px, py, pz, args};
+				Object arguments[] = new Object[]{world, effectRenderer, (Double)px, (Double)py, (Double)pz, args};
 				
-				return (IneveraEffect)constructor.newInstance(arguments);
+				IneveraEffect effect = (IneveraEffect) constructor.newInstance(arguments);
+				
+				effectRenderer.addEffect(effect);
+				
+				return effect;
 			}
 			catch (Exception e)
 			{
