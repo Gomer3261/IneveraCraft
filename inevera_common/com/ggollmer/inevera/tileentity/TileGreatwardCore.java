@@ -45,7 +45,7 @@ public class TileGreatwardCore extends TileEntity
 	
 	public void invalidateGreatward()
 	{
-		boolean changed = greatward != null;
+		boolean changed = (greatward != null);
 		
 		if(greatward != null)
 		{
@@ -53,7 +53,7 @@ public class TileGreatwardCore extends TileEntity
 			setValidGreatward(false);
 		}
 		
-		if(changed && FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
+		if(changed && !worldObj.isRemote)
 		{
 			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
@@ -227,20 +227,20 @@ public class TileGreatwardCore extends TileEntity
         }
     }
     
-    public void updateWardFromPacket(boolean valid, byte direction, byte orientation, List<ChunkCoordinates> blocks, String type, String target, String attribute, String effect, List<String> augments)
+    public void updateWardFromPacket(boolean valid, byte direction, byte orientation, List<ChunkCoordinates> blocks, int blockId, String type, String target, String attribute, String effect, List<String> augments)
 	{
 		if(valid)
 		{
 			if(greatward == null)
 			{
 				greatward = new Greatward();
-				greatward.updateWardFromPacket(direction, orientation, blocks, type, target, attribute, effect, augments);
+				greatward.updateWardFromPacket(direction, orientation, blocks, blockId, type, target, attribute, effect, augments);
 				convertDummyList(worldObj, greatward.getGreatwardBlocks());
 				greatward.initializeProxy(worldObj, xCoord, yCoord, zCoord);
 			}
 			else
 			{
-				greatward.updateWardFromPacket(direction, orientation, blocks, type, target, attribute, effect, augments);
+				greatward.updateWardFromPacket(direction, orientation, blocks, blockId, type, target, attribute, effect, augments);
 			}
 			
 			if(greatward.isValidGreatward())

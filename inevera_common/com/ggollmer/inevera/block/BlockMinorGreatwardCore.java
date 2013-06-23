@@ -59,7 +59,10 @@ public class BlockMinorGreatwardCore extends BlockGreatwardComponent
 	public void breakBlock(World world, int x, int y, int z, int par5, int par6)
 	{
 		TileGreatwardCore tile = (TileGreatwardCore) world.getBlockTileEntity(x, y, z);
-		tile.invalidateGreatward();
+		if(tile != null)
+		{
+			tile.invalidateGreatward();
+		}
 		
 		super.breakBlock(world, x, y, z, par5, par6);
 	}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -11,6 +12,7 @@ import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
+import com.ggollmer.inevera.block.BlockGreatwardPiece;
 import com.ggollmer.inevera.core.helper.LogHelper;
 import com.ggollmer.inevera.core.helper.NBTHelper;
 import com.ggollmer.inevera.greatward.attribute.GreatwardAttribute;
@@ -39,6 +41,7 @@ public class Greatward
 	protected GreatwardEffect effect;
 	protected List<GreatwardAugment> augments;
 	protected List<ChunkCoordinates> greatwardBlocks;
+	protected int blockType;
 	protected String wardType;
 	protected ForgeDirection wardDirection;
 	protected ForgeDirection wardOrientation;
@@ -67,6 +70,10 @@ public class Greatward
 	public float currentCoreEnergy;
 	public float maxCoreEnergy;
 	
+	public int wardPieceMultiplier;
+	
+	public int operationTimer;
+	
 	public AxisAlignedBB bounds;
 	public List<Entity> entityTargets;
 	public List<ChunkCoordinates> blockTargets;
@@ -80,7 +87,7 @@ public class Greatward
 	 * @param wardDirection 
 	 */
 	public Greatward(GreatwardTarget target, GreatwardAttribute attribute,
-			GreatwardEffect effect, List<GreatwardAugment> augments, String wardType, ForgeDirection wardDirection, ForgeDirection wardOrientation, List<ChunkCoordinates> greatwardBlocks)
+			GreatwardEffect effect, List<GreatwardAugment> augments, String wardType, ForgeDirection wardDirection, ForgeDirection wardOrientation, List<ChunkCoordinates> greatwardBlocks, int blockId)
 	{
 		this.target = target;
 		this.attribute = attribute;
@@ -91,6 +98,7 @@ public class Greatward
 		this.wardOrientation = wardOrientation;
 		this.wardOriright = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[wardOrientation.ordinal()][wardDirection.ordinal()]);
 		this.greatwardBlocks = (greatwardBlocks==null) ? new ArrayList<ChunkCoordinates>() : greatwardBlocks;
+		this.blockType = blockId;
 		initialized = false;
 	}
 	
@@ -100,7 +108,7 @@ public class Greatward
 	 */
 	public Greatward()
 	{
-		this(null, null, null, null, null, ForgeDirection.UNKNOWN, ForgeDirection.UNKNOWN, null);
+		this(null, null, null, null, null, ForgeDirection.UNKNOWN, ForgeDirection.UNKNOWN, null, -1);
 	}
 	
 	/**
@@ -140,12 +148,30 @@ public class Greatward
 	}
 	
 	/**
+	 * Used to get the type of block that the ward is constructed with.
+	 * @return The block type that the ward consists of.
+	 */
+	public int getBlockType()
+	{
+		return blockType;
+	}
+	
+	/**
 	 * Used to get the type of the greatward (as a string)
 	 * @return The type of the greatward.
 	 */
 	public String getGreatwardType()
 	{
 		return wardType;
+	}
+	
+	/**
+	 * Used to set a delay on the operation of the greatward (to prevent spamming)
+	 * @param delay The delay in ticks to add to the greatward.
+	 */
+	public void addOperationDelay(int delay)
+	{
+		operationTimer += delay;
 	}
 	
 	/**
@@ -241,7 +267,7 @@ public class Greatward
 			recalculateBounds();
 		}
 		
-		if(attribute.canPerformOperation(world, this))
+		if(attribute.canPerformOperation(world, this) && operationTimer <= 0)
 		{
 			entityTargets = target.findValidEntityTargets(world, this);
 			blockTargets = target.findValidBlockTargets(world, this);
@@ -257,6 +283,11 @@ public class Greatward
 			{
 				currentCoreEnergy = maxCoreEnergy;
 			}
+		}
+		
+		if(operationTimer > 0)
+		{
+			operationTimer--;
 		}
 	}
 	
@@ -282,6 +313,10 @@ public class Greatward
 		
 		currentCoreEnergy = 0;
 		maxCoreEnergy = 100;
+		
+		operationTimer = 0;
+		
+		wardPieceMultiplier = ( (BlockGreatwardPiece)Block.blocksList[blockType] ).getGreatwardPieceStrength();
 		
 		initialized = true;
 	}
@@ -383,6 +418,7 @@ public class Greatward
 		if(wardOrientation.equals(ForgeDirection.UNKNOWN)) return false;
 		if(greatwardBlocks == null) return false;
 		if(greatwardBlocks.isEmpty()) return false;
+		if(blockType == -1) return false;
 		return true;
 	}
 	
@@ -428,6 +464,10 @@ public class Greatward
             greatwardBlocks = NBTHelper.getChunkCoordinatesListFromNBTTagList(nbtTagCompound.getTagList(GreatwardConstants.GW_NBT_COORD_LIST_KEY));
         }
 		
+		if(nbtTagCompound.hasKey(GreatwardConstants.GW_NBT_BLOCK_TYPE_KEY)) {
+			blockType = nbtTagCompound.getInteger(GreatwardConstants.GW_NBT_BLOCK_TYPE_KEY);
+		}
+		
 		wardOriright = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[wardOrientation.ordinal()][wardDirection.ordinal()]);
 		
 		LogHelper.debugLog(String.format("Loading Greatward From NBT dir: %S, ori: %s, blocks %d, type: %s, target: %s, attribute: %s, effect %s, augments %d", wardDirection.toString(), wardOrientation.toString(), greatwardBlocks.size(), wardType, target.getName(), attribute.getName(), effect.getName(), augments.size()));
@@ -460,6 +500,8 @@ public class Greatward
 		nbtTagCompound.setByte(GreatwardConstants.GW_NBT_ORIENTATION_KEY, (byte)wardOrientation.ordinal());
 		
 		nbtTagCompound.setTag(GreatwardConstants.GW_NBT_COORD_LIST_KEY, NBTHelper.createChunkCoordinatesNBTTagList(greatwardBlocks));
+		
+		nbtTagCompound.setInteger(GreatwardConstants.GW_NBT_BLOCK_TYPE_KEY, blockType);
 	}
 
 	/**
@@ -472,12 +514,13 @@ public class Greatward
 	 * @param effect The effect type of the greatward.
 	 * @param augments The augments applied to the greatward.
 	 */
-	public void updateWardFromPacket(byte direction, byte orientation, List<ChunkCoordinates> blocks, String wardType, String target, String attribute, String effect, List<String> augments)
+	public void updateWardFromPacket(byte direction, byte orientation, List<ChunkCoordinates> blocks, int blockType, String wardType, String target, String attribute, String effect, List<String> augments)
 	{	
 		wardDirection = ForgeDirection.getOrientation(direction);
 		wardOrientation = ForgeDirection.getOrientation(orientation);
 		wardOriright = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[orientation][direction]);
 		greatwardBlocks = blocks;
+		this.blockType = blockType;
 		this.wardType = wardType;
 		this.target = GreatwardManager.getTargetByName(target);
 		this.attribute = GreatwardManager.getAttributeByName(attribute);

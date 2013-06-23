@@ -63,6 +63,7 @@ public class GreatwardConstants
     public static final String GW_NBT_DIRECTION_KEY = "GwDirection";
     public static final String GW_NBT_ORIENTATION_KEY = "GwOrientation";
     public static final String GW_NBT_COORD_LIST_KEY = "GwBlockList";
+    public static final String GW_NBT_BLOCK_TYPE_KEY = "GwBlockType";
     
     /* Greatward resource locations */
 	public static final String GW_MAP_LOCATION = "/mods/inevera/greatwards";

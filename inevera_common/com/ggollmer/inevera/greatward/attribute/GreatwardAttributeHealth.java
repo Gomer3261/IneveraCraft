@@ -37,7 +37,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class GreatwardAttributeHealth extends GreatwardAttribute
 {
 	private static final int OPERATION_COST = 30;
-	private static final int TARGETS_PER_OPERATION = 5;
+	private static final int OPERATION_COOLDOWN = 60;
+	private static final int MAX_TARGETS_PER_OPERATION = 8;
 	private static final int AMOUNT_PER_OPERATION = 1;
 	/**
 	 * @param name The unique name of the greatward component.
@@ -131,7 +132,9 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 		/* Entities */
 		if(!greatward.entityTargets.isEmpty())
 		{
-			int targetCount = (greatward.entityTargets.size() < TARGETS_PER_OPERATION) ? greatward.entityTargets.size() : TARGETS_PER_OPERATION;
+			int maximum_targets = (int)(greatward.currentCoreEnergy / OPERATION_COST);
+			maximum_targets = (maximum_targets < MAX_TARGETS_PER_OPERATION) ? maximum_targets : MAX_TARGETS_PER_OPERATION;
+			int targetCount = (greatward.entityTargets.size() < maximum_targets) ? greatward.entityTargets.size() : maximum_targets;
 			int startIndex = (greatward.entityTargets.size()>1) ? rand.nextInt(greatward.entityTargets.size()-1) : 0;
 			
 			List<Integer> target_ids = new ArrayList<Integer>();
@@ -145,17 +148,17 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 				{
 					if(target instanceof IGWHealableEntity)
 					{
-						((IGWHealableEntity)target).onGreatwardHeal((int)(AMOUNT_PER_OPERATION*effectMultiplier));
+						((IGWHealableEntity)target).onGreatwardHeal((int)(AMOUNT_PER_OPERATION*effectMultiplier*greatward.wardPieceMultiplier));
 					}
 					else
 					{
 						if(effectMultiplier < 0)
 						{
-							((EntityLiving)target).attackEntityFrom(DamageSource.magic, (int)(-1*effectMultiplier));
+							((EntityLiving)target).attackEntityFrom(DamageSource.magic, (int)(AMOUNT_PER_OPERATION*-1*effectMultiplier*greatward.wardPieceMultiplier));
 						}
 						else
 						{
-							((EntityLiving)target).heal((int)(1*effectMultiplier));
+							((EntityLiving)target).heal((int)(AMOUNT_PER_OPERATION*effectMultiplier*greatward.wardPieceMultiplier));
 						}
 					}
 					
@@ -166,7 +169,7 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 			
 			PacketDispatcher.sendPacketToAllInDimension(PacketTypeHandler.populatePacket(new PacketGreatwardAction(this.getName(), world.getWorldInfo().getDimension(), true, target_ids, target_positions, Float.toString(effectMultiplier))), world.getWorldInfo().getDimension());
 			
-			greatward.currentCoreEnergy -= OPERATION_COST;
+			greatward.currentCoreEnergy -= OPERATION_COST*targetCount;
 		}
 		
 		/* Blocks */
@@ -188,6 +191,8 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 			
 			PacketDispatcher.sendPacketToAllInDimension(PacketTypeHandler.populatePacket(new PacketGreatwardAction(this.getName(), world.getWorldInfo().getDimension(), true, target_ids, target_positions, Float.toString(effectMultiplier))), world.getWorldInfo().getDimension());
 		}
+		
+		greatward.addOperationDelay(OPERATION_COOLDOWN);
 	}
 
 	@Override

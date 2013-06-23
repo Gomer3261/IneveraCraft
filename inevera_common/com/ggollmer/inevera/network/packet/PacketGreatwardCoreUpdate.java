@@ -33,6 +33,7 @@ public class PacketGreatwardCoreUpdate extends PacketInevera
 	public byte direction;
 	public byte orientation;
 	public List<ChunkCoordinates> blocks;
+	public int blockId;
 	public String type;
 	public String target;
 	public String attribute;
@@ -56,6 +57,7 @@ public class PacketGreatwardCoreUpdate extends PacketInevera
         	this.direction = (byte)greatward.getWardDirection().ordinal();
         	this.orientation = (byte)greatward.getWardOrientation().ordinal();
         	this.blocks = greatward.getGreatwardBlocks();
+        	this.blockId = greatward.getBlockType();
         	this.type = greatward.getGreatwardType();
         	this.target = greatward.getTargetName();
         	this.attribute = greatward.getAttributeName();
@@ -82,6 +84,7 @@ public class PacketGreatwardCoreUpdate extends PacketInevera
         		data.writeInt(coord.posY);
         		data.writeInt(coord.posZ);
         	}
+        	data.writeInt(blockId);
         	data.writeUTF(type);
         	data.writeUTF(target);
         	data.writeUTF(attribute);
@@ -116,6 +119,7 @@ public class PacketGreatwardCoreUpdate extends PacketInevera
         		piece.posZ = data.readInt();
         		blocks.add(piece);
         	}
+        	blockId = data.readInt();
         	
         	type = data.readUTF();
         	
@@ -139,6 +143,7 @@ public class PacketGreatwardCoreUpdate extends PacketInevera
             attribute = null;
             effect = null;
             augments = null;
+            blockId = -1;
         }
     }
 	
@@ -146,6 +151,6 @@ public class PacketGreatwardCoreUpdate extends PacketInevera
     public void execute(INetworkManager manager, Player player)
 	{
         LogHelper.debugLog("PacketGreatwardCoreUpdate - Execute");
-        Inevera.proxy.handleGreatwardCorePacket(x, y, z, valid, direction, orientation, blocks, type, target, attribute, effect, augments);
+        Inevera.proxy.handleGreatwardCorePacket(x, y, z, valid, direction, orientation, blocks, blockId, type, target, attribute, effect, augments);
     }
 }
