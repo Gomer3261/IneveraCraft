@@ -3,7 +3,6 @@ package com.ggollmer.inevera.tileentity;
 import java.util.List;
 
 import com.ggollmer.inevera.block.BlockGreatwardComponent;
-import com.ggollmer.inevera.block.IneveraBlocks;
 import com.ggollmer.inevera.greatward.Greatward;
 import com.ggollmer.inevera.greatward.GreatwardHelper;
 import com.ggollmer.inevera.greatward.GreatwardManager;
@@ -152,7 +151,7 @@ public class TileGreatwardCore extends TileEntity
 	
 	private void convertDummy(World world, int x, int y, int z)
 	{
-		if(world.getBlockId(x, y, z) != IneveraBlocks.greatwardWoodPiece.blockID)
+		if(!GreatwardHelper.isValidGreatwardPiece(world.getBlockId(x, y, z)))
 		{
 			return;
 		}
@@ -163,7 +162,7 @@ public class TileGreatwardCore extends TileEntity
 	
 	private void revertDummy(World world, int x, int y, int z)
 	{
-		if(world.getBlockId(x, y, z) != IneveraBlocks.greatwardWoodPiece.blockID)
+		if(!GreatwardHelper.isValidGreatwardPiece(world.getBlockId(x, y, z)))
 		{
 			return;
 		}
