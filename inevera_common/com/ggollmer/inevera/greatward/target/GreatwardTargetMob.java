@@ -4,26 +4,27 @@ import com.ggollmer.inevera.greatward.Greatward;
 import com.ggollmer.inevera.lib.GreatwardConstants;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.world.World;
 
 /**
  * IneveraCraft
  *
- * GreatwardTargetAll.java
+ * GreatwardTargetMob.java
  *
  * @author gomer3261
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  *
  */
-public class GreatwardTargetAll extends GreatwardTarget
+public class GreatwardTargetMob extends GreatwardTarget
 {
 
 	/**
 	 * @param name The name of the unique greatward component
 	 */ 
-	public GreatwardTargetAll(String name)
+	public GreatwardTargetMob(String name)
 	{
-		super(GreatwardConstants.GW_TARGET_ALL_LOCATION, name);
+		super(GreatwardConstants.GW_TARGET_MOB_LOCATION, name);
 	}
 	
 	@Override
@@ -39,12 +40,12 @@ public class GreatwardTargetAll extends GreatwardTarget
 	@Override
 	public boolean isValidEntityTarget(Entity entity)
 	{
-		return true;
+		return (entity instanceof IMob);
 	}
 
 	@Override
 	public boolean isValidBlockTarget(int id, int metadata)
 	{
-		return true;
+		return false;
 	}
 }

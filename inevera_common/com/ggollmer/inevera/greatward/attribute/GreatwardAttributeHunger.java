@@ -6,9 +6,8 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -28,13 +27,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 /**
  * IneveraCraft
  *
- * GreatwardAttributeHealth.java
+ * GreatwardAttributeHunger.java
  *
  * @author gomer3261
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  *
  */
-public class GreatwardAttributeHealth extends GreatwardAttribute
+public class GreatwardAttributeHunger extends GreatwardAttribute
 {
 	private static final int OPERATION_COST = 30;
 	private static final int OPERATION_COOLDOWN = 60;
@@ -43,10 +42,10 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 	/**
 	 * @param name The unique name of the greatward component.
 	 */
-	public GreatwardAttributeHealth(String name)
+	public GreatwardAttributeHunger(String name)
 	{
 		super(name);
-		addGreatwardMap(GreatwardConstants.GW_MINOR_TYPE, GreatwardConstants.GW_ATTRIBUTE_HEALTH_MINOR_LOCATION, GreatwardConstants.GW_MINOR_DIMENSION, GreatwardConstants.GW_MINOR_DIMENSION);
+		addGreatwardMap(GreatwardConstants.GW_MINOR_TYPE, GreatwardConstants.GW_ATTRIBUTE_HUNGER_MINOR_LOCATION, GreatwardConstants.GW_MINOR_DIMENSION, GreatwardConstants.GW_MINOR_DIMENSION);
 		//TODO: add constructors for normal and major maps.
 	}
 
@@ -59,6 +58,8 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 	@SideOnly(Side.CLIENT)
 	public void renderAmbientParticles(World world, Greatward greatward)
 	{
+		//TODO: Custom hunger ambient effects.
+		
 		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 		{
 			if(rand.nextInt()%24 > 7)
@@ -102,7 +103,7 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 	@Override
 	public boolean isValidEntityTarget(Entity target)
 	{
-		return ((target instanceof EntityLiving) || (target instanceof IGWHealableEntity));
+		return ((target instanceof EntityPlayer) || (target instanceof IGWFeedableEntity));
 	}
 	
 	@Override
@@ -147,20 +148,13 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 				
 				if(!target.isDead)
 				{
-					if(target instanceof IGWHealableEntity)
+					if(target instanceof IGWFeedableEntity)
 					{
-						((IGWHealableEntity)target).onGreatwardHeal((int)(AMOUNT_PER_OPERATION*effectMultiplier*greatward.wardPieceMultiplier));
+						((IGWFeedableEntity)target).onGreatwardFeed((int)(AMOUNT_PER_OPERATION*effectMultiplier*greatward.wardPieceMultiplier));
 					}
 					else
 					{
-						if(effectMultiplier < 0)
-						{
-							((EntityLiving)target).attackEntityFrom(DamageSource.magic, (int)(AMOUNT_PER_OPERATION*-1*effectMultiplier*greatward.wardPieceMultiplier));
-						}
-						else
-						{
-							((EntityLiving)target).heal((int)(AMOUNT_PER_OPERATION*effectMultiplier*greatward.wardPieceMultiplier));
-						}
+						((EntityPlayer)target).getFoodStats().addStats((int)(AMOUNT_PER_OPERATION*effectMultiplier*greatward.wardPieceMultiplier), 1f);
 					}
 					
 					target_ids.add(target.entityId);
@@ -186,7 +180,7 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 				int id = world.getBlockId(coord.posX, coord.posY, coord.posZ);
 				if(Block.blocksList[id] instanceof IGWHealableBlock)
 				{
-					((IGWHealableBlock)Block.blocksList[id]).onGreatwardHeal(world, coord.posX, coord.posY, coord.posZ, (int)(AMOUNT_PER_OPERATION*effectMultiplier*greatward.wardPieceMultiplier));
+					((IGWFeedableBlock)Block.blocksList[id]).onGreatwardFeed(world, coord.posX, coord.posY, coord.posZ, (int)(AMOUNT_PER_OPERATION*effectMultiplier*greatward.wardPieceMultiplier));
 					target_ids.add(id);
 					target_positions.add(Vec3.fakePool.getVecFromPool(coord.posX, coord.posY, coord.posZ));
 					target_arguments.add(Float.toString(effectMultiplier));

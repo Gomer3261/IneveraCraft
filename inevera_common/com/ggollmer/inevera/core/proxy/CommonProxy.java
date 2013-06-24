@@ -67,7 +67,7 @@ public class CommonProxy implements IGuiHandler
 	{
 	}
 	
-	public void handleGreatwardActionPacket(String type, int dimension_id, boolean target_is_entity, List<Integer> target_ids, List<Vec3> target_positions, String args)
+	public void handleGreatwardActionPacket(String type, int dimension_id, boolean target_is_entity, List<Integer> target_ids, List<Vec3> target_positions, List<String> args)
 	{
 	}
 

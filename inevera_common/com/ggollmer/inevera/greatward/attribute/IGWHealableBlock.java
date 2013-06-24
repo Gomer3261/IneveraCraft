@@ -13,5 +13,5 @@ import net.minecraft.world.World;
  */
 public interface IGWHealableBlock
 {
-	public void onGreatwardHeal(World world, int x, int y, int z);
+	public void onGreatwardHeal(World world, int x, int y, int z, int amount);
 }

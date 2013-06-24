@@ -76,17 +76,49 @@ public class GreatwardConstants
     public static final int GW_TARGET_HEIGHT = 3;
     
     public static final String GW_TARGET_ALL_NAME = "t_all";
+    public static final String GW_TARGET_ENTITY_NAME = "t_entity";
+    public static final String GW_TARGET_MOB_NAME = "t_mob";
+    public static final String GW_TARGET_PLAYER_NAME = "t_player";
+    public static final String GW_TARGET_ANIMAL_NAME = "t_animal";
+    public static final String GW_TARGET_ITEM_NAME = "t_item";
+    public static final String GW_TARGET_ENVIRONMENT_NAME = "t_environment";
     
     /* Greatward target maps */
 	public static final String GW_TARGET_ALL_LOCATION = GW_MAP_LOCATION + "/" + GW_TARGET_ALL_NAME + ".txt";
+	public static final String GW_TARGET_ENTITY_LOCATION = GW_MAP_LOCATION + "/" + GW_TARGET_ENTITY_NAME + ".txt";
+	public static final String GW_TARGET_MOB_LOCATION = GW_MAP_LOCATION + "/" + GW_TARGET_MOB_NAME + ".txt";
+	public static final String GW_TARGET_PLAYER_LOCATION = GW_MAP_LOCATION + "/" + GW_TARGET_PLAYER_NAME + ".txt";
+	public static final String GW_TARGET_ANIMAL_LOCATION = GW_MAP_LOCATION + "/" + GW_TARGET_ANIMAL_NAME + ".txt";
+	public static final String GW_TARGET_ITEM_LOCATION = GW_MAP_LOCATION + "/" + GW_TARGET_ITEM_NAME + ".txt";
+	public static final String GW_TARGET_ENVIRONMENT_LOCATION = GW_MAP_LOCATION + "/" + GW_TARGET_ENVIRONMENT_NAME + ".txt";
 	
 	/* Greatward attribute constants */
 	public static final String GW_ATTRIBUTE_HEALTH_NAME = "a_health";
+	public static final String GW_ATTRIBUTE_HUNGER_NAME = "a_hunger";
+	public static final String GW_ATTRIBUTE_PASSABILITY_NAME = "a_passability";
+	public static final String GW_ATTRIBUTE_POSITION_NAME = "a_position";
+	public static final String GW_ATTRIBUTE_VELOCITY_NAME = "a_velocity";
 	
 	/* Greatward attribute maps */
 	public static final String GW_ATTRIBUTE_HEALTH_MINOR_LOCATION = GW_MINOR_LOCATION + "/" + GW_ATTRIBUTE_HEALTH_NAME + ".txt";
 	public static final String GW_ATTRIBUTE_HEALTH_NORMAL_LOCATION = GW_NORMAL_LOCATION + "/" + GW_ATTRIBUTE_HEALTH_NAME + ".txt";
 	public static final String GW_ATTRIBUTE_HEALTH_MAJOR_LOCATION = GW_MAJOR_LOCATION + "/" + GW_ATTRIBUTE_HEALTH_NAME + ".txt";
+	
+	public static final String GW_ATTRIBUTE_HUNGER_MINOR_LOCATION = GW_MINOR_LOCATION + "/" + GW_ATTRIBUTE_HUNGER_NAME + ".txt";
+	public static final String GW_ATTRIBUTE_HUNGER_NORMAL_LOCATION = GW_NORMAL_LOCATION + "/" + GW_ATTRIBUTE_HUNGER_NAME + ".txt";
+	public static final String GW_ATTRIBUTE_HUNGER_MAJOR_LOCATION = GW_MAJOR_LOCATION + "/" + GW_ATTRIBUTE_HUNGER_NAME + ".txt";
+	
+	public static final String GW_ATTRIBUTE_PASSABILITY_MINOR_LOCATION = GW_MINOR_LOCATION + "/" + GW_ATTRIBUTE_PASSABILITY_NAME + ".txt";
+	public static final String GW_ATTRIBUTE_PASSABILITY_NORMAL_LOCATION = GW_NORMAL_LOCATION + "/" + GW_ATTRIBUTE_PASSABILITY_NAME + ".txt";
+	public static final String GW_ATTRIBUTE_PASSABILITY_MAJOR_LOCATION = GW_MAJOR_LOCATION + "/" + GW_ATTRIBUTE_PASSABILITY_NAME + ".txt";
+	
+	public static final String GW_ATTRIBUTE_POSITION_MINOR_LOCATION = GW_MINOR_LOCATION + "/" + GW_ATTRIBUTE_POSITION_NAME + ".txt";
+	public static final String GW_ATTRIBUTE_POSITION_NORMAL_LOCATION = GW_NORMAL_LOCATION + "/" + GW_ATTRIBUTE_POSITION_NAME + ".txt";
+	public static final String GW_ATTRIBUTE_POSITION_MAJOR_LOCATION = GW_MAJOR_LOCATION + "/" + GW_ATTRIBUTE_POSITION_NAME + ".txt";
+	
+	public static final String GW_ATTRIBUTE_VELOCITY_MINOR_LOCATION = GW_MINOR_LOCATION + "/" + GW_ATTRIBUTE_VELOCITY_NAME + ".txt";
+	public static final String GW_ATTRIBUTE_VELOCITY_NORMAL_LOCATION = GW_NORMAL_LOCATION + "/" + GW_ATTRIBUTE_VELOCITY_NAME + ".txt";
+	public static final String GW_ATTRIBUTE_VELOCITY_MAJOR_LOCATION = GW_MAJOR_LOCATION + "/" + GW_ATTRIBUTE_VELOCITY_NAME + ".txt";
 	
 	/* Greatward effect constants */
 	public static final String GW_EFFECT_POSITIVE_NAME = "e_positive";

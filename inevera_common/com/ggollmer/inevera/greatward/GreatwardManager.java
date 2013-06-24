@@ -10,15 +10,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
 import com.ggollmer.inevera.core.helper.LogHelper;
-import com.ggollmer.inevera.greatward.attribute.GreatwardAttribute;
-import com.ggollmer.inevera.greatward.attribute.GreatwardAttributeHealth;
-import com.ggollmer.inevera.greatward.augment.GreatwardAugment;
-import com.ggollmer.inevera.greatward.effect.GreatwardEffect;
-import com.ggollmer.inevera.greatward.effect.GreatwardEffectChaotic;
-import com.ggollmer.inevera.greatward.effect.GreatwardEffectNegative;
-import com.ggollmer.inevera.greatward.effect.GreatwardEffectPositive;
-import com.ggollmer.inevera.greatward.target.GreatwardTarget;
-import com.ggollmer.inevera.greatward.target.GreatwardTargetAll;
+import com.ggollmer.inevera.greatward.attribute.*;
+import com.ggollmer.inevera.greatward.augment.*;
+import com.ggollmer.inevera.greatward.effect.*;
+import com.ggollmer.inevera.greatward.target.*;
 import com.ggollmer.inevera.lib.GreatwardConstants;
 
 /**
@@ -52,8 +47,16 @@ public class GreatwardManager
 		typeDimensionMap = new HashMap<String, GreatwardDimensions>();
 		
 		registerTarget(GreatwardConstants.GW_TARGET_ALL_NAME, new GreatwardTargetAll(GreatwardConstants.GW_TARGET_ALL_NAME));
+		registerTarget(GreatwardConstants.GW_TARGET_ENTITY_NAME, new GreatwardTargetEntity(GreatwardConstants.GW_TARGET_ENTITY_NAME));
+		registerTarget(GreatwardConstants.GW_TARGET_MOB_NAME, new GreatwardTargetMob(GreatwardConstants.GW_TARGET_MOB_NAME));
+		registerTarget(GreatwardConstants.GW_TARGET_PLAYER_NAME, new GreatwardTargetPlayer(GreatwardConstants.GW_TARGET_PLAYER_NAME));
+		registerTarget(GreatwardConstants.GW_TARGET_ANIMAL_NAME, new GreatwardTargetAnimal(GreatwardConstants.GW_TARGET_ANIMAL_NAME));
+		registerTarget(GreatwardConstants.GW_TARGET_ITEM_NAME, new GreatwardTargetItem(GreatwardConstants.GW_TARGET_ITEM_NAME));
+		registerTarget(GreatwardConstants.GW_TARGET_ENVIRONMENT_NAME, new GreatwardTargetEnvironment(GreatwardConstants.GW_TARGET_ENVIRONMENT_NAME));
 		
 		registerAttribute(GreatwardConstants.GW_ATTRIBUTE_HEALTH_NAME, new GreatwardAttributeHealth(GreatwardConstants.GW_ATTRIBUTE_HEALTH_NAME));
+		registerAttribute(GreatwardConstants.GW_ATTRIBUTE_HUNGER_NAME, new GreatwardAttributeHunger(GreatwardConstants.GW_ATTRIBUTE_HUNGER_NAME));
+		registerAttribute(GreatwardConstants.GW_ATTRIBUTE_VELOCITY_NAME, new GreatwardAttributeVelocity(GreatwardConstants.GW_ATTRIBUTE_VELOCITY_NAME));
 		
 		registerEffect(GreatwardConstants.GW_EFFECT_POSITIVE_NAME, new GreatwardEffectPositive(GreatwardConstants.GW_EFFECT_POSITIVE_NAME));
 		registerEffect(GreatwardConstants.GW_EFFECT_NEGATIVE_NAME, new GreatwardEffectNegative(GreatwardConstants.GW_EFFECT_NEGATIVE_NAME));

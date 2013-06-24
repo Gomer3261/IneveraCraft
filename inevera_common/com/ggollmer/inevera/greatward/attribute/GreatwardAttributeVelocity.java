@@ -3,12 +3,8 @@ package com.ggollmer.inevera.greatward.attribute;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -28,25 +24,25 @@ import cpw.mods.fml.relauncher.SideOnly;
 /**
  * IneveraCraft
  *
- * GreatwardAttributeHealth.java
+ * GreatwardAttributeVelocity.java
  *
  * @author gomer3261
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  *
  */
-public class GreatwardAttributeHealth extends GreatwardAttribute
+public class GreatwardAttributeVelocity extends GreatwardAttribute
 {
 	private static final int OPERATION_COST = 30;
-	private static final int OPERATION_COOLDOWN = 60;
+	private static final int OPERATION_COOLDOWN = 20;
 	private static final int MAX_TARGETS_PER_OPERATION = 8;
 	private static final int AMOUNT_PER_OPERATION = 1;
 	/**
 	 * @param name The unique name of the greatward component.
 	 */
-	public GreatwardAttributeHealth(String name)
+	public GreatwardAttributeVelocity(String name)
 	{
 		super(name);
-		addGreatwardMap(GreatwardConstants.GW_MINOR_TYPE, GreatwardConstants.GW_ATTRIBUTE_HEALTH_MINOR_LOCATION, GreatwardConstants.GW_MINOR_DIMENSION, GreatwardConstants.GW_MINOR_DIMENSION);
+		addGreatwardMap(GreatwardConstants.GW_MINOR_TYPE, GreatwardConstants.GW_ATTRIBUTE_VELOCITY_MINOR_LOCATION, GreatwardConstants.GW_MINOR_DIMENSION, GreatwardConstants.GW_MINOR_DIMENSION);
 		//TODO: add constructors for normal and major maps.
 	}
 
@@ -102,16 +98,13 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 	@Override
 	public boolean isValidEntityTarget(Entity target)
 	{
-		return ((target instanceof EntityLiving) || (target instanceof IGWHealableEntity));
+		return true;
 	}
 	
 	@Override
 	public void registerValidId(int id)
 	{
-		if(Block.blocksList[id] instanceof IGWHealableBlock)
-		{
-			super.registerValidId(id);
-		}
+		return;
 	}
 
 	@Override
@@ -147,25 +140,17 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 				
 				if(!target.isDead)
 				{
-					if(target instanceof IGWHealableEntity)
-					{
-						((IGWHealableEntity)target).onGreatwardHeal((int)(AMOUNT_PER_OPERATION*effectMultiplier*greatward.wardPieceMultiplier));
-					}
-					else
-					{
-						if(effectMultiplier < 0)
-						{
-							((EntityLiving)target).attackEntityFrom(DamageSource.magic, (int)(AMOUNT_PER_OPERATION*-1*effectMultiplier*greatward.wardPieceMultiplier));
-						}
-						else
-						{
-							((EntityLiving)target).heal((int)(AMOUNT_PER_OPERATION*effectMultiplier*greatward.wardPieceMultiplier));
-						}
-					}
+					double vx = target.posX - target.prevPosX;
+					double vy = target.posY - target.prevPosY;
+					double vz = target.posZ - target.prevPosZ;
+					
+					double modifier = (AMOUNT_PER_OPERATION*effectMultiplier*greatward.wardPieceMultiplier)/2;
+					
+					target.addVelocity(vx*modifier, vy*modifier, vz*modifier);
 					
 					target_ids.add(target.entityId);
 					target_positions.add(Vec3.fakePool.getVecFromPool(target.posX, target.posY+(target.height/2), target.posZ));
-					target_arguments.add(Float.toString(effectMultiplier));
+					target_arguments.add("");
 				}
 			}
 			
@@ -175,26 +160,6 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 		}
 		
 		/* Blocks */
-		if(!greatward.blockTargets.isEmpty())
-		{
-			List<Integer> target_ids = new ArrayList<Integer>();
-			List<Vec3> target_positions = new ArrayList<Vec3>();
-			List<String> target_arguments = new ArrayList<String>();
-			
-			for(ChunkCoordinates coord : greatward.blockTargets)
-			{
-				int id = world.getBlockId(coord.posX, coord.posY, coord.posZ);
-				if(Block.blocksList[id] instanceof IGWHealableBlock)
-				{
-					((IGWHealableBlock)Block.blocksList[id]).onGreatwardHeal(world, coord.posX, coord.posY, coord.posZ, (int)(AMOUNT_PER_OPERATION*effectMultiplier*greatward.wardPieceMultiplier));
-					target_ids.add(id);
-					target_positions.add(Vec3.fakePool.getVecFromPool(coord.posX, coord.posY, coord.posZ));
-					target_arguments.add(Float.toString(effectMultiplier));
-				}
-			}
-			
-			PacketDispatcher.sendPacketToAllInDimension(PacketTypeHandler.populatePacket(new PacketGreatwardAction(this.getName(), world.getWorldInfo().getDimension(), false, target_ids, target_positions, target_arguments)), world.getWorldInfo().getDimension());
-		}
 		
 		greatward.addOperationDelay(OPERATION_COOLDOWN);
 	}
@@ -202,6 +167,8 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 	@Override
 	public void performGreatwardAction(World world, boolean target_entity, int id, double posX, double posY, double posZ, String args)
 	{
+		//TODO: Custom velocity effect.
+		//TODO: Apply velocity client side.
 		IneveraEffectHelper.spawnEffect(EffectConstants.EFFECT_HEAL_NAME, world, Minecraft.getMinecraft().effectRenderer, posX, posY, posZ, args);
 	}
 }

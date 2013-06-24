@@ -80,13 +80,13 @@ public class ClientProxy extends CommonProxy
 	}
 	
 	@Override
-	public void handleGreatwardActionPacket(String type, int dimension_id, boolean target_is_entity, List<Integer> target_ids, List<Vec3> target_positions, String args)
+	public void handleGreatwardActionPacket(String type, int dimension_id, boolean target_is_entity, List<Integer> target_ids, List<Vec3> target_positions, List<String> args)
 	{
 		if(FMLClientHandler.instance().getClient().theWorld.getWorldInfo().getDimension() == dimension_id)
 		{
 			for(int i=0; i<target_ids.size(); i++)
 			{
-				GreatwardManager.getAttributeByName(type).performGreatwardAction(Minecraft.getMinecraft().theWorld, target_is_entity, target_ids.get(i), target_positions.get(i).xCoord, target_positions.get(i).yCoord, target_positions.get(i).zCoord, args);
+				GreatwardManager.getAttributeByName(type).performGreatwardAction(Minecraft.getMinecraft().theWorld, target_is_entity, target_ids.get(i), target_positions.get(i).xCoord, target_positions.get(i).yCoord, target_positions.get(i).zCoord, args.get(i));
 			}
 		}
 	}

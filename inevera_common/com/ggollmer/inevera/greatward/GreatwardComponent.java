@@ -121,7 +121,7 @@ public abstract class GreatwardComponent
 		GreatwardMap pattern = patterns.get(type);
 		if(pattern == null)
 		{
-			LogHelper.debugLog("No pattern exists for type: " + type);
+			LogHelper.debugLog("No pattern exists for type: " + type + " " + name);
 			return false;
 		}
 		

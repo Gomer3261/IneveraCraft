@@ -26,7 +26,8 @@ import cpw.mods.fml.common.network.Player;
  */
 public class PacketGreatwardAction extends PacketInevera
 {
-	public String type, args;
+	public String type;
+	public List<String> args;
 	public int dimension_id;
 	public boolean target_entities;
 	public List<Integer> target_ids;
@@ -37,7 +38,7 @@ public class PacketGreatwardAction extends PacketInevera
 		super(PacketTypeHandler.GWACTION, true);
 	}
 	
-	public PacketGreatwardAction(String type, int dimension_id, boolean target_entity, List<Integer> target_ids, List<Vec3> target_positions, String args)
+	public PacketGreatwardAction(String type, int dimension_id, boolean target_entity, List<Integer> target_ids, List<Vec3> target_positions, List<String> args)
 	{
         super(PacketTypeHandler.GWACTION, true);
         this.type = type;
@@ -61,8 +62,9 @@ public class PacketGreatwardAction extends PacketInevera
         	data.writeDouble(target_positions.get(i).xCoord);
         	data.writeDouble(target_positions.get(i).yCoord);
         	data.writeDouble(target_positions.get(i).zCoord);
+        	data.writeUTF(args.get(i));
         }
-        data.writeUTF(args);
+        data.writeInt(args.size());
     }
 	
 	@Override
@@ -78,8 +80,8 @@ public class PacketGreatwardAction extends PacketInevera
         {
         	target_ids.add(data.readInt());
         	target_positions.add(Vec3.fakePool.getVecFromPool(data.readDouble(), data.readDouble(), data.readDouble()));
+        	args.add(data.readUTF());
         }
-        args = data.readUTF();
     }
 	
 	@Override

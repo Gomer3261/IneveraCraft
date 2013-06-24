@@ -9,21 +9,21 @@ import net.minecraft.world.World;
 /**
  * IneveraCraft
  *
- * GreatwardTargetAll.java
+ * GreatwardTargetEntity.java
  *
  * @author gomer3261
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  *
  */
-public class GreatwardTargetAll extends GreatwardTarget
+public class GreatwardTargetEntity extends GreatwardTarget
 {
 
 	/**
 	 * @param name The name of the unique greatward component
 	 */ 
-	public GreatwardTargetAll(String name)
+	public GreatwardTargetEntity(String name)
 	{
-		super(GreatwardConstants.GW_TARGET_ALL_LOCATION, name);
+		super(GreatwardConstants.GW_TARGET_ENTITY_LOCATION, name);
 	}
 	
 	@Override
@@ -45,6 +45,6 @@ public class GreatwardTargetAll extends GreatwardTarget
 	@Override
 	public boolean isValidBlockTarget(int id, int metadata)
 	{
-		return true;
+		return false;
 	}
 }
