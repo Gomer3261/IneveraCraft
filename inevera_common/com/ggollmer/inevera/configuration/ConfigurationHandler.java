@@ -48,6 +48,7 @@ public class ConfigurationHandler
 			BlockIds.MINOR_HORA_CELL = configuration.getBlock(BlockNames.MINOR_HORA_CELL_NAME, BlockIds.MINOR_HORA_CELL_DEFAULT).getInt(BlockIds.MINOR_HORA_CELL_DEFAULT);
 			
 			BlockIds.ACID_VAT = configuration.getBlock(BlockNames.ACID_VAT_NAME, BlockIds.ACID_VAT_DEFAULT).getInt(BlockIds.ACID_VAT_DEFAULT);
+			BlockIds.DEMON_FOSSIL = configuration.getBlock(BlockNames.DEMON_FOSSIL_NAME, BlockIds.DEMON_FOSSIL_DEFAULT).getInt(BlockIds.DEMON_FOSSIL_DEFAULT);
 			
 			/* ItemId Configuration */
 			ItemIds.DEMON_FLESH = configuration.getItem(ItemNames.DEMON_FLESH_NAME, ItemIds.DEMON_FLESH_DEFAULT).getInt(ItemIds.DEMON_FLESH_DEFAULT);

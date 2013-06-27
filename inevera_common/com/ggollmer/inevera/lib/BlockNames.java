@@ -24,6 +24,7 @@ public class BlockNames
 	public static final String GREATWARD_GEM_PIECE_NAME = "greatwardGemPiece";
 	
 	public static final String ACID_VAT_NAME = "acidVat";
+	public static final String DEMON_FOSSIL_NAME = "demonFossil";
 	
 	/* Block Sub Names */
 	public static final String[] GREATWARD_WOOD_PIECE_SUBNAMES = {"oak", "spruce", "birch", "jungle"};

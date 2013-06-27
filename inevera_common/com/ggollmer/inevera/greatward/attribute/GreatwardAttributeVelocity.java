@@ -169,6 +169,6 @@ public class GreatwardAttributeVelocity extends GreatwardAttribute
 	{
 		//TODO: Custom velocity effect.
 		//TODO: Apply velocity client side.
-		IneveraEffectHelper.spawnEffect(EffectConstants.EFFECT_HEAL_NAME, world, Minecraft.getMinecraft().effectRenderer, posX, posY, posZ, args);
+		IneveraEffectHelper.spawnEffect(EffectConstants.EFFECT_HEAL_NAME, world, Minecraft.getMinecraft().effectRenderer, posX, posY, posZ, "-1");
 	}
 }

@@ -29,6 +29,7 @@ public class DemonItemInevera extends ItemInevera
 		super(id);
 		rand = new Random();
 		this.setUnlocalizedName(name);
+		this.setMaxStackSize(64);
 		this.setCreativeTab(Inevera.tabsInevera);
 	}
 	

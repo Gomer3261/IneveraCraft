@@ -17,6 +17,7 @@ import com.ggollmer.inevera.item.IneveraItems;
 import com.ggollmer.inevera.item.crafting.IneveraRecipes;
 import com.ggollmer.inevera.lib.Reference;
 import com.ggollmer.inevera.network.PacketHandler;
+import com.ggollmer.inevera.world.gen.IneveraWorldGen;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -82,6 +83,9 @@ public class Inevera
 		
 		/* Instantiate IneveraCraft's Items */
 		IneveraItems.init();
+		
+		/* Instantiate IneveraCraft's World Generation */
+		IneveraWorldGen.init();
 		
 		/* Instantiate IneveraCraft's Effect Helper */
 		IneveraEffectHelper.init();

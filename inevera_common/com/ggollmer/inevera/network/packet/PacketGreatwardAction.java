@@ -27,7 +27,7 @@ import cpw.mods.fml.common.network.Player;
 public class PacketGreatwardAction extends PacketInevera
 {
 	public String type;
-	public List<String> args;
+	public List<String> target_args;
 	public int dimension_id;
 	public boolean target_entities;
 	public List<Integer> target_ids;
@@ -38,7 +38,7 @@ public class PacketGreatwardAction extends PacketInevera
 		super(PacketTypeHandler.GWACTION, true);
 	}
 	
-	public PacketGreatwardAction(String type, int dimension_id, boolean target_entity, List<Integer> target_ids, List<Vec3> target_positions, List<String> args)
+	public PacketGreatwardAction(String type, int dimension_id, boolean target_entity, List<Integer> target_ids, List<Vec3> target_positions, List<String> target_args)
 	{
         super(PacketTypeHandler.GWACTION, true);
         this.type = type;
@@ -46,7 +46,7 @@ public class PacketGreatwardAction extends PacketInevera
         this.target_entities = target_entity;
         this.target_ids = target_ids;
         this.target_positions = target_positions;
-        this.args = args;
+        this.target_args = target_args;
     }
 	
 	@Override
@@ -62,9 +62,8 @@ public class PacketGreatwardAction extends PacketInevera
         	data.writeDouble(target_positions.get(i).xCoord);
         	data.writeDouble(target_positions.get(i).yCoord);
         	data.writeDouble(target_positions.get(i).zCoord);
-        	data.writeUTF(args.get(i));
+        	data.writeUTF(target_args.get(i));
         }
-        data.writeInt(args.size());
     }
 	
 	@Override
@@ -75,12 +74,13 @@ public class PacketGreatwardAction extends PacketInevera
         target_entities = data.readBoolean();
         target_ids = new ArrayList<Integer>();
         target_positions = new ArrayList<Vec3>();
+        target_args = new ArrayList<String>();
         int size = data.readInt();
         for(int i=0; i<size; i++)
         {
         	target_ids.add(data.readInt());
         	target_positions.add(Vec3.fakePool.getVecFromPool(data.readDouble(), data.readDouble(), data.readDouble()));
-        	args.add(data.readUTF());
+        	target_args.add(data.readUTF());
         }
     }
 	
@@ -88,6 +88,6 @@ public class PacketGreatwardAction extends PacketInevera
     public void execute(INetworkManager manager, Player player)
 	{
         LogHelper.debugLog("PacketGreatwardAction - Execute");
-        Inevera.proxy.handleGreatwardActionPacket(type, dimension_id, target_entities, target_ids, target_positions, args);
+        Inevera.proxy.handleGreatwardActionPacket(type, dimension_id, target_entities, target_ids, target_positions, target_args);
     }
 }

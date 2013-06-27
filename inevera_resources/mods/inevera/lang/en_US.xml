@@ -25,6 +25,7 @@
 	<entry key="tile.greatwardGemPiece.diamond.name">Greatward Diamond Block</entry>
 	<entry key="tile.greatwardGemPiece.emerald.name">Greatward Emerald Block</entry>
 	<entry key="tile.acidVat.name">Acid Vat</entry>
+	<entry key="tile.demonFossil.name">Demon Fossil</entry>
 	<entry key="tile.minorWardCore.name">Minor Greatward Core</entry>
 	<entry key="tile.minorHoraCell.name">Minor Hora Cell</entry>
 	<entry key="itemGroup.inevera">IneveraCraft</entry>

@@ -15,6 +15,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraftforge.common.MinecraftForge;
 
 /**
  * IneveraCraft
@@ -38,6 +39,8 @@ public class IneveraBlocks
 	
 	public static Block minorGreatwardCore;
 	
+	public static Block demonFossil;
+	
 	public static void init()
 	{
 		greatwardWoodPiece = new BlockGreatwardPiece(BlockIds.GREATWARD_WOOD_PIECE, Material.wood, BlockNames.GREATWARD_WOOD_PIECE_NAME, BlockNames.GREATWARD_WOOD_PIECE_SUBNAMES, GreatwardConstants.GREATWARD_WOOD_PIECE_VALUE).setHardness(2.0F).setResistance(5.0F);
@@ -50,6 +53,8 @@ public class IneveraBlocks
 		
 		minorGreatwardCore = new BlockMinorGreatwardCore(BlockIds.MINOR_WARD_CORE);
 		
+		demonFossil = new BlockDemonFossil(BlockIds.DEMON_FOSSIL);
+		
 		GameRegistry.registerBlock(greatwardWoodPiece, ItemGreatwardWoodPiece.class, BlockNames.GREATWARD_WOOD_PIECE_NAME);
 		GameRegistry.registerBlock(greatwardStonePiece, ItemGreatwardStonePiece.class, BlockNames.GREATWARD_STONE_PIECE_NAME);
 		GameRegistry.registerBlock(greatwardSandPiece, ItemGreatwardSandPiece.class, BlockNames.GREATWARD_SAND_PIECE_NAME);
@@ -59,5 +64,14 @@ public class IneveraBlocks
 		GameRegistry.registerBlock(greatwardGemPiece, ItemGreatwardGemPiece.class, BlockNames.GREATWARD_GEM_PIECE_NAME);
 		
 		GameRegistry.registerBlock(minorGreatwardCore, BlockNames.MINOR_WARD_CORE_NAME);
+		
+		GameRegistry.registerBlock(demonFossil, BlockNames.DEMON_FOSSIL_NAME);
+		
+		MinecraftForge.setBlockHarvestLevel(greatwardNetherPiece, "pickaxe", 1);
+		MinecraftForge.setBlockHarvestLevel(greatwardMetalPiece, "pickaxe", 1);
+		MinecraftForge.setBlockHarvestLevel(greatwardMetalPiece, "pickaxe", 2);
+		MinecraftForge.setBlockHarvestLevel(greatwardGemPiece, "pickaxe", 2);
+		
+		MinecraftForge.setBlockHarvestLevel(demonFossil, "pickaxe", 1);
 	}
 }

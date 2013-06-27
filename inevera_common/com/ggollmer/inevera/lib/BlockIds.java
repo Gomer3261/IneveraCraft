@@ -21,6 +21,7 @@ public class BlockIds
 	public static final int GREATWARD_GEM_PIECE_DEFAULT = 3006;
 	
 	public static final int MINOR_WARD_CORE_DEFAULT = 3007;
+	public static final int DEMON_FOSSIL_DEFAULT = 3012;
 	public static final int MINOR_HORA_CELL_DEFAULT = 3013;
 	public static final int ACID_VAT_DEFAULT = 3020;
 	
@@ -34,6 +35,9 @@ public class BlockIds
 	public static int GREATWARD_GEM_PIECE;
 	
 	public static int MINOR_WARD_CORE;
+	
+	public static int DEMON_FOSSIL;
+	
 	public static int MINOR_HORA_CELL;
 	public static int ACID_VAT;
 }
