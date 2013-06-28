@@ -96,7 +96,7 @@ public class GreatwardConstants
 	public static final String GW_ATTRIBUTE_HEALTH_NAME = "a_health";
 	public static final String GW_ATTRIBUTE_HUNGER_NAME = "a_hunger";
 	public static final String GW_ATTRIBUTE_PASSABILITY_NAME = "a_passability";
-	public static final String GW_ATTRIBUTE_POSITION_NAME = "a_position";
+	public static final String GW_ATTRIBUTE_EXPANSION_NAME = "a_expansion";
 	public static final String GW_ATTRIBUTE_VELOCITY_NAME = "a_velocity";
 	
 	/* Greatward attribute maps */
@@ -112,9 +112,9 @@ public class GreatwardConstants
 	public static final String GW_ATTRIBUTE_PASSABILITY_NORMAL_LOCATION = GW_NORMAL_LOCATION + "/" + GW_ATTRIBUTE_PASSABILITY_NAME + ".txt";
 	public static final String GW_ATTRIBUTE_PASSABILITY_MAJOR_LOCATION = GW_MAJOR_LOCATION + "/" + GW_ATTRIBUTE_PASSABILITY_NAME + ".txt";
 	
-	public static final String GW_ATTRIBUTE_POSITION_MINOR_LOCATION = GW_MINOR_LOCATION + "/" + GW_ATTRIBUTE_POSITION_NAME + ".txt";
-	public static final String GW_ATTRIBUTE_POSITION_NORMAL_LOCATION = GW_NORMAL_LOCATION + "/" + GW_ATTRIBUTE_POSITION_NAME + ".txt";
-	public static final String GW_ATTRIBUTE_POSITION_MAJOR_LOCATION = GW_MAJOR_LOCATION + "/" + GW_ATTRIBUTE_POSITION_NAME + ".txt";
+	public static final String GW_ATTRIBUTE_EXPANSION_MINOR_LOCATION = GW_MINOR_LOCATION + "/" + GW_ATTRIBUTE_EXPANSION_NAME + ".txt";
+	public static final String GW_ATTRIBUTE_EXPANSION_NORMAL_LOCATION = GW_NORMAL_LOCATION + "/" + GW_ATTRIBUTE_EXPANSION_NAME + ".txt";
+	public static final String GW_ATTRIBUTE_EXPANSION_MAJOR_LOCATION = GW_MAJOR_LOCATION + "/" + GW_ATTRIBUTE_EXPANSION_NAME + ".txt";
 	
 	public static final String GW_ATTRIBUTE_VELOCITY_MINOR_LOCATION = GW_MINOR_LOCATION + "/" + GW_ATTRIBUTE_VELOCITY_NAME + ".txt";
 	public static final String GW_ATTRIBUTE_VELOCITY_NORMAL_LOCATION = GW_NORMAL_LOCATION + "/" + GW_ATTRIBUTE_VELOCITY_NAME + ".txt";

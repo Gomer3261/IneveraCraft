@@ -5,16 +5,11 @@ import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-import com.ggollmer.inevera.client.effect.IneveraEffectHelper;
 import com.ggollmer.inevera.client.particle.GreatwardFX;
 import com.ggollmer.inevera.greatward.Greatward;
-import com.ggollmer.inevera.lib.EffectConstants;
 import com.ggollmer.inevera.lib.GreatwardConstants;
 import com.ggollmer.inevera.network.PacketTypeHandler;
 import com.ggollmer.inevera.network.packet.PacketGreatwardAction;
@@ -33,7 +28,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  *
  */
-public class GreatwardAttributeVelocity extends GreatwardAttribute
+public class GreatwardAttributeExpansion extends GreatwardAttribute
 {
 	private static final int OPERATION_COST = 30;
 	private static final int OPERATION_COOLDOWN = 20;
@@ -42,10 +37,10 @@ public class GreatwardAttributeVelocity extends GreatwardAttribute
 	/**
 	 * @param name The unique name of the greatward component.
 	 */
-	public GreatwardAttributeVelocity(String name)
+	public GreatwardAttributeExpansion(String name)
 	{
 		super(name);
-		addGreatwardMap(GreatwardConstants.GW_MINOR_TYPE, GreatwardConstants.GW_ATTRIBUTE_VELOCITY_MINOR_LOCATION, GreatwardConstants.GW_MINOR_DIMENSION, GreatwardConstants.GW_MINOR_DIMENSION);
+		addGreatwardMap(GreatwardConstants.GW_MINOR_TYPE, GreatwardConstants.GW_ATTRIBUTE_EXPANSION_MINOR_LOCATION, GreatwardConstants.GW_MINOR_DIMENSION, GreatwardConstants.GW_MINOR_DIMENSION);
 		//TODO: add constructors for normal and major maps.
 	}
 
@@ -60,63 +55,40 @@ public class GreatwardAttributeVelocity extends GreatwardAttribute
 	{
 		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 		{
-			if(rand.nextInt()%19 == 0)
+			if(rand.nextInt()%29 == 0)
 			{
-				int maxParticles = rand.nextInt(5)+8;
-				double primary_angle = rand.nextDouble()*Math.PI*2;
-				double initial_angle = primary_angle - (Math.PI/1.1)/2;
-				int life = rand.nextInt(1)+8;
+				int maxParticles = rand.nextInt(5)+5;
+				int life = rand.nextInt(6)+16;
 				for(int i=0; i<maxParticles; i++)
 				{
 					float effectMultiplier = greatward.getEffectMultiplier(world);
 					if(effectMultiplier==0f) continue;
 					
-					double angle = initial_angle + ((float)i/(float)maxParticles)*(Math.PI/1.1);
+					double angle = rand.nextDouble()*Math.PI*2;
 					
-					double length = Math.cos(angle - primary_angle)*greatward.radius*2;
+					double vel = greatward.radius/life*effectMultiplier;
 					
-					double vel;
-					double accel;
+					double mx = 0 + Math.cos(angle)*vel*greatward.getWardOrientation().offsetX +
+							Math.sin(angle)*vel*greatward.getWardOriright().offsetX;
+					double my = 0 + Math.cos(angle)*vel*greatward.getWardOrientation().offsetY +
+							Math.sin(angle)*vel*greatward.getWardOriright().offsetY;
+					double mz = 0 + Math.cos(angle)*vel*greatward.getWardOrientation().offsetZ +
+							Math.sin(angle)*vel*greatward.getWardOriright().offsetZ;
 					
-					if(effectMultiplier > 0)
-					{
-						vel = (length/life)/6;
-						accel = ( 2*(length*5/6)/(life*life) ) * (effectMultiplier);
-					}
-					else
-					{
-						vel = (length/life);
-						accel = ( length/(life*life) ) * (effectMultiplier);
-					}
-					
-					double mx = 0 + Math.cos(primary_angle)*-1*vel*greatward.getWardOrientation().offsetX +
-							Math.sin(primary_angle)*-1*vel*greatward.getWardOriright().offsetX;
-					double my = 0 + Math.cos(primary_angle)*-1*vel*greatward.getWardOrientation().offsetY +
-							Math.sin(primary_angle)*-1*vel*greatward.getWardOriright().offsetY;
-					double mz = 0 + Math.cos(primary_angle)*-1*vel*greatward.getWardOrientation().offsetZ +
-							Math.sin(primary_angle)*-1*vel*greatward.getWardOriright().offsetZ;
-					
-					double ax = 0 + Math.cos(primary_angle)*-1*accel*greatward.getWardOrientation().offsetX +
-							Math.sin(primary_angle)*-1*accel*greatward.getWardOriright().offsetX;
-					double ay = 0 + Math.cos(primary_angle)*-1*accel*greatward.getWardOrientation().offsetY +
-							Math.sin(primary_angle)*-1*accel*greatward.getWardOriright().offsetY;
-					double az = 0 + Math.cos(primary_angle)*-1*accel*greatward.getWardOrientation().offsetZ +
-							Math.sin(primary_angle)*-1*accel*greatward.getWardOriright().offsetZ;
-					
-					double px = greatward.centerX + 
+					double px = greatward.centerX + ( (effectMultiplier > 0) ? 0.0D :
 							Math.cos(angle)*greatward.radius*greatward.getWardOrientation().offsetX +
-							Math.sin(angle)*greatward.radius*greatward.getWardOriright().offsetX +
+							Math.sin(angle)*greatward.radius*greatward.getWardOriright().offsetX ) +
 							(0.2f + rand.nextDouble()/10)*greatward.getWardDirection().offsetX;
-					double py = greatward.centerY + 
+					double py = greatward.centerY + ( (effectMultiplier > 0) ? 0.0D :
 							Math.cos(angle)*greatward.radius*greatward.getWardOrientation().offsetY +
-							Math.sin(angle)*greatward.radius*greatward.getWardOriright().offsetY +
+							Math.sin(angle)*greatward.radius*greatward.getWardOriright().offsetY ) +
 							(0.2f + rand.nextDouble()/10)*greatward.getWardDirection().offsetY;
-					double pz = greatward.centerZ + 
+					double pz = greatward.centerZ + ( (effectMultiplier > 0) ? 0.0D :
 							Math.cos(angle)*greatward.radius*greatward.getWardOrientation().offsetZ +
-							Math.sin(angle)*greatward.radius*greatward.getWardOriright().offsetZ +
+							Math.sin(angle)*greatward.radius*greatward.getWardOriright().offsetZ ) +
 							(0.2f + rand.nextDouble()/10)*greatward.getWardDirection().offsetZ;
 					
-					Minecraft.getMinecraft().effectRenderer.addEffect(new GreatwardFX(world, life-1, px, py, pz, mx, my, mz, ax, ay, az, true));
+					Minecraft.getMinecraft().effectRenderer.addEffect(new GreatwardFX(world, life-1, px, py, pz, mx, my, mz, true));
 				}
 			}
 		}
@@ -125,7 +97,7 @@ public class GreatwardAttributeVelocity extends GreatwardAttribute
 	@Override
 	public boolean isValidEntityTarget(Entity target)
 	{
-		return (target instanceof EntityLiving);
+		return true;
 	}
 	
 	@Override
@@ -167,24 +139,29 @@ public class GreatwardAttributeVelocity extends GreatwardAttribute
 				
 				if(!target.isDead)
 				{
-					if(effectMultiplier > 0)
-					{
-						((EntityLiving) target).addPotionEffect(new PotionEffect(Potion.moveSpeed.getId(), OPERATION_COOLDOWN+10, (greatward.wardPieceMultiplier-1)));
-					}
-					else if(effectMultiplier < 0)
-					{
-						((EntityLiving) target).addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), OPERATION_COOLDOWN+10, (greatward.wardPieceMultiplier-1)));
-					}
+					double dx = target.posX - greatward.centerX;
+					double dy = target.posY - greatward.centerY;
+					double dz = target.posZ - greatward.centerZ;
+					double dtot = Math.sqrt( (dx*dx) + (dy*dy) + (dz*dz) );
+					double mtot = greatward.radius/8;
+					
+					mtot = (mtot > dtot) ? dtot : mtot;
+					
+					double mx = (mtot)*(dx/dtot)*effectMultiplier;
+					double my = (mtot)*(dy/dtot)*effectMultiplier;
+					double mz = (mtot)*(dz/dtot)*effectMultiplier;
 					
 					target_ids.add(target.entityId);
 					target_positions.add(Vec3.fakePool.getVecFromPool(target.posX, target.posY, target.posZ));
-					target_arguments.add(Float.toString(effectMultiplier));
+					target_arguments.add("");
+					
+					target.moveEntity(mx, my, mz);
 				}
 			}
 			
 			PacketDispatcher.sendPacketToAllInDimension(PacketTypeHandler.populatePacket(new PacketGreatwardAction(this.getName(), world.getWorldInfo().getDimension(), true, target_ids, target_positions, target_arguments)), world.getWorldInfo().getDimension());
 			
-			greatward.currentCoreEnergy -= OPERATION_COST*targetCount;
+			greatward.currentCoreEnergy -= OPERATION_COST*targetCount/greatward.wardPieceMultiplier;
 		}
 		
 		/* Blocks */
@@ -195,6 +172,6 @@ public class GreatwardAttributeVelocity extends GreatwardAttribute
 	@Override
 	public void performGreatwardAction(World world, boolean target_entity, int id, double posX, double posY, double posZ, String args)
 	{
-		IneveraEffectHelper.spawnEffect(EffectConstants.EFFECT_SPEED_NAME, world, Minecraft.getMinecraft().effectRenderer, posX, posY, posZ, args);
+		Minecraft.getMinecraft().effectRenderer.addEffect(new GreatwardFX(world, 10, posX, posY+0.2D, posZ).multipleParticleScaleBy(2.0f));
 	}
 }
