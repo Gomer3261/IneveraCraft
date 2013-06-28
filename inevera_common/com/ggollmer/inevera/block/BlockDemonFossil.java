@@ -35,7 +35,6 @@ public class BlockDemonFossil extends Block
 		setStepSound(Block.soundStoneFootstep);
 		setUnlocalizedName(BlockNames.DEMON_FOSSIL_NAME);
 		setCreativeTab(Inevera.tabsInevera);
-		//setTickRandomly(true);
 	}
 	
 	@Override
@@ -79,7 +78,10 @@ public class BlockDemonFossil extends Block
 				world.spawnParticle("smoke", px, py, pz, 0D, 0D, 0D);
 			}
 			
-			world.playSound(x, y, z, "random.fizz", 0.4F, 2.0F + world.rand.nextFloat() * 0.4F, true);
+			if(0.3 > world.rand.nextFloat())
+			{
+				world.playSound(x, y, z, "random.fizz", 0.4F, 2.0F + world.rand.nextFloat() * 0.4F, true);
+			}
 		}
     }
 	

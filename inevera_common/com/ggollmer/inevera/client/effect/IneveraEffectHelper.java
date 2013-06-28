@@ -34,6 +34,7 @@ public class IneveraEffectHelper
 		effects = new HashMap<String, Class<? extends IneveraEffect>>(); 
 		
 		registerEffect(EffectConstants.EFFECT_HEAL_NAME, IneveraEffectHeal.class);
+		registerEffect(EffectConstants.EFFECT_SPEED_NAME, IneveraEffectSpeed.class);
 	}
 	
 	/**

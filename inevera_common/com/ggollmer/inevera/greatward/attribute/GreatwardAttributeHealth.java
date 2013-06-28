@@ -63,14 +63,14 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 		{
 			if(rand.nextInt()%24 > 7)
 			{
-				int maxParticles = (( Math.abs(rand.nextInt())+1 )%4);
+				int maxParticles = rand.nextInt(3)+1;
 				for(int i=0; i<maxParticles; i++)
 				{
 					float effectMultiplier = greatward.getEffectMultiplier(world);
 					if(effectMultiplier==0f) continue;
 					
 					double angle = rand.nextDouble()*Math.PI*2;
-					int life = (rand.nextInt()+12)%44;
+					int life = rand.nextInt(32)+12;
 					
 					double mx = ((rand.nextDouble()+.13)/8f)*greatward.getWardDirection().offsetX*effectMultiplier;
 					double my = ((rand.nextDouble()+.13)/8f)*greatward.getWardDirection().offsetY*effectMultiplier;

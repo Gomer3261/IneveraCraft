@@ -16,4 +16,5 @@ public class EffectConstants
 {
 	/* Effect names */
 	public static final String EFFECT_HEAL_NAME = "ineveraEffectHeal";
+	public static final String EFFECT_SPEED_NAME = "ineveraEffectSpeed";
 }
