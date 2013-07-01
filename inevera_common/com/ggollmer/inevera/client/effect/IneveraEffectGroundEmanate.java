@@ -5,11 +5,11 @@ import net.minecraft.world.World;
 
 import com.ggollmer.inevera.client.particle.GreatwardFX;
 
-public class IneveraEffectSpeed extends IneveraEffect
+public class IneveraEffectGroundEmanate extends IneveraEffect
 {
 	float effectMultiplier=0;
 	
-	public IneveraEffectSpeed(World world, EffectRenderer effectRenderer, double px, double py, double pz, String args)
+	public IneveraEffectGroundEmanate(World world, EffectRenderer effectRenderer, double px, double py, double pz, String args)
 	{
 		super(world, effectRenderer, px, py, pz, args);
 		ageMax = 1;

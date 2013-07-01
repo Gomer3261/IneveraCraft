@@ -84,9 +84,6 @@ public class Inevera
 		/* Instantiate IneveraCraft's Items */
 		IneveraItems.init();
 		
-		/* Instantiate IneveraCraft's World Generation */
-		IneveraWorldGen.init();
-		
 		/* Instantiate IneveraCraft's Effect Helper */
 		IneveraEffectHelper.init();
 		
@@ -115,6 +112,9 @@ public class Inevera
         
         /* Instantiate IneveraCraft's Recipes */
         IneveraRecipes.init();
+        
+        /* Instantiate IneveraCraft's World Generation */
+		IneveraWorldGen.init();
 	}
 	
 	/**

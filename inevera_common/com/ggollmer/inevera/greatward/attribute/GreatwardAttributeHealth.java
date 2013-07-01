@@ -202,6 +202,6 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 	@Override
 	public void performGreatwardAction(World world, boolean target_entity, int id, double posX, double posY, double posZ, String args)
 	{
-		IneveraEffectHelper.spawnEffect(EffectConstants.EFFECT_HEAL_NAME, world, Minecraft.getMinecraft().effectRenderer, posX, posY, posZ, args);
+		IneveraEffectHelper.spawnEffect(EffectConstants.EFFECT_ABSORB_NAME, world, Minecraft.getMinecraft().effectRenderer, posX, posY, posZ, args);
 	}
 }

@@ -14,11 +14,11 @@ import net.minecraft.world.World;
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  *
  */
-public class IneveraEffectHeal extends IneveraEffect
+public class IneveraEffectAbsorb extends IneveraEffect
 {
 	float effectMultiplier=0;
 	
-	public IneveraEffectHeal(World world, EffectRenderer effectRenderer, double px, double py, double pz, String args)
+	public IneveraEffectAbsorb(World world, EffectRenderer effectRenderer, double px, double py, double pz, String args)
 	{
 		super(world, effectRenderer, px, py, pz, args);
 		ageMax = 1;

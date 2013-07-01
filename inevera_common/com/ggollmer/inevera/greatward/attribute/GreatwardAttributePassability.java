@@ -9,9 +9,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-import com.ggollmer.inevera.client.particle.GreatwardFX;
+import com.ggollmer.inevera.client.effect.IneveraEffectHelper;
 import com.ggollmer.inevera.client.particle.IneveraSparkFX;
 import com.ggollmer.inevera.greatward.Greatward;
+import com.ggollmer.inevera.lib.EffectConstants;
 import com.ggollmer.inevera.lib.GreatwardConstants;
 import com.ggollmer.inevera.network.PacketTypeHandler;
 import com.ggollmer.inevera.network.packet.PacketGreatwardAction;
@@ -118,6 +119,8 @@ public class GreatwardAttributePassability extends GreatwardAttribute
 	{
 		float effectMultiplier = greatward.getEffectMultiplier(world);
 		
+		// TODO: Implement
+		
 		/* Entities */
 		if(!greatward.entityTargets.isEmpty())
 		{
@@ -150,7 +153,7 @@ public class GreatwardAttributePassability extends GreatwardAttribute
 					
 					target_ids.add(target.entityId);
 					target_positions.add(Vec3.fakePool.getVecFromPool(target.posX, target.posY, target.posZ));
-					target_arguments.add("");
+					target_arguments.add(String.format("%f:%f:%f:%f", mx, my, mz, 0.21D));
 					
 					target.moveEntity(mx, my, mz);
 				}
@@ -169,6 +172,6 @@ public class GreatwardAttributePassability extends GreatwardAttribute
 	@Override
 	public void performGreatwardAction(World world, boolean target_entity, int id, double posX, double posY, double posZ, String args)
 	{
-		Minecraft.getMinecraft().effectRenderer.addEffect(new GreatwardFX(world, 10, posX, posY+0.2D, posZ).multipleParticleScaleBy(2.0f));
+		IneveraEffectHelper.spawnEffect(EffectConstants.EFFECT_DIRECTIONAL_BURST_NAME, world, Minecraft.getMinecraft().effectRenderer, posX, posY, posZ, args);
 	}
 }

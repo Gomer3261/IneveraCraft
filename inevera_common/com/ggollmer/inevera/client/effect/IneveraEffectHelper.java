@@ -33,8 +33,9 @@ public class IneveraEffectHelper
 	{
 		effects = new HashMap<String, Class<? extends IneveraEffect>>(); 
 		
-		registerEffect(EffectConstants.EFFECT_HEAL_NAME, IneveraEffectHeal.class);
-		registerEffect(EffectConstants.EFFECT_SPEED_NAME, IneveraEffectSpeed.class);
+		registerEffect(EffectConstants.EFFECT_ABSORB_NAME, IneveraEffectAbsorb.class);
+		registerEffect(EffectConstants.EFFECT_GROUND_EMANATE_NAME, IneveraEffectGroundEmanate.class);
+		registerEffect(EffectConstants.EFFECT_DIRECTIONAL_BURST_NAME, IneveraEffectDirectionalBurst.class);
 	}
 	
 	/**

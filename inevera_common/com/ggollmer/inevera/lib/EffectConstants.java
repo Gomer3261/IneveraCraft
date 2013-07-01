@@ -14,7 +14,10 @@ package com.ggollmer.inevera.lib;
  */
 public class EffectConstants
 {
+	public static final String EFFECT_ARG_SEPARATOR = ":";
+	
 	/* Effect names */
-	public static final String EFFECT_HEAL_NAME = "ineveraEffectHeal";
-	public static final String EFFECT_SPEED_NAME = "ineveraEffectSpeed";
+	public static final String EFFECT_ABSORB_NAME = "ineveraEffectAbsorb";
+	public static final String EFFECT_GROUND_EMANATE_NAME = "ineveraEffectGEminate";
+	public static final String EFFECT_DIRECTIONAL_BURST_NAME = "ineveraEffectDBurst";
 }

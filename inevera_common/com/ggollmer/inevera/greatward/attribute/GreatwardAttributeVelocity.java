@@ -195,6 +195,6 @@ public class GreatwardAttributeVelocity extends GreatwardAttribute
 	@Override
 	public void performGreatwardAction(World world, boolean target_entity, int id, double posX, double posY, double posZ, String args)
 	{
-		IneveraEffectHelper.spawnEffect(EffectConstants.EFFECT_SPEED_NAME, world, Minecraft.getMinecraft().effectRenderer, posX, posY, posZ, args);
+		IneveraEffectHelper.spawnEffect(EffectConstants.EFFECT_GROUND_EMANATE_NAME, world, Minecraft.getMinecraft().effectRenderer, posX, posY, posZ, args);
 	}
 }
