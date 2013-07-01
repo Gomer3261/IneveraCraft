@@ -58,6 +58,7 @@ public class GreatwardManager
 		registerAttribute(GreatwardConstants.GW_ATTRIBUTE_HUNGER_NAME, new GreatwardAttributeHunger(GreatwardConstants.GW_ATTRIBUTE_HUNGER_NAME));
 		registerAttribute(GreatwardConstants.GW_ATTRIBUTE_VELOCITY_NAME, new GreatwardAttributeVelocity(GreatwardConstants.GW_ATTRIBUTE_VELOCITY_NAME));
 		registerAttribute(GreatwardConstants.GW_ATTRIBUTE_EXPANSION_NAME, new GreatwardAttributeExpansion(GreatwardConstants.GW_ATTRIBUTE_EXPANSION_NAME));
+		registerAttribute(GreatwardConstants.GW_ATTRIBUTE_PASSABILITY_NAME, new GreatwardAttributePassability(GreatwardConstants.GW_ATTRIBUTE_PASSABILITY_NAME));
 		
 		registerEffect(GreatwardConstants.GW_EFFECT_POSITIVE_NAME, new GreatwardEffectPositive(GreatwardConstants.GW_EFFECT_POSITIVE_NAME));
 		registerEffect(GreatwardConstants.GW_EFFECT_NEGATIVE_NAME, new GreatwardEffectNegative(GreatwardConstants.GW_EFFECT_NEGATIVE_NAME));
