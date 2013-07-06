@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -33,8 +35,8 @@ import cpw.mods.fml.relauncher.SideOnly;
  */
 public class GreatwardAttributePassability extends GreatwardAttribute
 {
-	private static final int OPERATION_COST = 30;
-	private static final int OPERATION_COOLDOWN = 20;
+	private static final int OPERATION_COST = 4;
+	private static final int OPERATION_COOLDOWN = 6;
 	private static final int MAX_TARGETS_PER_OPERATION = 8;
 	
 	/**
@@ -119,7 +121,9 @@ public class GreatwardAttributePassability extends GreatwardAttribute
 	{
 		float effectMultiplier = greatward.getEffectMultiplier(world);
 		
-		// TODO: Implement
+		// TODO: Take Effect Multiplier into account.
+		// TODO: Record Entity IDs for forcing entities back into the greatward.
+		// TODO: Consider how to enter greatward on random multiplier.
 		
 		/* Entities */
 		if(!greatward.entityTargets.isEmpty())
@@ -144,16 +148,24 @@ public class GreatwardAttributePassability extends GreatwardAttribute
 					double dz = target.posZ - greatward.centerZ;
 					double dtot = Math.sqrt( (dx*dx) + (dy*dy) + (dz*dz) );
 					double mtot = greatward.radius/8;
+					double pieceMultiplier = 1D + (greatward.wardPieceMultiplier-1D)/6D;
 					
 					mtot = (mtot > dtot) ? dtot : mtot;
 					
-					double mx = (mtot)*(dx/dtot)*effectMultiplier;
-					double my = (mtot)*(dy/dtot)*effectMultiplier;
-					double mz = (mtot)*(dz/dtot)*effectMultiplier;
+					double mx = (mtot)*(dx/dtot)*effectMultiplier*pieceMultiplier;
+					double my = (mtot)*(dy/dtot)*effectMultiplier*pieceMultiplier;
+					double mz = (mtot)*(dz/dtot)*effectMultiplier*pieceMultiplier;
+					
+					if(!(target instanceof EntityPlayerMP))
+					{
+						target.motionX += mx;
+						target.motionY += my;
+						target.motionZ += mz;
+					}
 					
 					target_ids.add(target.entityId);
-					target_positions.add(Vec3.fakePool.getVecFromPool(target.posX, target.posY, target.posZ));
-					target_arguments.add(String.format("%f:%f:%f:%f", mx, my, mz, 0.21D));
+					target_positions.add(Vec3.fakePool.getVecFromPool(target.posX, target.posY+target.height/2, target.posZ));
+					target_arguments.add(String.format("%f:%f:%f:%f", mx, my, mz, Math.PI/4));
 					
 					target.moveEntity(mx, my, mz);
 				}
@@ -172,6 +184,23 @@ public class GreatwardAttributePassability extends GreatwardAttribute
 	@Override
 	public void performGreatwardAction(World world, boolean target_entity, int id, double posX, double posY, double posZ, String args)
 	{
-		IneveraEffectHelper.spawnEffect(EffectConstants.EFFECT_DIRECTIONAL_BURST_NAME, world, Minecraft.getMinecraft().effectRenderer, posX, posY, posZ, args);
+		String[] indvargs = args.split(EffectConstants.EFFECT_ARG_SEPARATOR);
+		
+		double mx=Double.valueOf(indvargs[0]);
+		double my=Double.valueOf(indvargs[1]);
+		double mz=Double.valueOf(indvargs[2]);
+		double oAngle=Double.valueOf(indvargs[3]);
+		
+		String effectArgs = String.format("%f:%f:%f:%f", mx*-1, my*-1, mz*-1, oAngle);
+		
+		IneveraEffectHelper.spawnEffect(EffectConstants.EFFECT_DIRECTIONAL_BURST_NAME, world, Minecraft.getMinecraft().effectRenderer, posX, posY, posZ, effectArgs);
+		
+		if(Minecraft.getMinecraft().thePlayer.entityId == id)
+		{
+			EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
+			player.motionX += mx;
+			player.motionY += my;
+			player.motionZ += mz;
+		}
 	}
 }

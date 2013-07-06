@@ -35,19 +35,24 @@ public class IneveraEffectDirectionalBurst extends IneveraEffect
 		int maxParticles =  ( (Math.abs(rand.nextInt()%3) + 4 ));
 		for(int i=0; i<maxParticles; i++)
 		{
-			double angleY = Math.asin(vy) + oAngle*rand.nextDouble()*( (rand.nextBoolean()) ? -1 : 1 );
-			double angleX = Math.acos(vx) + oAngle*rand.nextDouble()*( (rand.nextBoolean()) ? -1 : 1 );
+			//TODO; Works when entering from Z, not from X
+			
+			double angleY = (vz < 0) ? Math.PI - Math.asin(vy) : Math.asin(vy); 
+			double angleX = (vz < 0) ? Math.acos(vx)*-1 : Math.acos(vx);
+			
+			angleY += oAngle*rand.nextDouble()*( (rand.nextBoolean()) ? -1 : 1 );
+			angleX += oAngle*rand.nextDouble()*( (rand.nextBoolean()) ? -1 : 1 );
 			
 			double velocity = Math.sqrt((vx*vx) + (vy*vy) + (vz*vz))*( 1 + (rand.nextDouble()/3 * ( (rand.nextBoolean()) ? -1 : 1 )) );
 			double horizVelocity = Math.cos(angleY)*velocity;
 			
-			int life = (Math.abs(rand.nextInt()%6)+10);
+			int life = (Math.abs(rand.nextInt()%6)+4);
 			
 			double mx = Math.cos(angleX)*horizVelocity;
 			double my = Math.sin(angleY)*velocity;
 			double mz = Math.sin(angleX)*horizVelocity;
 
-			renderer.addEffect(new GreatwardFX(worldObj, life, posX, posY, posZ, mx, my, mz));
+			renderer.addEffect(new GreatwardFX(worldObj, life, posX, posY, posZ, mx/life, my/life, mz/life));
 		}
 	}
 }
