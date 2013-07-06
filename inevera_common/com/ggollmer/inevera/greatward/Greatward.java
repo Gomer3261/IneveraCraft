@@ -1,7 +1,9 @@
 package com.ggollmer.inevera.greatward;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 import net.minecraft.block.Block;
@@ -35,6 +37,12 @@ import cpw.mods.fml.relauncher.SideOnly;
  */
 public class Greatward
 {
+	/**
+	 * A map to store extra state information in (for complex ward components).
+	 * Note: these states are not saved in NBT, if you require something extra saved in NBT contact gomer3261.
+	 */
+	public Map<String, Object> stateStorage;
+	
 	/* State variables */
 	protected GreatwardTarget target;
 	protected GreatwardAttribute attribute;
@@ -99,6 +107,7 @@ public class Greatward
 		this.wardOriright = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[wardOrientation.ordinal()][wardDirection.ordinal()]);
 		this.greatwardBlocks = (greatwardBlocks==null) ? new ArrayList<ChunkCoordinates>() : greatwardBlocks;
 		this.blockType = blockId;
+		stateStorage = new HashMap<String, Object>();
 		initialized = false;
 	}
 	

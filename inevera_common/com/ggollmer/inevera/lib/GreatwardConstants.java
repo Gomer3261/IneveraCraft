@@ -99,6 +99,8 @@ public class GreatwardConstants
 	public static final String GW_ATTRIBUTE_EXPANSION_NAME = "a_expansion";
 	public static final String GW_ATTRIBUTE_VELOCITY_NAME = "a_velocity";
 	
+	public static final String GW_ATTRIBUTE_PASSABILITY_STATE = "s_passability";
+	
 	/* Greatward attribute maps */
 	public static final String GW_ATTRIBUTE_HEALTH_MINOR_LOCATION = GW_MINOR_LOCATION + "/" + GW_ATTRIBUTE_HEALTH_NAME + ".txt";
 	public static final String GW_ATTRIBUTE_HEALTH_NORMAL_LOCATION = GW_NORMAL_LOCATION + "/" + GW_ATTRIBUTE_HEALTH_NAME + ".txt";

@@ -37,7 +37,7 @@ public class GreatwardAttributePassability extends GreatwardAttribute
 {
 	private static final int OPERATION_COST = 4;
 	private static final int OPERATION_COOLDOWN = 6;
-	private static final int MAX_TARGETS_PER_OPERATION = 8;
+	private static final int MAX_TARGETS_PER_OPERATION = 4;
 	
 	/**
 	 * @param name The unique name of the greatward component.
@@ -121,28 +121,78 @@ public class GreatwardAttributePassability extends GreatwardAttribute
 	{
 		float effectMultiplier = greatward.getEffectMultiplier(world);
 		
-		// TODO: Take Effect Multiplier into account.
-		// TODO: Record Entity IDs for forcing entities back into the greatward.
-		// TODO: Consider how to enter greatward on random multiplier.
+		List<Integer> currTargetIds = new ArrayList<Integer>();
+		for(Entity target : greatward.entityTargets)
+		{
+			if(!target.isDead) currTargetIds.add(target.entityId);
+		}
+		
+		@SuppressWarnings("unchecked")
+		List<Integer> activeTargetIds = (List<Integer>)greatward.stateStorage.get(GreatwardConstants.GW_ATTRIBUTE_PASSABILITY_STATE);
+		if(activeTargetIds == null) activeTargetIds = currTargetIds;
 		
 		/* Entities */
-		if(!greatward.entityTargets.isEmpty())
+		if(!currTargetIds.isEmpty() || !activeTargetIds.isEmpty())
 		{
-			int maximum_targets = (int)(greatward.currentCoreEnergy / OPERATION_COST);
-			maximum_targets = (maximum_targets < MAX_TARGETS_PER_OPERATION) ? maximum_targets : MAX_TARGETS_PER_OPERATION;
-			int targetCount = (greatward.entityTargets.size() < maximum_targets) ? greatward.entityTargets.size() : maximum_targets;
-			int startIndex = (greatward.entityTargets.size()>1) ? rand.nextInt(greatward.entityTargets.size()-1) : 0;
+			List<Entity> possibleTargets = new ArrayList<Entity>();
 			
-			List<Integer> target_ids = new ArrayList<Integer>();
-			List<Vec3> target_positions = new ArrayList<Vec3>();
-			List<String> target_arguments = new ArrayList<String>();
 			
-			for(int i=0; i<targetCount; i++)
+			for(Integer tId : currTargetIds)
 			{
-				Entity target = greatward.entityTargets.get((startIndex + i)%greatward.entityTargets.size());
-				
-				if(!target.isDead)
+				if(!activeTargetIds.contains(tId))
 				{
+					if(effectMultiplier == 1 || greatward.getEffectName() == GreatwardConstants.GW_EFFECT_CHAOTIC_NAME)
+					{
+						Entity target = world.getEntityByID(tId);
+						if(target != null)
+						{
+							if(!target.isDead)
+							{
+								possibleTargets.add(target);
+							}
+						}
+					}
+					else
+					{
+						/* Trapping entities inside the greatward. */
+						activeTargetIds.add(tId);
+					}
+				}
+			}
+			if(effectMultiplier == -1 || greatward.getEffectName() == GreatwardConstants.GW_EFFECT_CHAOTIC_NAME)
+			{
+				for(Integer tId : activeTargetIds)
+				{
+					if(!currTargetIds.contains(tId))
+					{
+						Entity target = world.getEntityByID(tId);
+						if(target != null)
+						{
+							if(!target.isDead)
+							{
+								possibleTargets.add(target);
+							}
+						}
+					}
+				}
+			}
+			
+			if(possibleTargets.size() > 0)
+			{
+				int maximumTargets = (int)(greatward.currentCoreEnergy / OPERATION_COST);
+				maximumTargets = (maximumTargets < MAX_TARGETS_PER_OPERATION*greatward.wardPieceMultiplier) ? maximumTargets : MAX_TARGETS_PER_OPERATION*greatward.wardPieceMultiplier;
+				int targetCount = (possibleTargets.size() < maximumTargets) ? possibleTargets.size() : maximumTargets;
+				
+				int startIndex = (possibleTargets.size()>1) ? rand.nextInt(possibleTargets.size()-1) : 0;
+				
+				List<Integer> target_ids = new ArrayList<Integer>();
+				List<Vec3> target_positions = new ArrayList<Vec3>();
+				List<String> target_arguments = new ArrayList<String>();
+				
+				for(int i=0; i<targetCount; i++)
+				{
+					Entity target = possibleTargets.get((startIndex + i)%possibleTargets.size());
+					
 					double dx = target.posX - greatward.centerX;
 					double dy = target.posY - greatward.centerY;
 					double dz = target.posZ - greatward.centerZ;
@@ -152,9 +202,9 @@ public class GreatwardAttributePassability extends GreatwardAttribute
 					
 					mtot = (mtot > dtot) ? dtot : mtot;
 					
-					double mx = (mtot)*(dx/dtot)*effectMultiplier*pieceMultiplier;
-					double my = (mtot)*(dy/dtot)*effectMultiplier*pieceMultiplier;
-					double mz = (mtot)*(dz/dtot)*effectMultiplier*pieceMultiplier;
+					double mx = (mtot)*(dx/dtot)*pieceMultiplier * ( (!activeTargetIds.contains(target.entityId)) ? 1 : -1 );
+					double my = (mtot)*(dy/dtot)*pieceMultiplier * ( (!activeTargetIds.contains(target.entityId)) ? 1 : -1 );
+					double mz = (mtot)*(dz/dtot)*pieceMultiplier * ( (!activeTargetIds.contains(target.entityId)) ? 1 : -1 );
 					
 					if(!(target instanceof EntityPlayerMP))
 					{
@@ -169,15 +219,16 @@ public class GreatwardAttributePassability extends GreatwardAttribute
 					
 					target.moveEntity(mx, my, mz);
 				}
+				
+				PacketDispatcher.sendPacketToAllInDimension(PacketTypeHandler.populatePacket(new PacketGreatwardAction(this.getName(), world.getWorldInfo().getDimension(), true, target_ids, target_positions, target_arguments)), world.getWorldInfo().getDimension());
+				
+				greatward.currentCoreEnergy -= OPERATION_COST*targetCount/greatward.wardPieceMultiplier;
 			}
-			
-			PacketDispatcher.sendPacketToAllInDimension(PacketTypeHandler.populatePacket(new PacketGreatwardAction(this.getName(), world.getWorldInfo().getDimension(), true, target_ids, target_positions, target_arguments)), world.getWorldInfo().getDimension());
-			
-			greatward.currentCoreEnergy -= OPERATION_COST*targetCount/greatward.wardPieceMultiplier;
 		}
 		
 		/* Blocks */
 		
+		greatward.stateStorage.put(GreatwardConstants.GW_ATTRIBUTE_PASSABILITY_STATE, activeTargetIds);
 		greatward.addOperationDelay(OPERATION_COOLDOWN);
 	}
 
