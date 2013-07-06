@@ -35,10 +35,10 @@ public class IneveraEffectDirectionalBurst extends IneveraEffect
 		int maxParticles =  ( (Math.abs(rand.nextInt()%3) + 4 ));
 		for(int i=0; i<maxParticles; i++)
 		{
-			//TODO; Works when entering from Z, not from X
+			double vtot = Math.sqrt(vx*vx + vy*vy + vz*vz);
 			
-			double angleY = (vz < 0) ? Math.PI - Math.asin(vy) : Math.asin(vy); 
-			double angleX = (vz < 0) ? Math.acos(vx)*-1 : Math.acos(vx);
+			double angleY = Math.asin(vy/vtot); 
+			double angleX = (vz < 0) ? Math.acos(vx/vtot)*-1 : Math.acos(vx/vtot);
 			
 			angleY += oAngle*rand.nextDouble()*( (rand.nextBoolean()) ? -1 : 1 );
 			angleX += oAngle*rand.nextDouble()*( (rand.nextBoolean()) ? -1 : 1 );
