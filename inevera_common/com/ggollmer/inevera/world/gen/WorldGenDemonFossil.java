@@ -3,8 +3,8 @@ package com.ggollmer.inevera.world.gen;
 import java.util.Random;
 
 import com.ggollmer.inevera.block.IneveraBlocks;
-import com.ggollmer.inevera.core.helper.LogHelper;
 
+import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
@@ -24,21 +24,58 @@ public class WorldGenDemonFossil implements IWorldGenerator
 	@Override
 	public void generate(Random rand, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider)
 	{
-		WorldGenMinable oreGen = new WorldGenMinable(IneveraBlocks.demonFossil.blockID, 6);
-		
-		if(world.getWorldInfo().getDimension() == 0)
+		switch(world.provider.dimensionId)
 		{
-			for(int i=0; i<8; i++)
-			{
-				int px = chunkX*16 + rand.nextInt(16);
-				int py = rand.nextInt(64);
-				int pz = chunkZ*16 + rand.nextInt(16);
-				
-				LogHelper.debugLog(String.format("Fossil At: %d %d %d", px, py, pz));
-				
-				oreGen.generate(world, rand, px, py, pz);
-			}
+			case 0:
+				generateOverworld(world, rand, chunkX*16, chunkZ*16);
+				break;
+			case 1:
+				generateEnd(world, rand, chunkX*16, chunkZ*16);
+				break;
+			case -1:
+				generateNether(world, rand, chunkX*16, chunkZ*16);
+				break;
 		}
 	}
+	
+	private void generateOverworld(World world, Random rand, int chunkX, int chunkZ)
+	{
+		this.spawnOres(IneveraBlocks.demonFossil, world, rand, chunkX, chunkZ, 16, 16, 5, 16, 0, 70);
+	}
+	
+	private void generateEnd(World world, Random rand, int chunkX, int chunkZ)
+	{
+	}
+	
+	private void generateNether(World world, Random rand, int chunkX, int chunkZ)
+	{
+	}
 
+	 /**
+     * 
+     * This Method adds ore generation. See below what all params mean
+     * 
+     * @param Block which you want to spawn
+     * @param World where you want it to spawn
+     * @param Randomizer used for spawning
+     * @param Start of the Chunk in X-Direction
+     * @param Start of the Chunk in Z-Direction
+     * @param Max X-Size where the block can spawn, normal = 16
+     * @param Max Z-Size where the block can spawn, normal = 16
+     * @param The vain size
+     * @param The chance to spawn a block
+     * @param Minimum Y-level to spawn block
+     * @param Maximum Y-level to spawn block
+     * 
+     */
+    private void spawnOres(Block block, World world, Random random, int chunkX, int chunkZ, int XMax, int ZMax, int vainSize, int spawnChance, int YMin, int YMax)
+    {
+            for(int i = 0; i < spawnChance; i ++)
+            {
+                    int posX = chunkX + random.nextInt(XMax);
+                    int posZ = chunkZ + random.nextInt(ZMax);
+                    int posY = YMin + random.nextInt(YMax-YMin);
+                    (new WorldGenMinable(block.blockID, vainSize)).generate(world, random, posX, posY, posZ);
+            }
+    }
 }

@@ -1,6 +1,7 @@
 package com.ggollmer.inevera;
 
 import java.io.File;
+import java.util.logging.Level;
 
 import net.minecraft.creativetab.CreativeTabs;
 
@@ -16,15 +17,18 @@ import com.ggollmer.inevera.greatward.GreatwardHelper;
 import com.ggollmer.inevera.item.IneveraItems;
 import com.ggollmer.inevera.item.crafting.IneveraRecipes;
 import com.ggollmer.inevera.lib.Reference;
+import com.ggollmer.inevera.lib.Strings;
 import com.ggollmer.inevera.network.PacketHandler;
 import com.ggollmer.inevera.world.gen.IneveraWorldGen;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.Mod.FingerprintWarning;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.PostInit;
 import cpw.mods.fml.common.Mod.PreInit;
+import cpw.mods.fml.common.event.FMLFingerprintViolationEvent;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -42,7 +46,9 @@ import cpw.mods.fml.common.network.NetworkMod;
 @Mod(
 		modid=Reference.MOD_ID,
 		name=Reference.MOD_NAME,
-		version=Reference.MOD_VERSION
+		version=Reference.MOD_VERSION,
+		dependencies = Reference.DEPENDENCIES,
+		certificateFingerprint = Reference.FINGERPRINT
 		)
 @NetworkMod(
 		channels = { Reference.CHANNEL_NAME },
@@ -58,6 +64,12 @@ public class Inevera
     public static CommonProxy proxy;
 	
 	public static CreativeTabs tabsInevera = new CreativeTabInevera(CreativeTabs.getNextID(), Reference.MOD_ID);
+	
+	@FingerprintWarning
+    public void invalidFingerprint(FMLFingerprintViolationEvent event)
+	{
+        LogHelper.log(Level.SEVERE, Strings.LOG_FINGERPRINT_ERROR);
+    }
 	
 	/**
 	 * Occurs before the mod is hooked into minecraft
@@ -110,11 +122,11 @@ public class Inevera
         /* Instantiate IneveraCraft's Custom Renderers */
         proxy.initRenderingAndTextures();
         
-        /* Instantiate IneveraCraft's Recipes */
-        IneveraRecipes.init();
-        
         /* Instantiate IneveraCraft's World Generation */
 		IneveraWorldGen.init();
+        
+        /* Instantiate IneveraCraft's Recipes */
+        IneveraRecipes.init();
 	}
 	
 	/**
