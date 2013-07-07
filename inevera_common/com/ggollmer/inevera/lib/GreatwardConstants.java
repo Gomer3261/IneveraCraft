@@ -67,9 +67,9 @@ public class GreatwardConstants
     
     /* Greatward resource locations */
 	public static final String GW_MAP_LOCATION = "/mods/inevera/greatwards";
-	public static final String GW_MINOR_LOCATION = GW_MAP_LOCATION + "/" + GW_MINOR_TYPE + "/";
-    public static final String GW_NORMAL_LOCATION = GW_MAP_LOCATION + "/" + GW_NORMAL_TYPE + "/";
-    public static final String GW_MAJOR_LOCATION = GW_MAP_LOCATION + "/" + GW_MAJOR_TYPE + "/";
+	public static final String GW_MINOR_LOCATION = GW_MAP_LOCATION + "/" + GW_MINOR_TYPE;
+    public static final String GW_NORMAL_LOCATION = GW_MAP_LOCATION + "/" + GW_NORMAL_TYPE;
+    public static final String GW_MAJOR_LOCATION = GW_MAP_LOCATION + "/" + GW_MAJOR_TYPE;
     
     /* Greatward target constants */
     public static final int GW_TARGET_WIDTH = 3;

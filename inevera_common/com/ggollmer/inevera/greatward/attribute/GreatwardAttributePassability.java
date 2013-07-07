@@ -159,11 +159,11 @@ public class GreatwardAttributePassability extends GreatwardAttribute
 					}
 				}
 			}
-			if(effectMultiplier == -1 || greatward.getEffectName() == GreatwardConstants.GW_EFFECT_CHAOTIC_NAME)
+			for(Integer tId : activeTargetIds)
 			{
-				for(Integer tId : activeTargetIds)
+				if(!currTargetIds.contains(tId))
 				{
-					if(!currTargetIds.contains(tId))
+					if(effectMultiplier == -1 || greatward.getEffectName() == GreatwardConstants.GW_EFFECT_CHAOTIC_NAME)
 					{
 						Entity target = world.getEntityByID(tId);
 						if(target != null)
@@ -173,6 +173,11 @@ public class GreatwardAttributePassability extends GreatwardAttribute
 								possibleTargets.add(target);
 							}
 						}
+					}
+					else
+					{
+						/* Someone has left the greatward. */
+						activeTargetIds.remove(tId);
 					}
 				}
 			}

@@ -84,7 +84,7 @@
 		<jar destfile="${build.dir.release}\${build.release.minecraft.version}\${build.release.mod.version}\inevera-universal-${build.release.mod.version}-${build_number.build_number}.jar">
 			<fileset dir="${build.dir.development}\mcp\src\minecraft\" includes="mcmod.info" />
 			<fileset dir="${build.dir.development}\mcp\reobf\minecraft" />
-			<fileset dir="${build.dir.development}\source\Inevera\inevera_resources" excludes="**/xcf/**" />
+			<fileset dir="${build.dir.development}\source\IneveraCraft\inevera_resources" excludes="**/xcf/**" />
 		</jar>
 		
 		<!-- Sign the finished jar -->

@@ -1,7 +1,8 @@
 package com.ggollmer.inevera.greatward;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,11 +10,11 @@ import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
+import com.ggollmer.inevera.Inevera;
 import com.ggollmer.inevera.block.BlockGreatwardComponent;
 import com.ggollmer.inevera.core.helper.LogHelper;
 
@@ -59,9 +60,9 @@ public abstract class GreatwardComponent
 		if(!GreatwardComponent.loadedMaps.containsKey(path))
 		{
 			try {
-				path = Minecraft.class.getResource(path).getFile();
+				InputStream file = Inevera.class.getResourceAsStream(path);
 				
-				BufferedReader reader = new BufferedReader(new FileReader(path));
+				BufferedReader reader = new BufferedReader(new InputStreamReader(file));
 			    String line = null;
 			    int x;
 			    int y = 0;

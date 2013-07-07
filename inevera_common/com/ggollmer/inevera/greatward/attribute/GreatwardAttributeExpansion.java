@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import com.ggollmer.inevera.client.particle.GreatwardFX;
 import com.ggollmer.inevera.greatward.Greatward;
+import com.ggollmer.inevera.lib.EffectConstants;
 import com.ggollmer.inevera.lib.GreatwardConstants;
 import com.ggollmer.inevera.network.PacketTypeHandler;
 import com.ggollmer.inevera.network.packet.PacketGreatwardAction;
@@ -143,19 +145,21 @@ public class GreatwardAttributeExpansion extends GreatwardAttribute
 					double dy = target.posY - greatward.centerY;
 					double dz = target.posZ - greatward.centerZ;
 					double dtot = Math.sqrt( (dx*dx) + (dy*dy) + (dz*dz) );
-					double mtot = greatward.radius/8;
+					double mtot = (greatward.radius/8)*effectMultiplier;
 					
 					mtot = (mtot > dtot) ? dtot : mtot;
 					
-					double mx = (mtot)*(dx/dtot)*effectMultiplier;
-					double my = (mtot)*(dy/dtot)*effectMultiplier;
-					double mz = (mtot)*(dz/dtot)*effectMultiplier;
+					double mx = (mtot)*(dx/dtot);
+					double my = (mtot)*(dy/dtot);
+					double mz = (mtot)*(dz/dtot);
 					
 					target_ids.add(target.entityId);
 					target_positions.add(Vec3.fakePool.getVecFromPool(target.posX, target.posY, target.posZ));
-					target_arguments.add("");
+					target_arguments.add(String.format("%f:%f:%f", mx, my, mz));
 					
-					target.moveEntity(mx, my, mz);
+					target.motionX += mx;
+					target.motionY += my;
+					target.motionZ += mz;
 				}
 			}
 			
@@ -173,5 +177,18 @@ public class GreatwardAttributeExpansion extends GreatwardAttribute
 	public void performGreatwardAction(World world, boolean target_entity, int id, double posX, double posY, double posZ, String args)
 	{
 		Minecraft.getMinecraft().effectRenderer.addEffect(new GreatwardFX(world, 10, posX, posY+0.2D, posZ).multipleParticleScaleBy(2.0f));
+		
+		if(id == Minecraft.getMinecraft().thePlayer.entityId)
+		{
+			EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
+			if(!player.isDead)
+			{
+				String[] indvargs = args.split(EffectConstants.EFFECT_ARG_SEPARATOR);
+				
+				player.motionX += Double.valueOf(indvargs[0]);
+				player.motionY += Double.valueOf(indvargs[1]);
+				player.motionZ += Double.valueOf(indvargs[2]);
+			}
+		}
 	}
 }

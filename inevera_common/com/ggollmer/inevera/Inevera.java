@@ -21,6 +21,7 @@ import com.ggollmer.inevera.lib.Strings;
 import com.ggollmer.inevera.network.PacketHandler;
 import com.ggollmer.inevera.world.gen.IneveraWorldGen;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.Mod.FingerprintWarning;
@@ -33,6 +34,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.relauncher.Side;
 
 /**
  * IneveraCraft
@@ -96,8 +98,11 @@ public class Inevera
 		/* Instantiate IneveraCraft's Items */
 		IneveraItems.init();
 		
-		/* Instantiate IneveraCraft's Effect Helper */
-		IneveraEffectHelper.init();
+		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
+		{
+			/* Instantiate IneveraCraft's Effect Helper */
+			IneveraEffectHelper.init();
+		}
 		
 		/* Instantiate IneveraCraft's Greatward Helper */
 		GreatwardHelper.init();

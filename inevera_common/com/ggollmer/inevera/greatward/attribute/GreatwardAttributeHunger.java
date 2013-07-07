@@ -62,9 +62,9 @@ public class GreatwardAttributeHunger extends GreatwardAttribute
 		
 		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 		{
-			if(rand.nextInt()%24 > 7)
+			if(rand.nextInt()%24 > 11)
 			{
-				int maxParticles = (( Math.abs(rand.nextInt())+1 )%4);
+				int maxParticles = rand.nextInt(4)+1;
 				for(int i=0; i<maxParticles; i++)
 				{
 					float effectMultiplier = greatward.getEffectMultiplier(world);

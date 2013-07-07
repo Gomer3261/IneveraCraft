@@ -61,9 +61,9 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 	{
 		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 		{
-			if(rand.nextInt()%24 > 7)
+			if(rand.nextInt()%24 > 11)
 			{
-				int maxParticles = rand.nextInt(3)+1;
+				int maxParticles = rand.nextInt(4)+1;
 				for(int i=0; i<maxParticles; i++)
 				{
 					float effectMultiplier = greatward.getEffectMultiplier(world);

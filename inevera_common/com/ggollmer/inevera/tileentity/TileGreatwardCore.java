@@ -112,7 +112,10 @@ public class TileGreatwardCore extends TileEntity
 		if(greatward != null)
 		{
 			if(!worldObj.isRemote) greatward.update(worldObj, xCoord, yCoord, zCoord);
-			greatward.renderAmbientParticles(worldObj);
+			if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
+			{
+				greatward.renderAmbientParticles(worldObj);
+			}
 		}
 	}
 	

@@ -6,9 +6,6 @@ import java.util.Map;
 
 import com.ggollmer.inevera.lib.EffectConstants;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.world.World;
 
@@ -21,7 +18,6 @@ import net.minecraft.world.World;
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  *
  */
-@SideOnly(Side.CLIENT)
 public class IneveraEffectHelper
 {
 	private static Map<String, Class<? extends IneveraEffect>> effects;
