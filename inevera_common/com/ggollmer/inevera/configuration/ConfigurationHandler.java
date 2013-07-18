@@ -54,6 +54,7 @@ public class ConfigurationHandler
 			ItemIds.DEMON_FLESH = configuration.getItem(ItemNames.DEMON_FLESH_NAME, ItemIds.DEMON_FLESH_DEFAULT).getInt(ItemIds.DEMON_FLESH_DEFAULT);
 			ItemIds.DEMON_BONE = configuration.getItem(ItemNames.DEMON_BONE_NAME, ItemIds.DEMON_BONE_DEFAULT).getInt(ItemIds.DEMON_BONE_DEFAULT);
 			ItemIds.BASIC_WARDING_TOOLS = configuration.getItem(ItemNames.BASIC_WARDING_TOOLS_NAME, ItemIds.BASIC_WARDING_TOOLS_DEFAULT).getInt(ItemIds.BASIC_WARDING_TOOLS_DEFAULT);
+			ItemIds.GRIMOIRE = configuration.getItem(ItemNames.GRIMOIRE_NAME, ItemIds.GRIMOIRE_DEFAULT).getInt(ItemIds.GRIMOIRE_DEFAULT);
 			
 			/* Greatward Configuration */
 			GreatwardConstants.GREATWARD_WOOD_PIECE_VALUE = configuration.get(GreatwardConstants.GREATWARD_PIECE_CATEGORY, BlockNames.GREATWARD_WOOD_PIECE_NAME, GreatwardConstants.GREATWARD_WOOD_PIECE_DEFAULT_VALUE).getInt(GreatwardConstants.GREATWARD_WOOD_PIECE_DEFAULT_VALUE);

@@ -40,7 +40,7 @@ public class WorldGenDemonFossil implements IWorldGenerator
 	
 	private void generateOverworld(World world, Random rand, int chunkX, int chunkZ)
 	{
-		this.spawnOres(IneveraBlocks.demonFossil, world, rand, chunkX, chunkZ, 16, 16, 5, 16, 0, 70);
+		this.spawnOres(IneveraBlocks.demonFossil, world, rand, chunkX, chunkZ, 16, 16, 5, 3, 0, 70);
 	}
 	
 	private void generateEnd(World world, Random rand, int chunkX, int chunkZ)

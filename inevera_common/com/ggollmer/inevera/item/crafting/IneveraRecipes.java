@@ -4,7 +4,9 @@ import com.ggollmer.inevera.block.IneveraBlocks;
 import com.ggollmer.inevera.item.IneveraItems;
 
 import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
@@ -20,8 +22,11 @@ public class IneveraRecipes
 {
 	public static void init()
 	{
-		/* Greatward Core Recipes */
-		GameRegistry.addRecipe(new ItemStack(IneveraBlocks.minorGreatwardCore, 1), new Object[] { "xxx", "xyx", "xxx", Character.valueOf('x'),  new ItemStack(Block.planks, 1), Character.valueOf('y'), IneveraItems.demonBone });
+		/* Item Recipes */
+		GameRegistry.addShapelessRecipe(new ItemStack(IneveraItems.grimoire), IneveraItems.demonBone, Item.book);
+		
+		/* Greatward Core Recipes */		
+		GameRegistry.addRecipe( new ShapedOreRecipe(new ItemStack(IneveraBlocks.minorGreatwardCore), new Object[] { "xxx", "xyx", "xxx", Character.valueOf('x'), Block.planks, Character.valueOf('y'), IneveraItems.demonBone }) );
 		
 		/* Greatward Piece Recipes */
 		GameRegistry.addRecipe(new ItemStack(IneveraBlocks.greatwardWoodPiece, 8, 0), new Object[] { "xxx", "xyx", "xxx", Character.valueOf('x'),  new ItemStack(Block.planks, 1, 0), Character.valueOf('y'), IneveraItems.demonFlesh });
