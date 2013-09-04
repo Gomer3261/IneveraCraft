@@ -40,11 +40,11 @@ public abstract class BlockGreatwardComponent extends BlockInevera
 	
 	    for (int i = 0; i < this.iconFXArray.length; i++)
 	    {        	
-	        this.iconFXArray[i] = iconRegister.registerIcon(Reference.MOD_ID.toLowerCase() + ":" + BlockNames.GREATWARD_COMPONENT_FX_NAME + "_" + i);
+	        this.iconFXArray[i] = iconRegister.registerIcon(String.format("%s:%s", Reference.MOD_ID.toLowerCase(), BlockNames.GREATWARD_COMPONENT_FX_NAME + "_" + i));
 	    }
 	    
-	    iconCoreActive = iconRegister.registerIcon(Reference.MOD_ID.toLowerCase() + ":" + BlockNames.GREATWARD_COMPONENT_ACTIVE_NAME);
-	    iconCoreInactive = iconRegister.registerIcon(Reference.MOD_ID.toLowerCase() + ":" + BlockNames.GREATWARD_COMPONENT_INACTIVE_NAME);
+	    iconCoreActive = iconRegister.registerIcon(String.format("%s:%s", Reference.MOD_ID.toLowerCase(), BlockNames.GREATWARD_COMPONENT_ACTIVE_NAME));
+	    iconCoreInactive = iconRegister.registerIcon(String.format("%s:%s", Reference.MOD_ID.toLowerCase(), BlockNames.GREATWARD_COMPONENT_INACTIVE_NAME));
 	}
 	
 	public Icon getEffectIcon(int par15, int par16)
@@ -123,7 +123,7 @@ public abstract class BlockGreatwardComponent extends BlockInevera
 	            d0 = target.hitVec.xCoord + (double)f;
 	        }
 
-        	effectRenderer.addEffect((new GreatwardDummyDamageFX(worldObj, d0, d1, d2, 0.0D, 0.0D, 0.0D, this, target.sideHit, worldObj.getBlockMetadata(target.blockX, target.blockY, target.blockZ), null)).func_70596_a(target.blockX, target.blockY, target.blockZ).multiplyVelocity(0.1F).multipleParticleScaleBy(1.8F));
+        	effectRenderer.addEffect((new GreatwardDummyDamageFX(worldObj, d0, d1, d2, 0.0D, 0.0D, 0.0D, this, target.sideHit, worldObj.getBlockMetadata(target.blockX, target.blockY, target.blockZ))).multiplyVelocity(0.1F).multipleParticleScaleBy(1.8F));
         }
         
         return false;
@@ -147,7 +147,7 @@ public abstract class BlockGreatwardComponent extends BlockInevera
 	                    double d1 = (double)y + ((double)k1 + 0.5D) / (double)b0;
 	                    double d2 = (double)z + ((double)l1 + 0.5D) / (double)b0;
 	                    int i2 = this.rand.nextInt(6);
-	                    effectRenderer.addEffect((new GreatwardDummyDamageFX(world, d0, d1, d2, d0 - (double)x - 0.5D, d1 - (double)y - 0.5D, d2 - (double)z - 0.5D, this, i2, meta, null)).func_70596_a(x, y, z).multiplyVelocity(0.75F).multipleParticleScaleBy(3.0F));
+	                    effectRenderer.addEffect((new GreatwardDummyDamageFX(world, d0, d1, d2, d0 - (double)x - 0.5D, d1 - (double)y - 0.5D, d2 - (double)z - 0.5D, this, i2, meta)).multiplyVelocity(0.75F).multipleParticleScaleBy(3.0F));
                 	}
                 }
             }

@@ -66,7 +66,7 @@ public class GreatwardConstants
     public static final String GW_NBT_BLOCK_TYPE_KEY = "GwBlockType";
     
     /* Greatward resource locations */
-	public static final String GW_MAP_LOCATION = "/mods/inevera/greatwards";
+	public static final String GW_MAP_LOCATION = "/assets/inevera/greatwards";
 	public static final String GW_MINOR_LOCATION = GW_MAP_LOCATION + "/" + GW_MINOR_TYPE;
     public static final String GW_NORMAL_LOCATION = GW_MAP_LOCATION + "/" + GW_NORMAL_TYPE;
     public static final String GW_MAJOR_LOCATION = GW_MAP_LOCATION + "/" + GW_MAJOR_TYPE;

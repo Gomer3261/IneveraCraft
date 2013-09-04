@@ -47,7 +47,7 @@ public class BlockGreatwardPiece extends BlockGreatwardComponent
 		
 		for(int i=0; i < subNames.length; ++i)
 		{
-			this.iconArray[i] = iconRegister.registerIcon(Reference.MOD_ID.toLowerCase() + ":" + this.getUnlocalizedName2() + "_" + subNames[i]);
+			this.iconArray[i] = iconRegister.registerIcon(String.format("%s:%s",  Reference.MOD_ID.toLowerCase(), getUnlocalizedName().substring(getUnlocalizedName().indexOf(".") + 1) + "_" + subNames[i]));
 		}
 		
 		super.registerIcons(iconRegister);

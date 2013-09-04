@@ -225,7 +225,7 @@ public class GreatwardAttributePassability extends GreatwardAttribute
 					target.moveEntity(mx, my, mz);
 				}
 				
-				PacketDispatcher.sendPacketToAllInDimension(PacketTypeHandler.populatePacket(new PacketGreatwardAction(this.getName(), world.getWorldInfo().getDimension(), true, target_ids, target_positions, target_arguments)), world.getWorldInfo().getDimension());
+				PacketDispatcher.sendPacketToAllInDimension(PacketTypeHandler.populatePacket(new PacketGreatwardAction(this.getName(), world.provider.dimensionId, true, target_ids, target_positions, target_arguments)), world.provider.dimensionId);
 				
 				greatward.currentCoreEnergy -= OPERATION_COST*targetCount/greatward.wardPieceMultiplier;
 			}

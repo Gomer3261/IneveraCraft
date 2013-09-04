@@ -182,7 +182,7 @@ public class GreatwardAttributeVelocity extends GreatwardAttribute
 				}
 			}
 			
-			PacketDispatcher.sendPacketToAllInDimension(PacketTypeHandler.populatePacket(new PacketGreatwardAction(this.getName(), world.getWorldInfo().getDimension(), true, target_ids, target_positions, target_arguments)), world.getWorldInfo().getDimension());
+			PacketDispatcher.sendPacketToAllInDimension(PacketTypeHandler.populatePacket(new PacketGreatwardAction(this.getName(), world.provider.dimensionId, true, target_ids, target_positions, target_arguments)), world.provider.dimensionId);
 			
 			greatward.currentCoreEnergy -= OPERATION_COST*targetCount;
 		}

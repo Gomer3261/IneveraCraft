@@ -98,7 +98,7 @@ public class TileGreatwardCore extends TileEntity
 	{
 		if(this.worldObj.isRemote)
 		{
-			PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketGreatwardActivation(worldObj.getWorldInfo().getDimension(), xCoord, yCoord, zCoord)));
+			PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketGreatwardActivation(worldObj.provider.dimensionId, xCoord, yCoord, zCoord)));
 		}
 		else
 		{

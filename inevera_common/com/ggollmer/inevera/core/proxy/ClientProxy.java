@@ -82,7 +82,7 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void handleGreatwardActionPacket(String type, int dimension_id, boolean target_is_entity, List<Integer> target_ids, List<Vec3> target_positions, List<String> args)
 	{
-		if(FMLClientHandler.instance().getClient().theWorld.getWorldInfo().getDimension() == dimension_id)
+		if(FMLClientHandler.instance().getClient().theWorld.provider.dimensionId == dimension_id)
 		{
 			for(int i=0; i<target_ids.size(); i++)
 			{
