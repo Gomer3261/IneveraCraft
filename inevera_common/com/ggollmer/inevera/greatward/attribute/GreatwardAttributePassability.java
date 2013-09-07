@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityHanging;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -97,7 +98,7 @@ public class GreatwardAttributePassability extends GreatwardAttribute
 	@Override
 	public boolean isValidEntityTarget(Entity target)
 	{
-		return true;
+		return !(target instanceof EntityHanging);
 	}
 	
 	@Override
@@ -129,13 +130,13 @@ public class GreatwardAttributePassability extends GreatwardAttribute
 		
 		@SuppressWarnings("unchecked")
 		List<Integer> activeTargetIds = (List<Integer>)greatward.stateStorage.get(GreatwardConstants.GW_ATTRIBUTE_PASSABILITY_STATE);
+		List<Integer> removeTargetIds = new ArrayList<Integer>();
 		if(activeTargetIds == null) activeTargetIds = currTargetIds;
 		
 		/* Entities */
 		if(!currTargetIds.isEmpty() || !activeTargetIds.isEmpty())
 		{
 			List<Entity> possibleTargets = new ArrayList<Entity>();
-			
 			
 			for(Integer tId : currTargetIds)
 			{
@@ -154,7 +155,7 @@ public class GreatwardAttributePassability extends GreatwardAttribute
 					}
 					else
 					{
-						/* Trapping entities inside the greatward. */
+						/* Adding new targets to the greatward. */
 						activeTargetIds.add(tId);
 					}
 				}
@@ -176,10 +177,15 @@ public class GreatwardAttributePassability extends GreatwardAttribute
 					}
 					else
 					{
-						/* Someone has left the greatward. */
-						activeTargetIds.remove(tId);
+						/* Someone has left the greatward, mark them for removal. */
+						removeTargetIds.add(tId);
 					}
 				}
+			}
+			/* Remove all entities that have recently left the greatward. */
+			for(Integer tId : removeTargetIds)
+			{
+				activeTargetIds.remove(tId);
 			}
 			
 			if(possibleTargets.size() > 0)
@@ -207,9 +213,9 @@ public class GreatwardAttributePassability extends GreatwardAttribute
 					
 					mtot = (mtot > dtot) ? dtot : mtot;
 					
-					double mx = (mtot)*(dx/dtot)*pieceMultiplier * ( (!activeTargetIds.contains(target.entityId)) ? 1 : -1 );
-					double my = (mtot)*(dy/dtot)*pieceMultiplier * ( (!activeTargetIds.contains(target.entityId)) ? 1 : -1 );
-					double mz = (mtot)*(dz/dtot)*pieceMultiplier * ( (!activeTargetIds.contains(target.entityId)) ? 1 : -1 );
+					double mx = ((mtot)*(dx/dtot)*pieceMultiplier) * ( (!activeTargetIds.contains(target.entityId)) ? 1 : -1 );
+					double my = ((mtot)*(dy/dtot)*pieceMultiplier) * ( (!activeTargetIds.contains(target.entityId)) ? 1 : -1 );
+					double mz = ((mtot)*(dz/dtot)*pieceMultiplier) * ( (!activeTargetIds.contains(target.entityId)) ? 1 : -1 );
 					
 					if(!(target instanceof EntityPlayerMP))
 					{

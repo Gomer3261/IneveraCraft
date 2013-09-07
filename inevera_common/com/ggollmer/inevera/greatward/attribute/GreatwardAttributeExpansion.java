@@ -6,6 +6,7 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityHanging;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -68,7 +69,7 @@ public class GreatwardAttributeExpansion extends GreatwardAttribute
 					
 					double angle = rand.nextDouble()*Math.PI*2;
 					
-					double vel = greatward.radius/life*effectMultiplier;
+					double vel = greatward.radius/(life*effectMultiplier);
 					
 					double mx = 0 + Math.cos(angle)*vel*greatward.getWardOrientation().offsetX +
 							Math.sin(angle)*vel*greatward.getWardOriright().offsetX;
@@ -90,7 +91,7 @@ public class GreatwardAttributeExpansion extends GreatwardAttribute
 							Math.sin(angle)*greatward.radius*greatward.getWardOriright().offsetZ ) +
 							(0.2f + rand.nextDouble()/10)*greatward.getWardDirection().offsetZ;
 					
-					Minecraft.getMinecraft().effectRenderer.addEffect(new GreatwardFX(world, life-1, px, py, pz, mx, my, mz, true));
+					Minecraft.getMinecraft().effectRenderer.addEffect(new GreatwardFX(world, (life*(int)Math.abs(effectMultiplier) )-1, px, py, pz, mx, my, mz, true));
 				}
 			}
 		}
@@ -99,7 +100,7 @@ public class GreatwardAttributeExpansion extends GreatwardAttribute
 	@Override
 	public boolean isValidEntityTarget(Entity target)
 	{
-		return true;
+		return !(target instanceof EntityHanging);
 	}
 	
 	@Override
@@ -145,7 +146,7 @@ public class GreatwardAttributeExpansion extends GreatwardAttribute
 					double dy = target.posY - greatward.centerY;
 					double dz = target.posZ - greatward.centerZ;
 					double dtot = Math.sqrt( (dx*dx) + (dy*dy) + (dz*dz) );
-					double mtot = (greatward.radius/8)*effectMultiplier;
+					double mtot = (greatward.radius/32)*effectMultiplier*greatward.wardPieceMultiplier;
 					
 					mtot = (mtot > dtot) ? dtot : mtot;
 					
@@ -165,7 +166,7 @@ public class GreatwardAttributeExpansion extends GreatwardAttribute
 			
 			PacketDispatcher.sendPacketToAllInDimension(PacketTypeHandler.populatePacket(new PacketGreatwardAction(this.getName(), world.provider.dimensionId, true, target_ids, target_positions, target_arguments)), world.provider.dimensionId);
 			
-			greatward.currentCoreEnergy -= OPERATION_COST*targetCount/greatward.wardPieceMultiplier;
+			greatward.currentCoreEnergy -= OPERATION_COST*targetCount;
 		}
 		
 		/* Blocks */

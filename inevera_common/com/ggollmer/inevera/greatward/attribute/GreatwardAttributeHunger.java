@@ -6,6 +6,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.Vec3;
@@ -103,7 +104,7 @@ public class GreatwardAttributeHunger extends GreatwardAttribute
 	@Override
 	public boolean isValidEntityTarget(Entity target)
 	{
-		return ((target instanceof EntityPlayer) || (target instanceof IGWFeedableEntity));
+		return ((target instanceof EntityPlayer) || (target instanceof EntityAnimal) || (target instanceof IGWFeedableEntity));
 	}
 	
 	@Override
@@ -133,6 +134,7 @@ public class GreatwardAttributeHunger extends GreatwardAttribute
 		/* Entities */
 		if(!greatward.entityTargets.isEmpty())
 		{
+			/* Limit targets to a certain number. */
 			int maximum_targets = (int)(greatward.currentCoreEnergy / OPERATION_COST);
 			maximum_targets = (maximum_targets < MAX_TARGETS_PER_OPERATION) ? maximum_targets : MAX_TARGETS_PER_OPERATION;
 			int targetCount = (greatward.entityTargets.size() < maximum_targets) ? greatward.entityTargets.size() : maximum_targets;
@@ -148,13 +150,24 @@ public class GreatwardAttributeHunger extends GreatwardAttribute
 				
 				if(!target.isDead)
 				{
-					if(target instanceof IGWFeedableEntity)
+					if(target instanceof IGWFeedableEntity) /* Custom feedable entities. */
 					{
 						((IGWFeedableEntity)target).onGreatwardFeed((int)(AMOUNT_PER_OPERATION*effectMultiplier*greatward.wardPieceMultiplier));
 					}
-					else
+					else if(target instanceof EntityPlayer) /* Players */
 					{
 						((EntityPlayer)target).getFoodStats().addStats((int)(AMOUNT_PER_OPERATION*effectMultiplier*greatward.wardPieceMultiplier), 1f);
+					}
+					else /* Basic animals */
+					{
+						if (effectMultiplier > 0)
+						{
+							EntityAnimal target_animal = (EntityAnimal)target;
+							if(target_animal.getGrowingAge() == 0 && target_animal.inLove <= 0)
+							{
+								target_animal.func_110196_bT();
+							}
+						}
 					}
 					
 					target_ids.add(target.entityId);

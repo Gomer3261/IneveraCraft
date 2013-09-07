@@ -6,7 +6,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
@@ -102,7 +102,7 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 	@Override
 	public boolean isValidEntityTarget(Entity target)
 	{
-		return ((target instanceof EntityLiving) || (target instanceof IGWHealableEntity));
+		return ((target instanceof EntityLivingBase) || (target instanceof IGWHealableEntity));
 	}
 	
 	@Override
@@ -155,11 +155,11 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 					{
 						if(effectMultiplier < 0)
 						{
-							((EntityLiving)target).attackEntityFrom(DamageSource.magic, (int)(AMOUNT_PER_OPERATION*-1*effectMultiplier*greatward.wardPieceMultiplier));
+							((EntityLivingBase)target).attackEntityFrom(DamageSource.magic, (int)(AMOUNT_PER_OPERATION*-1*effectMultiplier*greatward.wardPieceMultiplier));
 						}
 						else
 						{
-							((EntityLiving)target).heal((int)(AMOUNT_PER_OPERATION*effectMultiplier*greatward.wardPieceMultiplier));
+							((EntityLivingBase)target).heal((int)(AMOUNT_PER_OPERATION*effectMultiplier*greatward.wardPieceMultiplier));
 						}
 					}
 					

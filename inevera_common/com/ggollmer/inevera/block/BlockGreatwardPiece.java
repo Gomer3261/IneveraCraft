@@ -56,7 +56,11 @@ public class BlockGreatwardPiece extends BlockGreatwardComponent
 	@Override
 	public Icon getIcon(int side, int metadata)
 	{
-		return iconArray[metadata & (~BlockGreatwardComponent.ACTIVE_BIT)];
+		if( (metadata & (~BlockGreatwardComponent.ACTIVE_BIT) ) < subNames.length)
+		{
+			return iconArray[metadata & (~BlockGreatwardComponent.ACTIVE_BIT)];
+		}
+		return iconArray[0];
 	}
 	
 	public int getGreatwardPieceStrength()

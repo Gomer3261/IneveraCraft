@@ -5,7 +5,7 @@ import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.Vec3;
@@ -125,7 +125,7 @@ public class GreatwardAttributeVelocity extends GreatwardAttribute
 	@Override
 	public boolean isValidEntityTarget(Entity target)
 	{
-		return (target instanceof EntityLiving);
+		return (target instanceof EntityLivingBase);
 	}
 	
 	@Override
@@ -169,16 +169,16 @@ public class GreatwardAttributeVelocity extends GreatwardAttribute
 				{
 					if(effectMultiplier > 0)
 					{
-						((EntityLiving) target).addPotionEffect(new PotionEffect(Potion.moveSpeed.getId(), OPERATION_COOLDOWN+10, (greatward.wardPieceMultiplier-1)));
+						((EntityLivingBase) target).addPotionEffect(new PotionEffect(Potion.moveSpeed.getId(), OPERATION_COOLDOWN+10, (greatward.wardPieceMultiplier)));
 					}
 					else if(effectMultiplier < 0)
 					{
-						((EntityLiving) target).addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), OPERATION_COOLDOWN+10, (greatward.wardPieceMultiplier-1)));
+						((EntityLivingBase) target).addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), OPERATION_COOLDOWN+10, (greatward.wardPieceMultiplier)));
 					}
 					
 					target_ids.add(target.entityId);
 					target_positions.add(Vec3.fakePool.getVecFromPool(target.posX, target.posY, target.posZ));
-					target_arguments.add(Float.toString(effectMultiplier));
+					target_arguments.add(String.format("%f", effectMultiplier));
 				}
 			}
 			
