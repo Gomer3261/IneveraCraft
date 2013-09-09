@@ -91,7 +91,7 @@ public class BlockDemonFossil extends Block
     {
 		if(world.isDaytime() && world.canBlockSeeTheSky(x, y+1, z))
 		{
-			if(!world.isRemote && (world.rand.nextFloat()) < world.getBrightness(x, y+1, z, 0)/8)
+			if(!world.isRemote && (world.rand.nextFloat()) < world.getLightBrightness(x, y+1, z)/8)
 			{	
 				dropBlockAsItem_do(world, x, y, z, new ItemStack(Block.cobblestone, 1));
 				world.setBlockToAir(x, y, z);
