@@ -23,12 +23,9 @@ import com.ggollmer.inevera.world.gen.IneveraWorldGen;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.Mod.FingerprintWarning;
-import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.Mod.PostInit;
-import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.event.FMLFingerprintViolationEvent;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -67,7 +64,7 @@ public class Inevera
 	
 	public static CreativeTabs tabsInevera = new CreativeTabInevera(CreativeTabs.getNextID(), Reference.MOD_ID);
 	
-	@FingerprintWarning
+	@EventHandler
     public void invalidFingerprint(FMLFingerprintViolationEvent event)
 	{
         LogHelper.log(Level.SEVERE, Strings.LOG_FINGERPRINT_ERROR);
@@ -80,7 +77,7 @@ public class Inevera
 	 * should only be called by forge
 	 * @param event the forge event calling this function
 	 */
-	@PreInit
+	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		/* Initialize our logger */
@@ -118,7 +115,7 @@ public class Inevera
 	 * Should only be called by forge
 	 * @param event the forge event calling this function
 	 */
-	@Init
+	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
 		/* Instantiate IneveraCraft's Tile Entities */
@@ -141,8 +138,8 @@ public class Inevera
 	 * Should only be called by forge
 	 * @param event the forge event calling this function
 	 */
-	@PostInit
-	public void init(FMLPostInitializationEvent event)
+	@EventHandler
+	public void postInit(FMLPostInitializationEvent event)
 	{
 		
 	}

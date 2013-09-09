@@ -50,8 +50,10 @@ public class GreatwardComponentBlockRenderer implements ISimpleBlockRenderingHan
 			return false;
 		}
 		
+		GL11.glEnable(GL11.GL_BLEND);
 		renderInnerCube(world, x, y, z, block, ((BlockGreatwardComponent)block).getCoreIcon(world.getBlockMetadata(x, y, z)));
 		renderer.renderStandardBlock(block, x, y, z);
+		GL11.glDisable(GL11.GL_BLEND);
 		
 		return true;
 	}
