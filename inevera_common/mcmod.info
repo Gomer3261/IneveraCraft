@@ -4,12 +4,12 @@
   "name": "Inevera Craft",
   "description": "Use magical wards to affect the world around you!",
   "version": "@VERSION@",
-  "url": "www.ggollmer.com",
+  "url": "https://github.com/Gomer3261/IneveraCraft",
   "updateUrl": "",
   "authorList": [
     "Gomer3261"
   ],
-  "credits": "By Gomer3261, based on the Demon Cycle book series by Peter V. Brett",
+  "credits": "By Gomer3261, based on The Warded Man, P. Brett",
   "logoFile": "",
   "screenshots": [
   ],
