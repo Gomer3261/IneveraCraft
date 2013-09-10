@@ -21,7 +21,7 @@ public class GreatwardConstants
 	public static final int GREATWARD_WOOD_PIECE_DEFAULT_VALUE = 1;
 	public static final int GREATWARD_STONE_PIECE_DEFAULT_VALUE = 2;
 	public static final int GREATWARD_SAND_PIECE_DEFAULT_VALUE = 2;
-	public static final int GREATWARD_NETHER_PIECE_DEFAULT_VALUE = 3;
+	public static final int GREATWARD_NETHER_PIECE_DEFAULT_VALUE = 4;
 	public static final int GREATWARD_METAL_PIECE_DEFAULT_VALUE = 5;
 	public static final int GREATWARD_PRECIOUS_PIECE_DEFAULT_VALUE = 6;
 	public static final int GREATWARD_GEM_PIECE_DEFAULT_VALUE = 8;

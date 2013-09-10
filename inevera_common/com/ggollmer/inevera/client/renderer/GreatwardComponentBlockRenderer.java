@@ -34,6 +34,7 @@ public class GreatwardComponentBlockRenderer implements ISimpleBlockRenderingHan
 		
 		renderer.setOverrideBlockTexture(((BlockGreatwardComponent)block).getCoreIcon(~BlockGreatwardComponent.ACTIVE_BIT));
 		GL11.glScalef(0.99f, 0.99f, 0.99f);
+		renderer.useInventoryTint = true;
 		renderer.renderBlockAsItem(Block.stone, metadata, modelID);
 		renderer.clearOverrideBlockTexture();
 		GL11.glScalef(1.0101010101f, 1.0101010101f, 1.0101010101f);

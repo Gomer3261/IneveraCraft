@@ -36,8 +36,8 @@ public class IneveraRecipes
 		
 		GameRegistry.addRecipe(new ItemStack(IneveraBlocks.greatwardStonePiece, 8, 0), new Object[] { "xxx", "xyx", "xxx", Character.valueOf('x'),  new ItemStack(Block.brick, 1), Character.valueOf('y'), IneveraItems.demonFlesh });
 		GameRegistry.addRecipe(new ItemStack(IneveraBlocks.greatwardStonePiece, 8, 1), new Object[] { "xxx", "xyx", "xxx", Character.valueOf('x'),  new ItemStack(Block.stoneBrick, 1, 0), Character.valueOf('y'), IneveraItems.demonFlesh });
-		GameRegistry.addRecipe(new ItemStack(IneveraBlocks.greatwardStonePiece, 8, 2), new Object[] { "xxx", "xyx", "xxx", Character.valueOf('x'),  new ItemStack(Block.stoneBrick, 1, 2), Character.valueOf('y'), IneveraItems.demonFlesh });
-		GameRegistry.addRecipe(new ItemStack(IneveraBlocks.greatwardStonePiece, 8, 3), new Object[] { "xxx", "xyx", "xxx", Character.valueOf('x'),  new ItemStack(Block.stoneBrick, 1, 3), Character.valueOf('y'), IneveraItems.demonFlesh });
+		GameRegistry.addRecipe(new ItemStack(IneveraBlocks.greatwardStonePiece, 8, 2), new Object[] { "xxx", "xyx", "xxx", Character.valueOf('x'),  new ItemStack(Block.stoneBrick, 1, 3), Character.valueOf('y'), IneveraItems.demonFlesh });
+		GameRegistry.addRecipe(new ItemStack(IneveraBlocks.greatwardStonePiece, 8, 3), new Object[] { "xxx", "xyx", "xxx", Character.valueOf('x'),  new ItemStack(Block.stoneBrick, 1, 1), Character.valueOf('y'), IneveraItems.demonFlesh });
 		
 		GameRegistry.addRecipe(new ItemStack(IneveraBlocks.greatwardSandPiece, 8, 0), new Object[] { "xxx", "xyx", "xxx", Character.valueOf('x'),  new ItemStack(Block.sandStone, 1, 0), Character.valueOf('y'), IneveraItems.demonFlesh });
 		GameRegistry.addRecipe(new ItemStack(IneveraBlocks.greatwardSandPiece, 8, 1), new Object[] { "xxx", "xyx", "xxx", Character.valueOf('x'),  new ItemStack(Block.sandStone, 1, 1), Character.valueOf('y'), IneveraItems.demonFlesh });
@@ -48,11 +48,11 @@ public class IneveraRecipes
 		GameRegistry.addRecipe(new ItemStack(IneveraBlocks.greatwardNetherPiece, 8, 2), new Object[] { "xxx", "xyx", "xxx", Character.valueOf('x'),  new ItemStack(Block.blockNetherQuartz, 1, 1), Character.valueOf('y'), IneveraItems.demonFlesh });
 		GameRegistry.addRecipe(new ItemStack(IneveraBlocks.greatwardNetherPiece, 8, 3), new Object[] { "xxx", "xyx", "xxx", Character.valueOf('x'),  new ItemStack(Block.blockNetherQuartz, 1, 2), Character.valueOf('y'), IneveraItems.demonFlesh });
 		
-		GameRegistry.addRecipe(new ItemStack(IneveraBlocks.greatwardMetalPiece, 8, 0), new Object[] { "xxx", "xyx", "xxx", Character.valueOf('x'),  new ItemStack(Block.blockIron, 1), Character.valueOf('y'), IneveraItems.demonFlesh });
+		GameRegistry.addRecipe(new ItemStack(IneveraBlocks.greatwardMetalPiece, 8, 0), new Object[] { "xxx", "xyx", "xxx", Character.valueOf('x'),  new ItemStack(Item.ingotIron, 1), Character.valueOf('y'), IneveraItems.demonFlesh });
 		
-		GameRegistry.addRecipe(new ItemStack(IneveraBlocks.greatwardPreciousPiece, 8, 0), new Object[] { "xxx", "xyx", "xxx", Character.valueOf('x'),  new ItemStack(Block.blockGold, 1), Character.valueOf('y'), IneveraItems.demonFlesh });
+		GameRegistry.addRecipe(new ItemStack(IneveraBlocks.greatwardPreciousPiece, 8, 0), new Object[] { "xxx", "xyx", "xxx", Character.valueOf('x'),  new ItemStack(Item.ingotGold, 1), Character.valueOf('y'), IneveraItems.demonFlesh });
 		
-		GameRegistry.addRecipe(new ItemStack(IneveraBlocks.greatwardGemPiece, 8, 0), new Object[] { "xxx", "xyx", "xxx", Character.valueOf('x'),  new ItemStack(Block.blockDiamond, 1), Character.valueOf('y'), IneveraItems.demonFlesh });
-		GameRegistry.addRecipe(new ItemStack(IneveraBlocks.greatwardGemPiece, 8, 1), new Object[] { "xxx", "xyx", "xxx", Character.valueOf('x'),  new ItemStack(Block.blockEmerald, 1), Character.valueOf('y'), IneveraItems.demonFlesh });
+		GameRegistry.addRecipe(new ItemStack(IneveraBlocks.greatwardGemPiece, 8, 0), new Object[] { "xxx", "xyx", "xxx", Character.valueOf('x'),  new ItemStack(Item.diamond, 1), Character.valueOf('y'), IneveraItems.demonFlesh });
+		GameRegistry.addRecipe(new ItemStack(IneveraBlocks.greatwardGemPiece, 8, 1), new Object[] { "xxx", "xyx", "xxx", Character.valueOf('x'),  new ItemStack(Item.emerald, 1), Character.valueOf('y'), IneveraItems.demonFlesh });
 	}
 }
