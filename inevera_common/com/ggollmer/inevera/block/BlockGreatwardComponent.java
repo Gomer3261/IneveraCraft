@@ -15,6 +15,7 @@ import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 public abstract class BlockGreatwardComponent extends BlockInevera
@@ -40,11 +41,11 @@ public abstract class BlockGreatwardComponent extends BlockInevera
 	
 	    for (int i = 0; i < this.iconFXArray.length; i++)
 	    {        	
-	        this.iconFXArray[i] = iconRegister.registerIcon(String.format("%s:%s", Reference.MOD_ID.toLowerCase(), BlockNames.GREATWARD_COMPONENT_FX_NAME + "_" + i));
+	        this.iconFXArray[i] = iconRegister.registerIcon(new ResourceLocation(Reference.MOD_ID.toLowerCase(), BlockNames.GREATWARD_COMPONENT_FX_NAME + "_" + i).toString());
 	    }
 	    
-	    iconCoreActive = iconRegister.registerIcon(String.format("%s:%s", Reference.MOD_ID.toLowerCase(), BlockNames.GREATWARD_COMPONENT_ACTIVE_NAME));
-	    iconCoreInactive = iconRegister.registerIcon(String.format("%s:%s", Reference.MOD_ID.toLowerCase(), BlockNames.GREATWARD_COMPONENT_INACTIVE_NAME));
+	    iconCoreActive = iconRegister.registerIcon(new ResourceLocation(Reference.MOD_ID.toLowerCase(), BlockNames.GREATWARD_COMPONENT_ACTIVE_NAME).toString());
+	    iconCoreInactive = iconRegister.registerIcon(new ResourceLocation(Reference.MOD_ID.toLowerCase(), BlockNames.GREATWARD_COMPONENT_INACTIVE_NAME).toString());
 	}
 	
 	public Icon getEffectIcon(int par15, int par16)

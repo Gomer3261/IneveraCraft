@@ -29,7 +29,6 @@ public class GreatwardHelper
 		addValidGreatwardPiece(IneveraBlocks.greatwardPreciousPiece.blockID);
 		addValidGreatwardPiece(IneveraBlocks.greatwardGemPiece.blockID);
 		
-		addClearBlock(0);
 		addClearBlock(Block.glass.blockID);
 	}
 	

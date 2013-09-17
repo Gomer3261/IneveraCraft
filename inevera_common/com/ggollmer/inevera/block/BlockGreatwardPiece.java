@@ -10,6 +10,7 @@ import com.ggollmer.inevera.tileentity.TileGreatwardPiece;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -18,6 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
@@ -47,7 +49,7 @@ public class BlockGreatwardPiece extends BlockGreatwardComponent
 		
 		for(int i=0; i < subNames.length; ++i)
 		{
-			this.iconArray[i] = iconRegister.registerIcon(String.format("%s:%s",  Reference.MOD_ID.toLowerCase(), getUnlocalizedName().substring(getUnlocalizedName().indexOf(".") + 1) + "_" + subNames[i]));
+			this.iconArray[i] = iconRegister.registerIcon(new ResourceLocation(Reference.MOD_ID.toLowerCase(), getUnlocalizedName().substring(getUnlocalizedName().indexOf(".") + 1) + "_" + subNames[i]).toString());
 		}
 		
 		super.registerIcons(iconRegister);
@@ -114,7 +116,8 @@ public class BlockGreatwardPiece extends BlockGreatwardComponent
 			if(dummy.getCoreTile() != null)
 			{
 				ForgeDirection gwDir = dummy.getCoreTile().getWardDirection();
-				if(!GreatwardHelper.isClearBlock(world.getBlockId(x+gwDir.offsetX, y+gwDir.offsetY, z+gwDir.offsetZ)))
+				if( !(Block.blocksList[id].isAirBlock(world, x+gwDir.offsetX, y+gwDir.offsetY, z+gwDir.offsetZ)
+						|| GreatwardHelper.isClearBlock(world.getBlockId(x+gwDir.offsetX, y+gwDir.offsetY, z+gwDir.offsetZ))) )
 				{
 					dummy.getCoreTile().invalidateGreatward();
 				}
