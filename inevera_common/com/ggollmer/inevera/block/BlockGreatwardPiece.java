@@ -10,7 +10,6 @@ import com.ggollmer.inevera.tileentity.TileGreatwardPiece;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -116,8 +115,8 @@ public class BlockGreatwardPiece extends BlockGreatwardComponent
 			if(dummy.getCoreTile() != null)
 			{
 				ForgeDirection gwDir = dummy.getCoreTile().getWardDirection();
-				if( !(Block.blocksList[id].isAirBlock(world, x+gwDir.offsetX, y+gwDir.offsetY, z+gwDir.offsetZ)
-						|| GreatwardHelper.isClearBlock(world.getBlockId(x+gwDir.offsetX, y+gwDir.offsetY, z+gwDir.offsetZ))) )
+				
+				if( !GreatwardHelper.isClearBlock(world, x+gwDir.offsetX, y+gwDir.offsetY, z+gwDir.offsetZ) )
 				{
 					dummy.getCoreTile().invalidateGreatward();
 				}

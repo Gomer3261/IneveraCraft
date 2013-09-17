@@ -6,6 +6,7 @@ import java.util.List;
 import com.ggollmer.inevera.block.IneveraBlocks;
 
 import net.minecraft.block.Block;
+import net.minecraft.world.World;
 
 public class GreatwardHelper
 {
@@ -29,6 +30,7 @@ public class GreatwardHelper
 		addValidGreatwardPiece(IneveraBlocks.greatwardPreciousPiece.blockID);
 		addValidGreatwardPiece(IneveraBlocks.greatwardGemPiece.blockID);
 		
+		addClearBlock(0);
 		addClearBlock(Block.glass.blockID);
 	}
 	
@@ -59,6 +61,24 @@ public class GreatwardHelper
 	public static boolean isClearBlock(int blockId)
 	{
 		return clearBlocks[blockId];
+	}
+	
+	/**
+	 * Used to check if a block in the world is clear, takes into account blocks that should be recognized as air.
+	 * @param world The world that the block exists within.
+	 * @param x The x coordinate of the block.
+	 * @param y The y coordinate of the block.
+	 * @param z The z coordinate of the block.
+	 * @return True if the block will allow the ward to be active.
+	 */
+	public static boolean isClearBlock(World world, int x, int y, int z)
+	{
+		int id = world.getBlockId(x, y, z);
+		if(GreatwardHelper.isClearBlock(id) || Block.blocksList[id].isAirBlock(world, x, y, z))
+		{
+			return true;
+		}
+		return false;
 	}
 	
 	/**
