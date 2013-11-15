@@ -15,7 +15,7 @@ public class ItemIds
 	public static final int BASIC_WARDING_TOOLS_DEFAULT = 14500;
 	public static final int DEMON_BONE_DEFAULT = 14501;
 	public static final int DEMON_FLESH_DEFAULT = 14502;
-	public static final int GRIMOIRE_DEFAULT = 4503;
+	public static final int GRIMOIRE_DEFAULT = 14503;
 	
 	/* Item Ids After Shift */
 	public static int BASIC_WARDING_TOOLS;

@@ -152,7 +152,7 @@ public abstract class GreatwardComponent
 					if(pattern.getValue(x, y) == GreatwardMap.GW_POSITIVE_TILE)
 					{
 						if(posId != id || (posMeta != meta && metaMatters)
-								|| !GreatwardHelper.isClearBlock(world, coord.posX + ez.offsetX, coord.posY + ez.offsetY, coord.posZ + ez.offsetZ))
+								|| !GreatwardBlockRegister.isClearBlock(world, coord.posX + ez.offsetX, coord.posY + ez.offsetY, coord.posZ + ez.offsetZ))
 						{
 							return false;
 						}

@@ -1,7 +1,6 @@
 package com.ggollmer.inevera;
 
 import java.io.File;
-import java.util.logging.Level;
 
 import net.minecraft.creativetab.CreativeTabs;
 
@@ -13,11 +12,10 @@ import com.ggollmer.inevera.core.helper.LogHelper;
 import com.ggollmer.inevera.core.proxy.CommonProxy;
 import com.ggollmer.inevera.creativetab.CreativeTabInevera;
 import com.ggollmer.inevera.greatward.GreatwardManager;
-import com.ggollmer.inevera.greatward.GreatwardHelper;
+import com.ggollmer.inevera.greatward.GreatwardBlockRegister;
 import com.ggollmer.inevera.item.IneveraItems;
 import com.ggollmer.inevera.item.crafting.IneveraRecipes;
 import com.ggollmer.inevera.lib.Reference;
-import com.ggollmer.inevera.lib.Strings;
 import com.ggollmer.inevera.network.PacketHandler;
 import com.ggollmer.inevera.world.gen.IneveraWorldGen;
 
@@ -46,8 +44,8 @@ import cpw.mods.fml.relauncher.Side;
 		modid=Reference.MOD_ID,
 		name=Reference.MOD_NAME,
 		version=Reference.MOD_VERSION,
-		dependencies = Reference.DEPENDENCIES,
-		certificateFingerprint = Reference.FINGERPRINT
+		dependencies = Reference.DEPENDENCIES/*,
+		certificateFingerprint = Reference.FINGERPRINT*/
 		)
 @NetworkMod(
 		channels = { Reference.CHANNEL_NAME },
@@ -67,7 +65,7 @@ public class Inevera
 	@EventHandler
     public void invalidFingerprint(FMLFingerprintViolationEvent event)
 	{
-        LogHelper.log(Level.SEVERE, Strings.LOG_FINGERPRINT_ERROR);
+        //LogHelper.log(Level.SEVERE, Strings.LOG_FINGERPRINT_ERROR);
     }
 	
 	/**
@@ -102,7 +100,7 @@ public class Inevera
 		}
 		
 		/* Instantiate IneveraCraft's Greatward Helper */
-		GreatwardHelper.init();
+		GreatwardBlockRegister.init();
 		
 		/* Instantiate IneveraCraft's Greatward Manager */
 		GreatwardManager.init();
@@ -141,6 +139,8 @@ public class Inevera
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		
+		/* Thaumcraft Integration */
+		IneveraBlocks.registerThaumcraftAspects();
+		IneveraItems.registerThaumcraftAspects();
 	}
 }

@@ -45,7 +45,7 @@ public class GreatwardFX extends EntityFX
 	public GreatwardFX(World world, int life, double x, double y, double z, double mx, double my, double mz, double ax, double ay, double az, boolean trail)
 	{
 		super(world, x, y, z, mx, my, mz);
-		this.func_110125_a(( (BlockGreatwardComponent)Block.blocksList[BlockIds.GREATWARD_WOOD_PIECE] ).getEffectIcon(0, 0));
+		this.setParticleIcon(( (BlockGreatwardComponent)Block.blocksList[BlockIds.GREATWARD_WOOD_PIECE] ).getEffectIcon(0, 0));
 		this.particleMaxAge = life;
 		this.mx = mx;
 		this.my = my;

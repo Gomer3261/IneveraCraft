@@ -150,16 +150,16 @@ public abstract class GreatwardTarget extends GreatwardComponent
 							{
 								case EAST:
 								case WEST:
-									dist = GreatwardDimensions.getDistance(coords.posX, coords.posY, coords.posZ, coords.posY, greatward.centerY, greatward.centerZ);
+									dist = GreatwardDimensions.distance(coords.posX, coords.posY, coords.posZ, coords.posY, greatward.centerY, greatward.centerZ);
 									break;
 								case NORTH:
 								case SOUTH:
-									dist  = GreatwardDimensions.getDistance(coords.posX, coords.posY, coords.posZ, greatward.centerX, greatward.centerY, coords.posZ );
+									dist  = GreatwardDimensions.distance(coords.posX, coords.posY, coords.posZ, greatward.centerX, greatward.centerY, coords.posZ );
 									break;
 								case UP:
 								case DOWN:
 								default:
-									dist = GreatwardDimensions.getDistance(coords.posX, coords.posY, coords.posZ, greatward.centerX, coords.posY, greatward.centerZ );
+									dist = GreatwardDimensions.distance(coords.posX, coords.posY, coords.posZ, greatward.centerX, coords.posY, greatward.centerZ );
 									break;
 							}
 							

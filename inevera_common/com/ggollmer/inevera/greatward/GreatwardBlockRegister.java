@@ -8,7 +8,7 @@ import com.ggollmer.inevera.block.IneveraBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 
-public class GreatwardHelper
+public class GreatwardBlockRegister
 {
 	private static boolean[] clearBlocks = new boolean[4096];
 	private static List<Integer> validGreatwardPieces;
@@ -74,7 +74,7 @@ public class GreatwardHelper
 	public static boolean isClearBlock(World world, int x, int y, int z)
 	{
 		int id = world.getBlockId(x, y, z);
-		if(GreatwardHelper.isClearBlock(id) || Block.blocksList[id].isAirBlock(world, x, y, z))
+		if(GreatwardBlockRegister.isClearBlock(id) || Block.blocksList[id].isAirBlock(world, x, y, z))
 		{
 			return true;
 		}

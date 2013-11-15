@@ -1,5 +1,9 @@
 package com.ggollmer.inevera.block;
 
+import thaumcraft.api.ThaumcraftApi;
+import thaumcraft.api.aspects.Aspect;
+import thaumcraft.api.aspects.AspectList;
+
 import com.ggollmer.inevera.item.ItemGreatwardGemPiece;
 import com.ggollmer.inevera.item.ItemGreatwardMetalPiece;
 import com.ggollmer.inevera.item.ItemGreatwardNetherPiece;
@@ -73,5 +77,36 @@ public class IneveraBlocks
 		MinecraftForge.setBlockHarvestLevel(greatwardGemPiece, "pickaxe", 2);
 		
 		MinecraftForge.setBlockHarvestLevel(demonFossil, "pickaxe", 1);
+	}
+	
+	public static void registerThaumcraftAspects()
+	{
+		ThaumcraftApi.registerObjectTag(greatwardWoodPiece.blockID, new int[]{0,8}, (new AspectList()).add(Aspect.TREE, 2).add(Aspect.MAGIC, 1));
+		ThaumcraftApi.registerObjectTag(greatwardWoodPiece.blockID, new int[]{1,9}, (new AspectList()).add(Aspect.TREE, 2).add(Aspect.MAGIC, 1));
+		ThaumcraftApi.registerObjectTag(greatwardWoodPiece.blockID, new int[]{2,10}, (new AspectList()).add(Aspect.TREE, 2).add(Aspect.MAGIC, 1));
+		ThaumcraftApi.registerObjectTag(greatwardWoodPiece.blockID, new int[]{3,11}, (new AspectList()).add(Aspect.TREE, 2).add(Aspect.MAGIC, 1));
+		
+		ThaumcraftApi.registerObjectTag(greatwardStonePiece.blockID, new int[]{0,8}, (new AspectList()).add(Aspect.EARTH, 4).add(Aspect.FIRE, 4).add(Aspect.MAGIC, 2));
+		ThaumcraftApi.registerObjectTag(greatwardStonePiece.blockID, new int[]{1,9}, (new AspectList()).add(Aspect.STONE, 4).add(Aspect.MAGIC, 1));
+		ThaumcraftApi.registerObjectTag(greatwardStonePiece.blockID, new int[]{2,10}, (new AspectList()).add(Aspect.STONE, 2).add(Aspect.ORDER, 2).add(Aspect.MAGIC, 1));
+		ThaumcraftApi.registerObjectTag(greatwardStonePiece.blockID, new int[]{3,11}, (new AspectList()).add(Aspect.STONE, 2).add(Aspect.PLANT, 2).add(Aspect.MAGIC, 1));
+		
+		ThaumcraftApi.registerObjectTag(greatwardSandPiece.blockID, new int[]{0,8}, (new AspectList()).add(Aspect.STONE, 1).add(Aspect.ENTROPY, 4).add(Aspect.EARTH, 4).add(Aspect.MAGIC, 1));
+		ThaumcraftApi.registerObjectTag(greatwardSandPiece.blockID, new int[]{1,9}, (new AspectList()).add(Aspect.STONE, 1).add(Aspect.ENTROPY, 4).add(Aspect.EARTH, 3).add(Aspect.MAGIC, 2));
+		ThaumcraftApi.registerObjectTag(greatwardSandPiece.blockID, new int[]{2,10}, (new AspectList()).add(Aspect.STONE, 1).add(Aspect.ENTROPY, 4).add(Aspect.EARTH, 3).add(Aspect.ORDER, 1).add(Aspect.MAGIC, 1));
+		
+		ThaumcraftApi.registerObjectTag(greatwardNetherPiece.blockID, new int[]{0,8}, (new AspectList()).add(Aspect.STONE, 3).add(Aspect.FIRE, 2).add(Aspect.MAGIC, 2));
+		ThaumcraftApi.registerObjectTag(greatwardNetherPiece.blockID, new int[]{1,9}, (new AspectList()).add(Aspect.CRYSTAL, 5).add(Aspect.ENERGY, 5).add(Aspect.MAGIC, 2));
+		ThaumcraftApi.registerObjectTag(greatwardNetherPiece.blockID, new int[]{2,10}, (new AspectList()).add(Aspect.CRYSTAL, 5).add(Aspect.ENERGY, 5).add(Aspect.MAGIC, 2));
+		ThaumcraftApi.registerObjectTag(greatwardNetherPiece.blockID, new int[]{3,11}, (new AspectList()).add(Aspect.CRYSTAL, 5).add(Aspect.ENERGY, 5).add(Aspect.MAGIC, 2));
+		
+		ThaumcraftApi.registerObjectTag(greatwardMetalPiece.blockID, new int[]{0,8}, (new AspectList()).add(Aspect.METAL, 10).add(Aspect.MAGIC, 3));
+		ThaumcraftApi.registerObjectTag(greatwardPreciousPiece.blockID, new int[]{0,8}, (new AspectList()).add(Aspect.METAL, 10).add(Aspect.GREED, 10).add(Aspect.MAGIC, 3));
+		ThaumcraftApi.registerObjectTag(greatwardGemPiece.blockID, new int[]{0,8}, (new AspectList()).add(Aspect.CRYSTAL, 12).add(Aspect.GREED, 12).add(Aspect.MAGIC, 4));
+		ThaumcraftApi.registerObjectTag(greatwardGemPiece.blockID, new int[]{1,9}, (new AspectList()).add(Aspect.CRYSTAL, 12).add(Aspect.EARTH, 13).add(Aspect.MAGIC, 4));
+		
+		ThaumcraftApi.registerObjectTag(minorGreatwardCore.blockID, new int[]{0,8}, (new AspectList()).add(Aspect.MECHANISM, 3).add(Aspect.TREE, 2).add(Aspect.MAGIC, 4));
+		
+		ThaumcraftApi.registerObjectTag(demonFossil.blockID, new int[]{0}, (new AspectList()).add(Aspect.TAINT, 1).add(Aspect.HUNGER, 1).add(Aspect.MAGIC, 1));
 	}
 }

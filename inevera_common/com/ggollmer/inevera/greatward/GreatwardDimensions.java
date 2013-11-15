@@ -56,7 +56,7 @@ public class GreatwardDimensions
 		return coreZ + wardRight.offsetZ*cornerOffsetX + wardOri.offsetZ*cornerOffsetY + wardDir.offsetZ;
 	}
 	
-	public static double getDistance(double x1, double y1, double z1, double x2, double y2, double z2)
+	public static double distance(double x1, double y1, double z1, double x2, double y2, double z2)
 	{
 		return Math.sqrt(
 				(x1-x2)*(x1-x2) +

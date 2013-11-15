@@ -16,7 +16,7 @@ public class GreatwardDummyDamageFX extends EntityDiggingFX
 		super(par1World, par2, par4, par6, par8, par10, par12, block, par15,
 				par16);
 		
-		this.func_110125_a(block.getEffectIcon(par15, par16));
+		this.setParticleIcon(block.getEffectIcon(par15, par16));
 		this.particleGravity = 0.0F;
 		this.particleTextureJitterX = 0;
 		this.particleTextureJitterY = 0;
