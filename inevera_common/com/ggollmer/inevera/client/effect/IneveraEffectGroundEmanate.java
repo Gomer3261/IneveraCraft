@@ -1,5 +1,6 @@
 package com.ggollmer.inevera.client.effect;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.world.World;
 
@@ -23,7 +24,8 @@ public class IneveraEffectGroundEmanate extends IneveraEffect
 	{
 		super.onUpdate();
 		
-		int maxParticles =  ( (Math.abs(rand.nextInt()) + 7 ) %11 );
+		int particleSetting = Minecraft.getMinecraft().gameSettings.particleSetting;
+		int maxParticles =  ( (Math.abs(rand.nextInt()) + 7 ) %11 - 4*particleSetting );
 		for(int i=0; i<maxParticles; i++)
 		{
 			double angle = rand.nextDouble()*Math.PI*2;

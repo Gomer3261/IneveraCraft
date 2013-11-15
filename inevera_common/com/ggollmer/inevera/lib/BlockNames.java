@@ -34,7 +34,7 @@ public class BlockNames
 	public static final String[] GREATWARD_METAL_PIECE_SUBNAMES = {"iron"}; //TODO: TIN, COPPER, ALUMINUM?
 	public static final String[] GREATWARD_PRECIOUS_PIECE_SUBNAMES = {"gold"}; //TODO: SILVER, LEAD?
 	public static final String[] GREATWARD_GEM_PIECE_SUBNAMES = {"diamond", "emerald"};
-	//TODO: 3 more higher tier: Warded Glass, Electum, redstone?
+	//TODO: higher tier: Warded Glass, Electum, redstone, Thaumium?
 	
 	/* Texture Names */
 	public static final String GREATWARD_COMPONENT_FX_NAME = "greatwardComponentFX";

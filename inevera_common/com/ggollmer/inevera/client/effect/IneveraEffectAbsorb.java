@@ -2,6 +2,7 @@ package com.ggollmer.inevera.client.effect;
 
 import com.ggollmer.inevera.client.particle.GreatwardFX;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.world.World;
 
@@ -33,7 +34,8 @@ public class IneveraEffectAbsorb extends IneveraEffect
 		
 		if(effectMultiplier==0) return;
 		
-		int maxParticles =  ( (Math.abs(rand.nextInt()) + 9 ) %14 );
+		int particleSetting = Minecraft.getMinecraft().gameSettings.particleSetting;
+		int maxParticles =  ( (Math.abs(rand.nextInt()) + 9 ) % (14-(5*particleSetting)));
 		for(int i=0; i<maxParticles; i++)
 		{
 			double angle1 = rand.nextDouble()*Math.PI*2;

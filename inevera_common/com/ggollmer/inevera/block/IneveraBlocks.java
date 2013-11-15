@@ -103,7 +103,7 @@ public class IneveraBlocks
 		ThaumcraftApi.registerObjectTag(greatwardMetalPiece.blockID, new int[]{0,8}, (new AspectList()).add(Aspect.METAL, 10).add(Aspect.MAGIC, 3));
 		ThaumcraftApi.registerObjectTag(greatwardPreciousPiece.blockID, new int[]{0,8}, (new AspectList()).add(Aspect.METAL, 10).add(Aspect.GREED, 10).add(Aspect.MAGIC, 3));
 		ThaumcraftApi.registerObjectTag(greatwardGemPiece.blockID, new int[]{0,8}, (new AspectList()).add(Aspect.CRYSTAL, 12).add(Aspect.GREED, 12).add(Aspect.MAGIC, 4));
-		ThaumcraftApi.registerObjectTag(greatwardGemPiece.blockID, new int[]{1,9}, (new AspectList()).add(Aspect.CRYSTAL, 12).add(Aspect.EARTH, 13).add(Aspect.MAGIC, 4));
+		ThaumcraftApi.registerObjectTag(greatwardGemPiece.blockID, new int[]{1,9}, (new AspectList()).add(Aspect.CRYSTAL, 12).add(Aspect.GREED, 13).add(Aspect.MAGIC, 4));
 		
 		ThaumcraftApi.registerObjectTag(minorGreatwardCore.blockID, new int[]{0,8}, (new AspectList()).add(Aspect.MECHANISM, 3).add(Aspect.TREE, 2).add(Aspect.MAGIC, 4));
 		

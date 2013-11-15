@@ -61,9 +61,10 @@ public class GreatwardAttributePassability extends GreatwardAttribute
 	{
 		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 		{
-			if(rand.nextInt()%3 == 0)
+			int particleSetting = Minecraft.getMinecraft().gameSettings.particleSetting;
+			if(Math.abs(rand.nextInt())%(3*(particleSetting+1)) == 0)
 			{
-				int maxParticles = rand.nextInt(12)+13;
+				int maxParticles = rand.nextInt(12-(4*particleSetting))+13-(4*particleSetting);
 				for(int i=0; i<maxParticles; i++)
 				{
 					float effectMultiplier = greatward.getEffectMultiplier(world);

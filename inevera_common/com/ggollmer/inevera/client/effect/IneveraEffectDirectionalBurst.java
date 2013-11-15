@@ -1,5 +1,6 @@
 package com.ggollmer.inevera.client.effect;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.world.World;
 
@@ -32,7 +33,8 @@ public class IneveraEffectDirectionalBurst extends IneveraEffect
 	{
 		super.onUpdate();
 		
-		int maxParticles =  ( (Math.abs(rand.nextInt()%3) + 4 ));
+		int particleSetting = Minecraft.getMinecraft().gameSettings.particleSetting;
+		int maxParticles =  ( (Math.abs(rand.nextInt()%(3-particleSetting)) + 4-particleSetting ));
 		for(int i=0; i<maxParticles; i++)
 		{
 			double vtot = Math.sqrt(vx*vx + vy*vy + vz*vz);

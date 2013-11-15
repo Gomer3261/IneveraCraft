@@ -61,9 +61,10 @@ public class GreatwardAttributeHealth extends GreatwardAttribute
 	{
 		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 		{
-			if(rand.nextInt()%24 > 11)
+			int particleSetting = Minecraft.getMinecraft().gameSettings.particleSetting;
+			if(rand.nextInt()%24 > 11 + (5*particleSetting))
 			{
-				int maxParticles = rand.nextInt(4)+1;
+				int maxParticles = rand.nextInt(4-particleSetting)+1;
 				for(int i=0; i<maxParticles; i++)
 				{
 					float effectMultiplier = greatward.getEffectMultiplier(world);

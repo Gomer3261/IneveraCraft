@@ -60,9 +60,10 @@ public class GreatwardAttributeVelocity extends GreatwardAttribute
 	{
 		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 		{
-			if(rand.nextInt()%19 == 0)
+			int particleSetting = Minecraft.getMinecraft().gameSettings.particleSetting;
+			if(Math.abs(rand.nextInt())%(19*(particleSetting+1)) == 0)
 			{
-				int maxParticles = rand.nextInt(5)+8;
+				int maxParticles = rand.nextInt(5-particleSetting)+8-(3*particleSetting);
 				double primary_angle = rand.nextDouble()*Math.PI*2;
 				double initial_angle = primary_angle - (Math.PI/1.1)/2;
 				int life = rand.nextInt(1)+8;

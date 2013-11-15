@@ -58,9 +58,10 @@ public class GreatwardAttributeExpansion extends GreatwardAttribute
 	{
 		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 		{
-			if(rand.nextInt()%29 == 0)
+			int particleSetting = Minecraft.getMinecraft().gameSettings.particleSetting;
+			if(Math.abs(rand.nextInt())%(29*(particleSetting+1)) == 0)
 			{
-				int maxParticles = rand.nextInt(5)+5;
+				int maxParticles = rand.nextInt(5-particleSetting)+5-(particleSetting*2);
 				int life = rand.nextInt(6)+16;
 				for(int i=0; i<maxParticles; i++)
 				{
