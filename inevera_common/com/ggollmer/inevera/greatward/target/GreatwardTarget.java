@@ -24,7 +24,6 @@ import net.minecraftforge.common.ForgeDirection;
  */
 public abstract class GreatwardTarget extends GreatwardComponent
 {
-	
 	/**
 	 * Base constructor for targets.
 	 * @param patternPath The path to the target pattern.
@@ -38,37 +37,31 @@ public abstract class GreatwardTarget extends GreatwardComponent
 		addGreatwardMap(GreatwardConstants.GW_MAJOR_TYPE, patternPath, GreatwardConstants.GW_TARGET_WIDTH, GreatwardConstants.GW_TARGET_HEIGHT);
 	}
 	
-	/**
-	 * Used to check for the saved pattern at the given location, and return the direction of the greatward.
-	 * @param world The world the ward could exist in.
-	 * @param coreX The x location of the core block.
-	 * @param coreY The y location of the core block.
-	 * @param coreZ The z location of the core block.
-	 * @param ez The direction that the greatward faces (normal vector).
-	 * @param id The id of the block the greatward is made up of.
-	 * @param meta The metadata value of the block the greatward is made up of.
-	 * @param greatwardBlocks The list to store discovered blocks in.
-	 * @return The direction the ward is facing.
-	 */
-	public ForgeDirection findPatternAndDirection(World world, int coreX, int coreY, int coreZ, ForgeDirection ez, int id, int meta, List<ChunkCoordinates> greatwardBlocks)
+	@Override
+	public ForgeDirection findPattern(World world, String wardType, int coreX, int coreY, int coreZ, ForgeDirection ey, ForgeDirection ez, int id, int meta, List<ChunkCoordinates> greatwardBlocks)
 	{
+		ForgeDirection[] test_directions;
+		
 		int px = coreX + ez.offsetX;
 		int py = coreY + ez.offsetY;
 		int pz = coreZ + ez.offsetZ;
 		
-		for(ForgeDirection ey : ForgeDirection.VALID_DIRECTIONS)
+		if(ey != ForgeDirection.UNKNOWN) test_directions = new ForgeDirection[]{ey};
+		else test_directions = ForgeDirection.VALID_DIRECTIONS;
+		
+		for(ForgeDirection test_ey : test_directions)
 		{
-			if(ey != ez && ey != ez.getOpposite())
+			if(test_ey != ez && test_ey != ez.getOpposite())
 			{
-				ForgeDirection ex = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[ey.ordinal()][ez.ordinal()]);
+				ForgeDirection ex = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[test_ey.ordinal()][ez.ordinal()]);
 				
-				int sx = px + ex.offsetX*(GreatwardConstants.GW_TARGET_WIDTH/2) + ey.offsetX*(GreatwardConstants.GW_TARGET_HEIGHT/2);
-				int sy = py + ex.offsetY*(GreatwardConstants.GW_TARGET_WIDTH/2) + ey.offsetY*(GreatwardConstants.GW_TARGET_HEIGHT/2);
-				int sz = pz + ex.offsetZ*(GreatwardConstants.GW_TARGET_WIDTH/2) + ey.offsetZ*(GreatwardConstants.GW_TARGET_HEIGHT/2);
+				int sx = px + ex.offsetX*(GreatwardConstants.GW_TARGET_WIDTH/2) + test_ey.offsetX*(GreatwardConstants.GW_TARGET_HEIGHT/2);
+				int sy = py + ex.offsetY*(GreatwardConstants.GW_TARGET_WIDTH/2) + test_ey.offsetY*(GreatwardConstants.GW_TARGET_HEIGHT/2);
+				int sz = pz + ex.offsetZ*(GreatwardConstants.GW_TARGET_WIDTH/2) + test_ey.offsetZ*(GreatwardConstants.GW_TARGET_HEIGHT/2);
 				
-				if(areaMatchesPattern(world, GreatwardConstants.GW_MINOR_TYPE, id, meta, sx, sy, sz, ex, ey, ez, greatwardBlocks, true))
+				if(areaMatchesPattern(world, wardType, id, meta, sx, sy, sz, ex, test_ey, ez, greatwardBlocks, true))
 				{
-					return ey;
+					return test_ey;
 				}
 			}
 		}

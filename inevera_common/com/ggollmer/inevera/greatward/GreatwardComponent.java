@@ -174,6 +174,39 @@ public abstract class GreatwardComponent
 	}
 	
 	/**
+	 * Used to detect if the attribute's ward pattern exists provided the given constraints.
+	 * @param world The world to look for the pattern within.
+	 * @param wardType The type of ward to look for.
+	 * @param coreX The x coordinate of the ward core.
+	 * @param coreY The y coordinate of the ward core.
+	 * @param coreZ The z coordinate of the ward core.
+	 * @param ey The direction that y changes in the ward map should map to, unknown to test all possible directions.
+	 * @param ez The direction that the ward should face.
+	 * @param id The id of the ward piece to look for.
+	 * @param meta The metadata of the ward piece to look for.
+	 * @param greatwardBlocks The list of blocks containing all pieces of the greatward.
+	 * @return The y direction of the pattern, ForgeDirection.UNKNOWN if the pattern is not found.
+	 */
+	public ForgeDirection findPattern(World world, String wardType, int coreX, int coreY, int coreZ, ForgeDirection ey, ForgeDirection ez, int id, int meta, List<ChunkCoordinates> greatwardBlocks)
+	{
+		//TODO: Consider potential of using full greatward maps to calculate ward direction.
+		if(this.hasGreatwardMap(wardType) && ey != ForgeDirection.UNKNOWN)
+		{
+			ForgeDirection ex = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[ey.ordinal()][ez.ordinal()]);
+			
+			int sx = GreatwardManager.getDimensionsForType(wardType).getStartX(coreX, ez, ey, ex);
+			int sy = GreatwardManager.getDimensionsForType(wardType).getStartY(coreY, ez, ey, ex);
+			int sz = GreatwardManager.getDimensionsForType(wardType).getStartZ(coreZ, ez, ey, ex);
+			
+			if( areaMatchesPattern(world, wardType, id, meta, sx, sy, sz, ex, ey, ez, greatwardBlocks, true) )
+			{
+				return ey;
+			}
+		}
+		return ForgeDirection.UNKNOWN;
+	}
+	
+	/**
 	 * Used to load a new greatward map into the component's map hashmap.
 	 * @param type The type of map, doubles as the map key.
 	 * @param path The path to the greatward map resource.

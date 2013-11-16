@@ -83,12 +83,12 @@ public class GreatwardManager
 	public static Greatward generateGreatward(World world, int coreX, int coreY, int coreZ, int id, int meta, String wardType, ForgeDirection wardDirection)
 	{
 		List<ChunkCoordinates> greatwardBlocks = new ArrayList<ChunkCoordinates>();
-		ForgeDirection wardOrientation = null;
+		ForgeDirection wardOrientation = ForgeDirection.UNKNOWN;
 		
 		GreatwardTarget target = null;
 		for(GreatwardTarget t : targetMap.values())
 		{
-			wardOrientation = t.findPatternAndDirection(world, coreX, coreY, coreZ, wardDirection, id, meta, greatwardBlocks);
+			wardOrientation = t.findPattern(world, wardType, coreX, coreY, coreZ, wardOrientation, wardDirection, id, meta, greatwardBlocks);
 			if(wardOrientation != ForgeDirection.UNKNOWN)
 			{
 				LogHelper.debugLog("WardTarget found: " + t.getName());
@@ -101,7 +101,7 @@ public class GreatwardManager
 		GreatwardAttribute attribute = null;
 		for(GreatwardAttribute a: attributeMap.values())
 		{
-			if(a.findPattern(world, wardType, coreX, coreY, coreZ, wardOrientation, wardDirection, id, meta, greatwardBlocks))
+			if(a.findPattern(world, wardType, coreX, coreY, coreZ, wardOrientation, wardDirection, id, meta, greatwardBlocks) != ForgeDirection.UNKNOWN)
 			{
 				LogHelper.debugLog("WardAttribute found: " + a.getName());
 				attribute = a;
@@ -113,7 +113,7 @@ public class GreatwardManager
 		GreatwardEffect effect = null;
 		for(GreatwardEffect e: effectMap.values())
 		{
-			if(e.findPattern(world, wardType, coreX, coreY, coreZ, wardOrientation, wardDirection, id, meta, greatwardBlocks))
+			if(e.findPattern(world, wardType, coreX, coreY, coreZ, wardOrientation, wardDirection, id, meta, greatwardBlocks) != ForgeDirection.UNKNOWN)
 			{
 				LogHelper.debugLog("WardEffect found: " + e.getName());
 				effect = e;

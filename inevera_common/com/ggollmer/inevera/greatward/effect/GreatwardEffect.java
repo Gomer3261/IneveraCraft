@@ -3,7 +3,7 @@ package com.ggollmer.inevera.greatward.effect;
 import net.minecraft.world.World;
 
 import com.ggollmer.inevera.greatward.Greatward;
-import com.ggollmer.inevera.greatward.GreatwardFullComponent;
+import com.ggollmer.inevera.greatward.GreatwardComponent;
 
 /**
  * IneveraCraft
@@ -14,7 +14,7 @@ import com.ggollmer.inevera.greatward.GreatwardFullComponent;
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  *
  */
-public abstract class GreatwardEffect extends GreatwardFullComponent
+public abstract class GreatwardEffect extends GreatwardComponent
 {
 	/**
 	 * @param name The unique name of the greatward component

@@ -4,7 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 
 import com.ggollmer.inevera.greatward.Greatward;
-import com.ggollmer.inevera.greatward.GreatwardFullComponent;
+import com.ggollmer.inevera.greatward.GreatwardComponent;
 
 /**
  * IneveraCraft
@@ -15,7 +15,7 @@ import com.ggollmer.inevera.greatward.GreatwardFullComponent;
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  *
  */
-public abstract class GreatwardAttribute extends GreatwardFullComponent
+public abstract class GreatwardAttribute extends GreatwardComponent
 {
 	
 	protected boolean[] validIds = new boolean[4096];
