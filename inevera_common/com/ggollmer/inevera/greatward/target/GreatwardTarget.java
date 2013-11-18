@@ -40,32 +40,34 @@ public abstract class GreatwardTarget extends GreatwardComponent
 	@Override
 	public ForgeDirection findPattern(World world, String wardType, int coreX, int coreY, int coreZ, ForgeDirection ey, ForgeDirection ez, int id, int meta, List<ChunkCoordinates> greatwardBlocks)
 	{
-		ForgeDirection[] test_directions;
-		
-		int px = coreX + ez.offsetX;
-		int py = coreY + ez.offsetY;
-		int pz = coreZ + ez.offsetZ;
-		
-		if(ey != ForgeDirection.UNKNOWN) test_directions = new ForgeDirection[]{ey};
-		else test_directions = ForgeDirection.VALID_DIRECTIONS;
-		
-		for(ForgeDirection test_ey : test_directions)
+		if(this.hasGreatwardMap(wardType))
 		{
-			if(test_ey != ez && test_ey != ez.getOpposite())
+			ForgeDirection[] test_directions;
+			
+			int px = coreX + ez.offsetX;
+			int py = coreY + ez.offsetY;
+			int pz = coreZ + ez.offsetZ;
+			
+			if(ey != ForgeDirection.UNKNOWN) test_directions = new ForgeDirection[]{ey};
+			else test_directions = ForgeDirection.VALID_DIRECTIONS;
+			
+			for(ForgeDirection test_ey : test_directions)
 			{
-				ForgeDirection ex = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[test_ey.ordinal()][ez.ordinal()]);
-				
-				int sx = px + ex.offsetX*(GreatwardConstants.GW_TARGET_WIDTH/2) + test_ey.offsetX*(GreatwardConstants.GW_TARGET_HEIGHT/2);
-				int sy = py + ex.offsetY*(GreatwardConstants.GW_TARGET_WIDTH/2) + test_ey.offsetY*(GreatwardConstants.GW_TARGET_HEIGHT/2);
-				int sz = pz + ex.offsetZ*(GreatwardConstants.GW_TARGET_WIDTH/2) + test_ey.offsetZ*(GreatwardConstants.GW_TARGET_HEIGHT/2);
-				
-				if(areaMatchesPattern(world, wardType, id, meta, sx, sy, sz, ex, test_ey, ez, greatwardBlocks, true))
+				if(test_ey != ez && test_ey != ez.getOpposite())
 				{
-					return test_ey;
+					ForgeDirection ex = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[test_ey.ordinal()][ez.ordinal()]);
+					
+					int sx = px + ex.offsetX*(GreatwardConstants.GW_TARGET_WIDTH/2) + test_ey.offsetX*(GreatwardConstants.GW_TARGET_HEIGHT/2);
+					int sy = py + ex.offsetY*(GreatwardConstants.GW_TARGET_WIDTH/2) + test_ey.offsetY*(GreatwardConstants.GW_TARGET_HEIGHT/2);
+					int sz = pz + ex.offsetZ*(GreatwardConstants.GW_TARGET_WIDTH/2) + test_ey.offsetZ*(GreatwardConstants.GW_TARGET_HEIGHT/2);
+					
+					if(areaMatchesPattern(world, wardType, id, meta, sx, sy, sz, ex, test_ey, ez, greatwardBlocks, true))
+					{
+						return test_ey;
+					}
 				}
 			}
 		}
-		
 		return ForgeDirection.UNKNOWN;
 	}
 	

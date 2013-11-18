@@ -189,18 +189,28 @@ public abstract class GreatwardComponent
 	 */
 	public ForgeDirection findPattern(World world, String wardType, int coreX, int coreY, int coreZ, ForgeDirection ey, ForgeDirection ez, int id, int meta, List<ChunkCoordinates> greatwardBlocks)
 	{
-		//TODO: Consider potential of using full greatward maps to calculate ward direction.
 		if(this.hasGreatwardMap(wardType) && ey != ForgeDirection.UNKNOWN)
 		{
-			ForgeDirection ex = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[ey.ordinal()][ez.ordinal()]);
+			ForgeDirection[] test_directions;
 			
-			int sx = GreatwardManager.getDimensionsForType(wardType).getStartX(coreX, ez, ey, ex);
-			int sy = GreatwardManager.getDimensionsForType(wardType).getStartY(coreY, ez, ey, ex);
-			int sz = GreatwardManager.getDimensionsForType(wardType).getStartZ(coreZ, ez, ey, ex);
+			if(ey != ForgeDirection.UNKNOWN) test_directions = new ForgeDirection[]{ey};
+			else test_directions = ForgeDirection.VALID_DIRECTIONS;
 			
-			if( areaMatchesPattern(world, wardType, id, meta, sx, sy, sz, ex, ey, ez, greatwardBlocks, true) )
+			for(ForgeDirection test_ey : test_directions)
 			{
-				return ey;
+				if(test_ey != ez && test_ey != ez.getOpposite())
+				{
+					ForgeDirection ex = ForgeDirection.getOrientation(ForgeDirection.ROTATION_MATRIX[test_ey.ordinal()][ez.ordinal()]);
+					
+					int sx = GreatwardManager.getDimensionsForType(wardType).getStartX(coreX, ez, test_ey, ex);
+					int sy = GreatwardManager.getDimensionsForType(wardType).getStartY(coreY, ez, test_ey, ex);
+					int sz = GreatwardManager.getDimensionsForType(wardType).getStartZ(coreZ, ez, test_ey, ex);
+					
+					if( areaMatchesPattern(world, wardType, id, meta, sx, sy, sz, ex, test_ey, ez, greatwardBlocks, true) )
+					{
+						return ey;
+					}
+				}
 			}
 		}
 		return ForgeDirection.UNKNOWN;

@@ -10,17 +10,13 @@ import net.minecraft.world.World;
 
 public class GreatwardBlockRegister
 {
-	private static boolean[] clearBlocks = new boolean[4096];
+	private static List<Integer> clearBlocks;
 	private static List<Integer> validGreatwardPieces;
 	
 	public static void init()
 	{
 		validGreatwardPieces = new ArrayList<Integer>();
-		
-		for(int i=0; i<clearBlocks.length; i++)
-		{
-			clearBlocks[i] = false;
-		}
+		clearBlocks = new ArrayList<Integer>();
 		
 		addValidGreatwardPiece(IneveraBlocks.greatwardWoodPiece.blockID);
 		addValidGreatwardPiece(IneveraBlocks.greatwardStonePiece.blockID);
@@ -60,7 +56,7 @@ public class GreatwardBlockRegister
 	 */
 	public static boolean isClearBlock(int blockId)
 	{
-		return clearBlocks[blockId];
+		return clearBlocks.contains(blockId);
 	}
 	
 	/**
@@ -87,6 +83,6 @@ public class GreatwardBlockRegister
 	 */
 	public static void addClearBlock(int id)
 	{
-		clearBlocks[id] = true;
+		clearBlocks.add(id);
 	}
 }

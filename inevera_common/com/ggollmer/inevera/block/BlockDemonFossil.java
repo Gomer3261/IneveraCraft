@@ -54,8 +54,8 @@ public class BlockDemonFossil extends Block
         {
             if (world.rand.nextFloat() <= chance)
             {
-            	this.dropBlockAsItem_do(world, x, y, z, new ItemStack(IneveraItems.demonBone, 1));
-            	for(int i=0; i<world.rand.nextInt(5)+1; i++)
+            	if(world.rand.nextInt(4) == 0) this.dropBlockAsItem_do(world, x, y, z, new ItemStack(IneveraItems.demonBone, 1));
+            	for(int i=0; i<world.rand.nextInt(4)+1; i++)
             	{
             		this.dropBlockAsItem_do(world, x, y, z, new ItemStack(IneveraItems.demonFlesh, 1));
             	}
